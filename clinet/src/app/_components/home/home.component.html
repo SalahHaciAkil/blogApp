@@ -1,0 +1,312 @@
+<!-- header section starts  -->
+
+<header class="header">
+
+    <a href="#" class="logo"><span>b</span>logger</a>
+
+    <nav class="navbar" [class.active]="navFlag">
+        <a href="#banner">banner</a>
+        <a href="#posts">my posts</a>
+        <a href="#contact">contact me</a>
+    </nav>
+
+    <div class="icons">
+        <i (click)="navFlag=!navFlag" class="fa fa-bars" id="menu-bars"></i>
+        <i (click)="searchFlag=!searchFlag" class="fa fa-search" id="search-icon"></i>
+    </div>
+
+    <form action="" class="search-form" [class.active]="searchFlag">
+        <input type="search" name="" placeholder="search here..." id="search-box">
+        <label for="search-box" class="fa fa-search"></label>
+    </form>
+
+</header>
+
+<!-- header section ends -->
+
+<!-- banner section starts  -->
+
+<section class="banner" id="banner">
+
+    <div class="content">
+        <h3>explore the nature</h3>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam, laboriosam?</p>
+        <a href="#" class="btn">my blogs</a>
+    </div>
+
+</section>
+
+<!-- banner section ends -->
+
+<!-- posts section starts  -->
+
+<section class="container" id="posts">
+
+    <div class="posts-container">
+
+        <div class="post">
+            <img src="images/blog-1.jpg" alt="" class="image">
+            <div class="date">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <span>1st may, 2021</span>
+            </div>
+            <h3 class="title">blog title goes here</h3>
+            <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum molestias rerum numquam, quos
+                aut est culpa quisquam excepturi sed a inventore dicta tempore consequuntur possimus magnam corporis cum
+                doloremque quasi fugiat exercitationem aliquid cupiditate pariatur. Dolor laboriosam voluptatem ex
+                praesentium magni error debitis maxime alias autem distinctio. Fuga, esse velit!</p>
+            <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, reiciendis fugiat quas
+                nemo quia omnis repellat obcaecati quaerat voluptates fuga error dicta cupiditate pariatur soluta
+                dolorum quis eum quibusdam quam?</p>
+            <div class="links">
+                <a href="#" class="user">
+                    <i class="fa fa-user"></i>
+                    <span>by admin</span>
+                </a>
+                <a href="#" class="icon">
+                    <i class="fa fa-comment"></i>
+                    <span>(45)</span>
+                </a>
+                <a href="#" class="icon">
+                    <i class="fa fa-share-square"></i>
+                    <span>(29)</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="post">
+            <img src="images/blog-2.jpg" alt="" class="image">
+            <div class="date">
+                <i class="fa fa-clock"></i>
+                <span>1st may, 2021</span>
+            </div>
+            <h3 class="title">blog title goes here</h3>
+            <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum molestias rerum numquam, quos
+                aut est culpa quisquam excepturi sed a inventore dicta tempore consequuntur possimus magnam corporis cum
+                doloremque quasi fugiat exercitationem aliquid cupiditate pariatur. Dolor laboriosam voluptatem ex
+                praesentium magni error debitis maxime alias autem distinctio. Fuga, esse velit!</p>
+            <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, reiciendis fugiat quas
+                nemo quia omnis repellat obcaecati quaerat voluptates fuga error dicta cupiditate pariatur soluta
+                dolorum quis eum quibusdam quam?</p>
+            <div class="links">
+                <a href="#" class="user">
+                    <i class="fa fa-user"></i>
+                    <span>by admin</span>
+                </a>
+                <a href="#" class="icon">
+                    <i class="fa fa-comment"></i>
+                    <span>(45)</span>
+                </a>
+                <a href="#" class="icon">
+                    <i class="fa fa-share-square"></i>
+                    <span>(29)</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="post">
+            <img src="images/blog-3.jpg" alt="" class="image">
+            <div class="date">
+                <i class="fa fa-clock"></i>
+                <span>1st may, 2021</span>
+            </div>
+            <h3 class="title">blog title goes here</h3>
+            <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum molestias rerum numquam, quos
+                aut est culpa quisquam excepturi sed a inventore dicta tempore consequuntur possimus magnam corporis cum
+                doloremque quasi fugiat exercitationem aliquid cupiditate pariatur. Dolor laboriosam voluptatem ex
+                praesentium magni error debitis maxime alias autem distinctio. Fuga, esse velit!</p>
+            <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, reiciendis fugiat quas
+                nemo quia omnis repellat obcaecati quaerat voluptates fuga error dicta cupiditate pariatur soluta
+                dolorum quis eum quibusdam quam?</p>
+            <div class="links">
+                <a href="#" class="user">
+                    <i class="fa fa-user"></i>
+                    <span>by admin</span>
+                </a>
+                <a href="#" class="icon">
+                    <i class="fa fa-comment"></i>
+                    <span>(45)</span>
+                </a>
+                <a href="#" class="icon">
+                    <i class="fa fa-share-square"></i>
+                    <span>(29)</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="sidebar">
+
+        <div class="box">
+            <h3 class="title">about me</h3>
+            <div class="about">
+                <img src="images/user.png" alt="">
+                <h3>shaikh anas</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, officia.</p>
+                <div class="follow">
+                    <a href="#" class="fa fa-facebook"></a>
+                    <a href="#" class="fa fa-twitter" aria-hidden="true"></a>
+                    <a href="#" class="fa fa-instagram" aria-hidden="true"></a>
+                    <a href="#" class="fa fa-linkedin"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3 class="title">categories</h3>
+            <div class="category">
+                <a href="#"> travel <span>42</span></a>
+                <a href="#"> photography <span>75</span> </a>
+                <a href="#"> technology <span>22</span> </a>
+                <a href="#"> fashion <span>17</span> </a>
+                <a href="#"> study <span>48</span> </a>
+                <a href="#"> science <span>39</span> </a>
+                <a href="#"> music <span>59</span> </a>
+                <a href="#"> public <span>12</span> </a>
+                <a href="#"> business <span>32</span> </a>
+                <a href="#"> sports <span>18</span> </a>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3 class="title">popular posts</h3>
+            <div class="p-post">
+                <a href="#">
+                    <h3>01. blog title goes here</h3>
+                    <span><i class="fa fa-clock-o"></i>1st may, 2021</span>
+                </a>
+                <a href="#">
+                    <h3>02. blog title goes here</h3>
+                    <span><i class="fa fa-clock-o"></i>1st may, 2021</span>
+                </a>
+                <a href="#">
+                    <h3>03. blog title goes here</h3>
+                    <span><i class="fa fa-clock-o"></i>1st may, 2021</span>
+                </a>
+                <a href="#">
+                    <h3>04. blog title goes here</h3>
+                    <span><i class="fa fa-clock-o"></i>1st may, 2021</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3 class="title">popular tags</h3>
+            <div class="tags">
+                <a href="#">travel</a>
+                <a href="#">photo</a>
+                <a href="#">science</a>
+                <a href="#">biology</a>
+                <a href="#">aliens</a>
+                <a href="#">nature</a>
+                <a href="#">mountain</a>
+                <a href="#">river</a>
+                <a href="#">camp</a>
+                <a href="#">landscape</a>
+                <a href="#">world</a>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- posts section ends -->
+
+<!-- contact section starts  -->
+
+<section class="contact" id="contact">
+
+    <form action="">
+        <h3>contact me</h3>
+        <div class="inputBox">
+            <input type="text" placeholder="name">
+            <input type="email" placeholder="email">
+        </div>
+        <div class="inputBox">
+            <input type="number" placeholder="number">
+            <input type="text" placeholder="subject">
+        </div>
+        <textarea name="" placeholder="message" id="" cols="30" rows="10"></textarea>
+        <input type="submit" value="send message" class="btn">
+    </form>
+
+</section>
+
+<!-- contact section ends -->
+
+<!-- footer section starts  -->
+
+<section class="footer">
+
+    <div class="follow">
+        <a href="#" class="fa fa-facebook-f"></a>
+        <a href="#" class="fa fa-twitter"></a>
+        <a href="#" class="fa fa-instagram"></a>
+        <a href="#" class="fa fa-linkedin"></a>
+    </div>
+
+    <div class="credit">created by <span>mr. web designer</span> | all rights reserved</div>
+
+</section>
+
+<!-- <script async>
+    let menu = document.querySelector('#menu-bars');
+    let navbar = document.querySelector('.navbar');
+
+    menu.onclick = () => {
+        menu.classList.toggle('fa-times');
+        navbar.classList.toggle('active');
+        searchIcon.classList.remove('fa-times');
+        searchForm.classList.remove('active');
+    }
+    FontAwesomeConfig = { autoReplaceSvg: false }
+
+
+    let searchIcon = document.querySelector('#search-icon');
+    let searchForm = document.querySelector('.search-form');
+
+    searchIcon.onclick = () => {
+        searchIcon.classList.toggle('fa-times');
+        searchForm.classList.toggle('active');
+        menu.classList.remove('fa-times');
+        navbar.classList.remove('active');
+    }
+
+    window.onscroll = () => {
+        menu.classList.remove('fa-times');
+        navbar.classList.remove('active');
+        searchIcon.classList.remove('fa-times');
+        searchForm.classList.remove('active');
+    }
+</script> -->
+
+<!-- footer section ends -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- custom js file link  -->
+<!-- <script src="js/script.js"></script> -->
