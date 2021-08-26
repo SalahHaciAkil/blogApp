@@ -1,2 +1,25 @@
 
+
 @import './custom_style/custom';
+
+body{
+    font-family: 'Poppins', sans-serif;
+
+}
+
+section{
+    padding-top: 50px;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+mat-dialog-container{
+    background: white !important;
+
+}
+@media only screen and (max-width: 600px) {
+    mat-dialog-container{
+        width: 90% !important;
+    
+    }
+  }

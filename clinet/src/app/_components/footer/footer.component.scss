@@ -1,0 +1,5 @@
+@use '../../../custom_style/global_variable' as *;
+.footer{
+    padding: 20px;
+    background-color: $black;
+}

@@ -1,0 +1,47 @@
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-12">
+                <div class="login-wrap p-4 p-md-5">
+                    <div class="icon d-flex align-items-center justify-content-center">
+                        <span class="fa fa-user-o"></span>
+                    </div>
+                    <h3 class="text-center mb-4">Have an account?</h3>
+
+                    <form (ngSubmit)="login()" #form="ngForm" class="login-form">
+                        <div class="form-group mb-2">
+                            <input name="userName" [(ngModel)]="userName" type="text" class="form-control rounded-left" placeholder="Username" required>
+                        </div>
+
+                        <div class="form-group d-flex mb-4">
+                            <input name="password" type="password" [(ngModel)]="password" class="form-control rounded-left" placeholder="Password" required>
+                        </div>
+
+                        <div class="form-group d-md-flex">
+                            <div class="w-50">
+                                <label class="checkbox-wrap checkbox-primary">Remember Me
+                                    <input type="checkbox" checked>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-primary me-1">Forgot Password</button>
+                                <button (click)="openDialog()" class="btn btn-outline-primary">Register</button>
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn fs-5 btn-primary rounded submit py-2 px-3">Get
+                                Started</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- <button mat-button (click)="openDialog()">Open dialog</button> -->

@@ -1,0 +1,23 @@
+<section class="container">
+    <!-- 
+    <mat-form-field>
+        <input matInput>
+      </mat-form-field> -->
+    <form class="row g-3" #form="ngForm">
+        <div class="col-12">
+            <button (click)="insert()" mat-raised-button>Hi Iam</button>
+            <mat-form-field   style="width: 100%;" appearance="outline">
+                <mat-label style="color: black;">Enter post title</mat-label>
+                <input name="postTitle" [(ngModel)]="postTitle"  matInput placeholder="Placeholder">
+            </mat-form-field>
+        </div>
+        <div class="col-12 editor">
+            <quill-editor name="postEditor" [modules]="editorModules" (onEditorChanged)="changedEditor($event)"
+                [(ngModel)]="postContent">
+            </quill-editor>
+        </div>
+
+    </form>
+</section>
+
+<p #paragra></p>

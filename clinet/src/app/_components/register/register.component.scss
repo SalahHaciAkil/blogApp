@@ -1,0 +1,25 @@
+
+        //   mat-dialog-content,mat-dialog-title{
+        //     background-color: burlywood !important;
+        //  }
+        //  h2{
+        //                  background-color: burlywood !important;
+
+        //  }
+
+mat-dialog-container{
+    background: burlywood;
+    width: 50%;
+}
+
+p,h3,h1,h2{
+    color: black;
+}
+
+@media (max-width:500px) {
+    mat-dialog-container{
+        width: 70%;
+    }
+
+
+}

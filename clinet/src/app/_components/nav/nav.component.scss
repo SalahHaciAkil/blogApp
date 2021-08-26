@@ -1,0 +1,19 @@
+@use '../../../custom_style/global_variable' as *;
+.navbar{
+    background-color: #fffffff5;
+    box-shadow: 0 1rem 3rem rgb(0 0 0 / 53%) !important;
+    padding: 20px;
+    &-brand{
+        font-family: fantasy;
+        font-size: 2rem;
+    }
+
+    .nav-item{
+        font-size: 1.2rem;
+        transition: color .3s;
+
+        a:hover{
+            color: $primary !important;
+        }
+    }
+}

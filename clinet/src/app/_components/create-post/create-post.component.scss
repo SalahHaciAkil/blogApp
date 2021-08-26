@@ -1,0 +1,30 @@
+.editor{
+    height: 400px;
+    margin-bottom: 100px;
+}
+
+svg{
+    height: 40px;
+}
+
+.craetePost{
+    background-color: lavender;
+}
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: rgb(0, 0, 0);
+}
+
+/* focused color */
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: rgb(8, 0, 77);
+}
+
+/* floating label color */
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label { 
+    color: green; 
+}
+
+#text{
+    font-size: 40px;
+}
