@@ -8,14 +8,10 @@
     height: 100vh;
     padding-top: 6rem;
     position: relative;
-
-    .text{
-
-    }
-
 }
 
 .no-fill{
     color: transparent;
-    -webkit-text-stroke: 2px #fff;
+    -webkit-text-stroke: 0.1px #fff;
+    font-size: 7rem;
 }

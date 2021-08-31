@@ -1,20 +1,40 @@
-<section class="container">
+<section class="container pb-5">
     <!-- 
     <mat-form-field>
         <input matInput>
       </mat-form-field> -->
     <form class="row g-3" #form="ngForm">
+
+        <label for="imageUploader" class="labelUploader d-flex justify-content-center align-items-center">
+            <div class="imageBx" *ngIf="imgURL">
+                <img [src]="imgURL" height="200" class="img-fluid">
+            </div>
+            <div class="text-center text" *ngIf="!imageUploadFlag">
+                <span>+</span>
+                <p class="lead d-inline lh-lg text-center mx-3">Upload your image</p>
+            </div>
+        </label>
+
+        <label *ngIf="imageUploadFlag" for="imageUploader"><button class="btn btn-outline-primary">Change
+                image</button></label>
+
+        <input #file type="file" name="postPhoto" accept='image/*' (change)="preview(file.files)" class="form-control" id="imageUploader">
+
         <div class="col-12">
-            <button (click)="insert()" mat-raised-button>Hi Iam</button>
-            <mat-form-field   style="width: 100%;" appearance="outline">
+            <mat-form-field style="width: 100%;" appearance="outline">
                 <mat-label style="color: black;">Enter post title</mat-label>
-                <input name="postTitle" [(ngModel)]="postTitle"  matInput placeholder="Placeholder">
+                <input name="postTitle" [(ngModel)]="post.postTitle" matInput placeholder="Placeholder">
             </mat-form-field>
         </div>
         <div class="col-12 editor">
             <quill-editor name="postEditor" [modules]="editorModules" (onEditorChanged)="changedEditor($event)"
-                [(ngModel)]="postContent">
+                [(ngModel)]="post.postContent">
             </quill-editor>
+        </div>
+
+        <div class="col-12">
+            <button (click)="publish()" class="pulse custom-btn mt-5 mt-md-1 w-100">Publish</button>
+
         </div>
 
     </form>

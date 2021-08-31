@@ -2,6 +2,9 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CKEditorComponent } from 'ng2-ckeditor';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { ToastrService } from 'ngx-toastr';
+import { Post } from 'src/app/_interfaces/Post';
+import { PostService } from 'src/app/_services/post.service';
 
 @Component({
   selector: 'app-create-post',
@@ -9,10 +12,17 @@ import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
   styleUrls: ['./create-post.component.scss']
 })
 export class CreatePostComponent implements OnInit, AfterViewInit {
-  postContent: string;
-  postTitle: string;
+  post: Post = { postTitle: "", postContent: "", postrName: "", postrPhoto:"", id: 0 };
+  imageUploadFlag = false;
 
-  @ViewChild("paragra") q: ElementRef;
+  // for image file
+  formData = new FormData();
+  public imagePath;
+  imgURL: any;
+  public message: string;
+
+  //  postContent:string;
+  //   @ViewChild("paragra") q: ElementRef;
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -38,11 +48,14 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
   };
 
 
-  constructor() {
-    this.postContent = `<p>Write...</p>`;
+
+  constructor(private postService: PostService, private toastrService: ToastrService) {
+    // this.post.postContent=""
+    // this.post.postTitle=""
+    // this.post.postContent = `<p>Write...</p>`;
   }
   ngAfterViewInit(): void {
-    this.q.nativeElement.innerHTML = this.postContent;
+    // this.q.nativeElement.innerHTML = this.post.postContent;
   }
 
   ngOnInit() {
@@ -50,16 +63,49 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
   }
   changedEditor(event: EditorChangeContent | EditorChangeSelection) {
   }
-  onChange(event) {
-    console.log(event);
+  // onChange(event) {
+  //   console.log(event);
 
+  // }
+
+
+  publish() {
+
+    this.formData.append('postTitle', this.post.postTitle);
+    this.formData.append('postContent', this.post.postContent);
+
+
+    this.postService.addPost(this.formData).subscribe((data) => {
+      debugger;
+
+      this.toastrService.success("Your post have been added successgully");
+    })
   }
 
-  insert() {
-    console.log(this.postContent);
-    console.log(this.postTitle);
-    
 
+  preview(files) {
+    if (files.length === 0)
+      return;
+
+
+    let mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "Only images are supported.";
+      return;
+    }
+
+    //append the image file
+    let fileToUpload = <File>files[0];
+    this.formData.append('photo', fileToUpload, fileToUpload.name);
+
+    let reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imgURL = reader.result;
+    }
+
+    this.imageUploadFlag = true;
   }
 
 }

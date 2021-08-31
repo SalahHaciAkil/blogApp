@@ -1,27 +1,24 @@
 <div class="crd">
   <div class="crd-header">
-    <img src="https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg" alt="rover" />
+    <img [src]="post.photo?post.photo: '../../../../assets/images/no-img-post.png'" alt="rover" />
   </div>
   <div class="crd-body">
     <span class="tag tag-teal">Technology</span>
     <h4>
-      Why is the Tesla Cybertruck designed the way it
-      is?
+      {{post.postTitle}}
     </h4>
-    <p class="lead">
-      An exploration into the truck's polarising design
-    </p>
+
+    <p #lead class="lead"></p>
 
     <div class="footer">
       <div class="user">
-        <img src="https://yt3.ggpht.com/a/AGF-l7-0J1G0Ue0mcZMw-99kMeVuBmRxiPjyvIYONg=s900-c-k-c0xffffffff-no-rj-mo"
-          alt="user" />
+        <img [src]="post?.postrPhoto" alt="user" />
         <div class="user-info">
-          <h5>July Dec</h5>
-          <small>2h ago</small>
+          <h5>{{post.postrName}}</h5>
+          <small>{{post.createdTime | date}}</small>
         </div>
       </div>
-      <button class="btn btn-outline-primary">Read</button>
+      <button routerLink='/post-detail/{{post.id}}' class="btn btn-outline-primary">Read</button>
 
     </div>
 

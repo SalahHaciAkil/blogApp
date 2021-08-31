@@ -22,11 +22,23 @@ namespace API._Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("KnownAs")
+                        .HasColumnType("TEXT");
+
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("BLOB");
 
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("BLOB");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhotoPublicId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserName")
                         .HasColumnType("TEXT");
@@ -42,19 +54,25 @@ namespace API._Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Content")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Photo")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PosetrName")
+                    b.Property<string>("PhotoPublicId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("PostContent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PostTitle")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PostrName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PostrPhoto")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("UserId")

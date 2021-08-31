@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators'
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { User } from '../_interfaces/User';
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { User } from '../_interfaces/User';
 export class AccountService {
 
   baseUrl: string = environment.apiUrl;
-  private currentUserSource = new BehaviorSubject<User>(null);
+  private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
   constructor(private http: HttpClient) { }
 

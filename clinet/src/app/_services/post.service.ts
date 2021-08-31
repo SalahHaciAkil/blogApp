@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Post } from '../_interfaces/Post';
 
@@ -8,10 +11,62 @@ import { Post } from '../_interfaces/Post';
 })
 export class PostService {
   baseUrl = environment.apiUrl;
-  constructor(private http:HttpClient) { }
+  private postsThreadSource = new BehaviorSubject<Post[]>([]);
+  postsThread$ = this.postsThreadSource.asObservable();
+  posts: Post[] = [];
+
+  constructor(private http: HttpClient) { }
 
 
-  addPost(post : Post){
-    return this.http.post<Post>(this.baseUrl + "posts", post);
+  getPost(postId:number){
+    let post = this.posts.find(p => p.id == postId);
+    if(post != undefined) return of(post);
+
+    return this.http.get(`${this.baseUrl}posts/post-detail/${postId}`);
+  
+  }
+
+
+  addPost(post) {
+
+    return this.http.post<Post>(this.baseUrl + "posts", post).pipe(
+      map(data => {
+        const post = data;
+        debugger;
+        if (post) {
+          this.posts.unshift(post);
+          this.setCurrentPostSource(this.posts);
+        }
+        return data;
+      })
+    );
+  }
+
+
+  getPosts() {
+
+
+    if (this.posts.length != 0) return of(this.posts);
+
+    return this.http.get<Post[]>(this.baseUrl + "posts").pipe(
+      map((data: Post[]) => {
+        const posts = data;
+        debugger;
+        if (posts) {
+          this.posts = posts
+          this.setCurrentPostSource(posts);
+        }
+
+        return data;
+      })
+    )
+  }
+
+
+  setCurrentPostSource(posts:Post[]){
+    this.postsThreadSource.next(posts);
+  }
+  unSetCurrentPostSource(posts:Post[]){
+    this.postsThreadSource.next(null);
   }
 }

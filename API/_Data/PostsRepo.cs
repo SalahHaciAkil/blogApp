@@ -21,22 +21,34 @@ namespace API._Data
             this.autoMapepr = autoMapepr;
         }
 
-        public async void AddPost(Post post)
-        {
-            await this.context.Posts.AddAsync(post);
-        }
-
-        public async Task<bool> SaveChangesAsync()
-        {
-            if (await this.context.SaveChangesAsync() > 0) return true;
-            return false;
-        }
-
         public async Task<IEnumerable<Post>> GetPosts()
         {
             var posts = await this.context.Posts
             .ToListAsync();
             return posts;
+        }
+
+        public async Task<Post> GetPost(int postId)
+        {
+            var post = await this.context.Posts.FindAsync(postId);
+            return post;
+
+        }
+
+        public async void AddPost(Post post)
+        {
+            await this.context.Posts.AddAsync(post);
+        }
+
+
+
+
+
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            if (await this.context.SaveChangesAsync() > 0) return true;
+            return false;
         }
     }
 }

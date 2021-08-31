@@ -1,0 +1,7 @@
+@use './global_variable' as *;
+
+@mixin svg_primary_color {
+    filter: invert(34%) sepia(16%) saturate(1944%) hue-rotate(
+252deg
+) brightness(96%) contrast(91%);
+  }

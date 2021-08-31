@@ -1,0 +1,62 @@
+@use '../../../custom_style/mixin' as *;
+@use '../../../custom_style/global_variable' as *;
+
+.container{
+    // margin-top: 6rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    background-color: rgb(224 224 224 / 30%);
+    .imgBx{
+        width: 6rem;
+        height: 6rem;
+
+        img{
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        object{
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            @include svg_primary_color;
+
+        }
+    }
+
+    .postr-info{
+        .text{
+            font-size: 24px;
+        }
+    }
+
+    p{
+        margin: 0;
+        padding: 0;
+    }
+
+    .post-title{
+            word-break: break-word;
+
+    }
+
+    .post-content{
+        line-height: 2.3rem;
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        word-break: break-word;
+
+    }
+
+
+    .end-sec{
+
+        
+        border-inline-start: 1px solid rgba(0, 0, 0, 0.103);
+        border-top: 1px solid $primary;
+
+    }
+
+
+}

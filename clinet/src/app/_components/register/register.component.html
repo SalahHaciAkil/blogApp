@@ -5,12 +5,10 @@
             <app-text-input [formControl]="registerForm.controls['userName']" [type]="'text'" [label]="'userName'">
             </app-text-input>
         </div>
-        
         <div class="col-md-6 col-12 mb-2">
             <app-text-input [formControl]="registerForm.controls['knownAs']" [type]="'text'" [label]="'KnownAs'">
             </app-text-input>
         </div>
-
         <div class="col-12 mb-2">
             <app-text-input [formControl]="registerForm.controls['email']" [type]="'email'" [label]="'Email'">
             </app-text-input>
@@ -19,11 +17,14 @@
             <app-text-input [formControl]="registerForm.controls['password']" [type]="'password'" [label]="'Password'">
             </app-text-input>
         </div>
-
         <div ngDefaultControl formControlName="confirmPassword" class="col-md-6 col-12 mb-2">
             <app-text-input [formControl]="registerForm.controls['confirmPassword']" [type]="'password'"
                 [label]="'Confirm Password'">
             </app-text-input>
+        </div>
+
+        <div class="col-12">
+            <input #file (change)="onFileChange(file.files)" type="file" class="form-control" id="">
         </div>
 
         <div class="col-md-6  col-12">
