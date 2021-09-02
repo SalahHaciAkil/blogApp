@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API._DTOs;
 using API._Entities;
 using API._Interfaces;
+using API.Helpers;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +29,16 @@ namespace API._Data
             .ToListAsync();
             return posts;
         }
+
+        public async Task<PagedList<PostDto>> GetUserPosts(string userName,[FromQuery] int pageNumber,[FromQuery]  int pageSize)
+        {
+            var query = this.context.Posts.Where(p => p.PostrName == userName).OrderByDescending(x => x.CreatedTime).AsNoTracking();
+            if (query == null) return null;
+
+            var posts = await PagedList<PostDto>.CreateAsync(query.ProjectTo<PostDto>(this.autoMapepr.ConfigurationProvider), pageNumber, pageSize);
+            return posts;
+        }
+
 
         public async Task<Post> GetPost(int postId)
         {

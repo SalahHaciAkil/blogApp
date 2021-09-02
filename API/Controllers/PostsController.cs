@@ -6,6 +6,7 @@ using API._DTOs;
 using API._Entities;
 using API._Extensions;
 using API._Interfaces;
+using API.Helpers;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
@@ -72,14 +73,25 @@ namespace API.Controllers
 
 
         [HttpGet("post-detail/{postId}")]
-        public async Task<ActionResult<PostDto>> GetPost(int postId){
+        public async Task<ActionResult<PostDto>> GetPost(int postId)
+        {
             var post = await this.postsRepo.GetPost(postId);
-            if(post == null)return BadRequest("Post doesnot exisit");
+            if (post == null) return BadRequest("Post doesnot exisit");
 
             return Ok(this.autpMapper.Map<PostDto>(post));
 
-            
 
+
+        }
+
+        [HttpGet("{userName}")]
+        public async Task<ActionResult<PagedList<PostDto>>> GetUserPosts(string userName, int pageNumber, int pageSize)
+        {
+
+            var posts = await this.postsRepo.GetUserPosts(userName,pageNumber,pageSize);
+            if (posts == null) return BadRequest("Unvalid userName");
+            Response.AddPaginationHeader(posts.CurrentPage, posts.PageSize, posts.TotalCount, posts.TotalPages);
+            return Ok(posts);
         }
     }
 }

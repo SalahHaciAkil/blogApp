@@ -31,7 +31,6 @@ export class JwtInterceptor implements HttpInterceptor {
       })
     }
     console.log(request.headers);
-    debugger;
 
 
     return next.handle(request);

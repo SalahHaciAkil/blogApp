@@ -1,7 +1,10 @@
 @use '../../../custom_style/global_variable' as *;
+@use '../../../custom_style/mixin' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+
 .navbar{
-    background-color: #fffffff5;
-    box-shadow: 0 1rem 3rem rgb(0 0 0 / 53%) !important;
+    @include gradient;
     padding: 20px;
     &-brand{
         font-family: fantasy;
@@ -9,12 +12,20 @@
     }
 
     .nav-item{
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         transition: color .3s;
+        color: white !important;
 
-        a:hover{
-            color: $primary !important;
+
+        a{
+            color: white !important;
+            font-size: 1.5rem;
         }
+    }
+
+
+    #Logo{
+        font-family: 'Kaushan Script', cursive;
     }
 }
 

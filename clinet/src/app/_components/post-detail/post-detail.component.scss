@@ -1,6 +1,8 @@
 @use '../../../custom_style/mixin' as *;
 @use '../../../custom_style/global_variable' as *;
-
+section{
+    @include section_margin_top;
+}
 .container{
     // margin-top: 6rem;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
@@ -55,6 +57,32 @@
         
         border-inline-start: 1px solid rgba(0, 0, 0, 0.103);
         border-top: 1px solid $primary;
+
+
+        .img-fluid{
+            height: 100%;
+        }
+
+        a{
+            word-break: break-word;
+        }
+        
+        .other-user-post{
+            a{
+                color: black !important;
+                word-break: break-word;
+                transition: color .3s;
+            }
+
+            &:hover{
+      
+                a{
+                    color: $primary !important;
+                }
+            }
+        
+        }
+        
 
     }
 

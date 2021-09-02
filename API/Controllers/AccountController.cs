@@ -37,7 +37,10 @@ namespace API.Controllers
             {
                 UserName = registerDto.UserName.ToLower(),
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key
+                PasswordSalt = hmac.Key,
+                Email = registerDto.Email,
+                KnownAs = registerDto.KnownAs
+
 
             };
 

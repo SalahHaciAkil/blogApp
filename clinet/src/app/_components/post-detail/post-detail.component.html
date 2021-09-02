@@ -1,4 +1,4 @@
-<section style="margin-bottom: 200px;">
+<section>
     <div class="container pb-4">
         <div class="row">
             <div class="start-sec col-12 col-md-8">
@@ -8,9 +8,9 @@
                     </div>
                     <div class="postr-info d-flex pt-3">
                         <div class="imgBx me-2">
-                            <img *ngIf="post.photo" class="img-fluid bg-primary" [src]="post?.postrPhoto"
+                            <img *ngIf="post?.photo" class="img-fluid bg-primary" [src]="post?.postrPhoto"
                                 alt="post-photo">
-                            <object *ngIf="!post.photo" class="img-fluid"
+                            <object *ngIf="!post?.photo" class="img-fluid"
                                 data="../../../assets/images/user.svg"></object>
                         </div>
                         <div class="text">
@@ -37,33 +37,43 @@
 
             </div>
             <div class="end-sec col-12 col-md-4">
-                <p class="fs-2 lh-lg fw-light">Salah also writes: </p>
-                <div class="row">
-                    <div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
-                        <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
+                <p class="fs-2 lh-lg fw-light">{{post?.postrName}} also writes: </p>
+                <div class="row ">
+                    <div *ngFor="let post of userPosts" (click)="onPostClicked(post.postrName, post.id)"
+                        style="cursor: pointer;" class="other-user-post col-6 col-md-12 col-lg-6">
+                        <div class="imageBx">
+                            <img class="img-fluid"
+                                [src]="post?.photo ?post.photo :  '../../../assets/images/blog-2.jpg'" alt="">
+                        </div>
 
-                        <a class="fs-5 text-primary">how to speak</a>
+                        <a class="fs-5 text-primary">{{post.postTitle}}</a>
                     </div>
-                    <div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
-                        <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
+                    <button (click)="getUserPosts(postrName)" *ngIf="pageNumber <= pagination.totalPages"
+                        class="btn btn-outline-primary mt-2">more posts</button>
 
-                        <a class="fs-5 text-primary">wanna asd asd asd sa dsa das d asd asd change the world ?</a>
 
-                    </div>
-                    <div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
-                        <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
-
-                        <a class="fs-5 text-primary">how to speak</a>
-                    </div>
-                    <div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
-                        <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
-
-                        <a class="fs-5 text-primary">wanna change the world ?</a>
-
-                    </div>
                 </div>
 
             </div>
         </div>
     </div>
 </section>
+
+
+<!-- <div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
+    <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
+
+    <a class="fs-5 text-primary">wanna asd asd asd sa dsa das d asd asd change the world ?</a>
+
+</div>
+<div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
+    <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
+
+    <a class="fs-5 text-primary">how to speak</a>
+</div>
+<div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
+    <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
+
+    <a class="fs-5 text-primary">wanna change the world ?</a>
+
+</div> -->

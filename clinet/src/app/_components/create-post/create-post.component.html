@@ -15,8 +15,7 @@
             </div>
         </label>
 
-        <label *ngIf="imageUploadFlag" for="imageUploader"><button class="btn btn-outline-primary">Change
-                image</button></label>
+        <label *ngIf="imageUploadFlag" class=" col-4 col-md-2 btn btn-primary" for="imageUploader">change image</label>
 
         <input #file type="file" name="postPhoto" accept='image/*' (change)="preview(file.files)" class="form-control" id="imageUploader">
 

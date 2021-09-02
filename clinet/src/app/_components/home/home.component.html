@@ -1,11 +1,36 @@
 <section class="intro" id="intro">
-    <div class="text position-absolute top-50 start-50 translate-middle w-100  text-center">
-        <h2 class="text-light fw-bold display-4">Unleash the creativity
-        </h2>
-        <h1 class="text-light fw-bold display-2 text-italic">By <span class="no-fill">Writing</span></h1>
+    <div class="container h-100">
+        <div class="row">
+            <!-- text position-absolute top-50 start-50 translate-middle w-100  text-center -->
+            <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
+                <div class="text">
+                    <h2 class="text-light fw-bold display-4">Unleash the creativity
+                    </h2>
+                    <h1 class="text-light fw-bold display-2 text-italic">By <span class="no-fill">Writing</span>
+                    </h1>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="imgBx">
+                    <img class="img-fluid" src="../../../assets/images/intro_illustration.png" alt="">
+                </div>
+            </div>
+
+        </div>
     </div>
+
+
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#fff" fill-opacity="1"
+            d="M0,256L60,229.3C120,203,240,149,360,154.7C480,160,600,224,720,213.3C840,203,960,117,1080,106.7C1200,96,1320,160,1380,192L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
+        </path>
+    </svg>
 </section>
+
 <section class="posts" id="posts">
+
     <div class="container">
         <div class="row">
             <div *ngFor="let post of (postService.postsThread$ | async)" class="col-lg-4 col-md-6 col-12">
@@ -15,87 +40,6 @@
         </div>
     </div>
 </section>
-
-
-<!-- <section id="posts" class="posts">
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <app-post-card></app-post-card>
-            </div>
-
-        </div>
-    </div>
-</section> -->
-
-
-
-
-
-
-
-
-
-<!-- header section starts  -->
-
-<!-- <header class="header">
-
-    <a href="#" class="logo"><span>b</span>logger</a>
-
-    <nav class="navbar" [class.active]="navFlag">
-        <a href="#banner">banner</a>
-        <a href="#posts">my posts</a>
-        <a href="#contact">contact me</a>
-    </nav>
-
-    <div class="icons">
-        <i (click)="navFlag=!navFlag" class="fa fa-bars" id="menu-bars"></i>
-        <i (click)="searchFlag=!searchFlag" class="fa fa-search" id="search-icon"></i>
-    </div>
-
-    <form action="" class="search-form" [class.active]="searchFlag">
-        <input type="search" name="" placeholder="search here..." id="search-box">
-        <label for="search-box" class="fa fa-search"></label>
-    </form>
-
-</header> -->
-
-<!-- header section ends -->
-
-<!-- banner section starts  -->
-
-<!-- <section class="banner" id="banner">
-
-    <div class="content">
-        <h3>explore the nature</h3>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam, laboriosam?</p>
-        <a href="#" class="btn">my blogs</a>
-    </div>
-
-</section> -->
-
-
-
-
-
-<!-- contact section ends -->
-
-<!-- footer section starts  -->
-
-<!-- <section class="footer">
-
-    <div class="follow">
-        <a href="#" class="fa fa-facebook-f"></a>
-        <a href="#" class="fa fa-twitter"></a>
-        <a href="#" class="fa fa-instagram"></a>
-        <a href="#" class="fa fa-linkedin"></a>
-    </div>
-
-    <div class="credit">created by <span>mr. web designer</span> | all rights reserved</div>
-
-</section> -->
-
-
 
 
 

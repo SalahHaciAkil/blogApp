@@ -1,17 +1,23 @@
 @use '../../../custom_style/global_variable' as *;
+@use '../../../custom_style/mixin' as *;
 @import url('https://fonts.googleapis.com/css2?family=Oi&display=swap');
 .intro{
-    background: url("../../../assets/images/header.png");
-    background-position: center;
-    background-size: cover;
-    background-color:rgba($color: $primary, $alpha: .05);
+    // background: url("../../../assets/images/header.png");
+    // background-position: center;
+    // background-size: cover;
+    // background-color:rgba($color: $primary, $alpha: .05);
+    padding-top: 5rem;
     height: 100vh;
-    padding-top: 6rem;
-    position: relative;
+    padding-top:8rem;
+    @include gradient;
+    // position: relative;
 }
 
 .no-fill{
     color: transparent;
     -webkit-text-stroke: 0.1px #fff;
     font-size: 7rem;
+}
+svg {
+    @include gradient;
 }

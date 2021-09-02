@@ -1,4 +1,9 @@
 @use '../../../custom_style/global_variable' as *;
+@use '../../../custom_style/_mixin' as *;
+
+section{
+  @include section_margin_top;
+}
 .editor{
     height: 400px;
     margin-bottom: 80px;
