@@ -9,10 +9,11 @@ namespace API._Interfaces
 {
     public interface IPostsRepo
     {
-        Task<IEnumerable<Post>> GetPosts();
-        Task<PagedList<PostDto>> GetUserPosts(string userName, int pageNumber, int PageSize);
-        Task<Post> GetPost(int postId);
+        Task<IEnumerable<PostDto>> GetPostsDtoAsync();
+        Task<PagedList<PostDto>> GetUserPostsDtoAsync(string userName, int pageNumber, int PageSize);
+        Task<Post> GetPostAsync(int postId);
+        Task<PostDto> GetPostDtoAsync(int postId);
         Task<bool> SaveChangesAsync();
-        void AddPost(Post post);
+        void AddPostAsync(Post post);
     }
 }

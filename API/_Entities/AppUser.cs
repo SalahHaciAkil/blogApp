@@ -18,6 +18,7 @@ namespace API._Entities
         public string Photo { get; set; }
         public string PhotoPublicId { get; set; }
         public ICollection<Post> Posts { get; set; }
+        public ICollection<UserPostLikes> LikesPost { get; set; }
 
     }
 }

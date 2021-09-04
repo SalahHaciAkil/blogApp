@@ -1,3 +1,4 @@
+@use '../../../../custom_style/global_variable' as *;
 // * {
 //   box-sizing: border-box;
 // }
@@ -35,6 +36,16 @@ body {
   align-items: flex-start;
   padding: 20px;
   min-height: 250px;
+
+  &_head{
+    transform-origin: 1000px;
+
+    i{
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: red;
+    }
+  }
 
   .footer{
     width: 100%;
@@ -83,4 +94,31 @@ body {
 }
 .user-info small {
   color: #545d7a;
+}
+
+
+@keyframes gell-git{
+  0%{
+    color: red;
+    transform: scale3d(1, 1, 1);
+
+  }
+  50%{
+    color: $primary;
+    transform: scale3d(1.5, 1.5, 1.5);
+
+  }
+
+  100%{
+    color: red;
+    transform: scale3d(1, 1, 1);
+
+
+  }
+}
+.fa-heart{
+  animation-name: gell-git;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+
 }

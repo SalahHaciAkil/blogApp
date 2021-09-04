@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using API._Entities;
 
 namespace API._DTOs
 {
@@ -12,6 +14,7 @@ namespace API._DTOs
         public DateTime CreatedTime { get; set; } = DateTime.Now;
         public string Photo { get; set; }
         public string PhotoPublicId { get; set; }
+        public ICollection<UserPostLikes> LikedBy { get; set; }
 
     }
 }

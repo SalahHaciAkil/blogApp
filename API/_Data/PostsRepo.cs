@@ -23,14 +23,17 @@ namespace API._Data
             this.autoMapepr = autoMapepr;
         }
 
-        public async Task<IEnumerable<Post>> GetPosts()
+        public async Task<IEnumerable<PostDto>> GetPostsDtoAsync()
         {
             var posts = await this.context.Posts
-            .ToListAsync();
+                .Include(x => x.LikedBy)
+                .ProjectTo<PostDto>(this.autoMapepr.ConfigurationProvider)
+                .ToListAsync();
+
             return posts;
         }
 
-        public async Task<PagedList<PostDto>> GetUserPosts(string userName,[FromQuery] int pageNumber,[FromQuery]  int pageSize)
+        public async Task<PagedList<PostDto>> GetUserPostsDtoAsync(string userName, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var query = this.context.Posts.Where(p => p.PostrName == userName).OrderByDescending(x => x.CreatedTime).AsNoTracking();
             if (query == null) return null;
@@ -40,14 +43,27 @@ namespace API._Data
         }
 
 
-        public async Task<Post> GetPost(int postId)
+        public async Task<Post> GetPostAsync(int postId)
         {
-            var post = await this.context.Posts.FindAsync(postId);
+            var post = await this.context.Posts
+                .Include(x => x.LikedBy)
+                .FirstOrDefaultAsync(x => x.Id == postId);
+
             return post;
 
         }
 
-        public async void AddPost(Post post)
+        public async Task<PostDto> GetPostDtoAsync(int postId)
+        {
+            var post = await this.context.Posts
+                .Include(x => x.LikedBy).ProjectTo<PostDto>(this.autoMapepr.ConfigurationProvider)
+                .FirstOrDefaultAsync(x => x.Id == postId);
+
+            return post;
+
+        }
+
+        public async void AddPostAsync(Post post)
         {
             await this.context.Posts.AddAsync(post);
         }

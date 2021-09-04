@@ -35,9 +35,10 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts()
         {
-            var posts = await this.postsRepo.GetPosts();
-            var postsDto = this.autpMapper.Map<PostDto[]>(posts);
-            return Ok(postsDto);
+            var isAuth = User.Identity.IsAuthenticated;
+
+            var posts = await this.postsRepo.GetPostsDtoAsync();
+            return Ok(posts);
         }
 
         [HttpPost]
@@ -63,7 +64,7 @@ namespace API.Controllers
                 PostrPhoto = user.Photo,
                 User = user,
             };
-            this.postsRepo.AddPost(post);
+            this.postsRepo.AddPostAsync(post);
             var postResult = this.autpMapper.Map<PostDto>(post);
             if (await this.postsRepo.SaveChangesAsync())
                 return Ok(postResult);
@@ -75,10 +76,10 @@ namespace API.Controllers
         [HttpGet("post-detail/{postId}")]
         public async Task<ActionResult<PostDto>> GetPost(int postId)
         {
-            var post = await this.postsRepo.GetPost(postId);
+            var post = await this.postsRepo.GetPostDtoAsync(postId);
             if (post == null) return BadRequest("Post doesnot exisit");
 
-            return Ok(this.autpMapper.Map<PostDto>(post));
+            return Ok(post);
 
 
 
@@ -88,10 +89,16 @@ namespace API.Controllers
         public async Task<ActionResult<PagedList<PostDto>>> GetUserPosts(string userName, int pageNumber, int pageSize)
         {
 
-            var posts = await this.postsRepo.GetUserPosts(userName,pageNumber,pageSize);
+            var posts = await this.postsRepo.GetUserPostsDtoAsync(userName, pageNumber, pageSize);
             if (posts == null) return BadRequest("Unvalid userName");
             Response.AddPaginationHeader(posts.CurrentPage, posts.PageSize, posts.TotalCount, posts.TotalPages);
             return Ok(posts);
         }
+
+
+
+
+
+
     }
 }

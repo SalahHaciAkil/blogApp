@@ -36,7 +36,7 @@
 
 
             </div>
-            <div class="end-sec col-12 col-md-4">
+            <div class="end-sec col-12 col-md-4" *ngIf="pagination">
                 <p class="fs-2 lh-lg fw-light">{{post?.postrName}} also writes: </p>
                 <div class="row ">
                     <div *ngFor="let post of userPosts" (click)="onPostClicked(post.postrName, post.id)"

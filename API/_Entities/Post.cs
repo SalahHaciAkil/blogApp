@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace API._Entities
 {
@@ -13,5 +14,6 @@ namespace API._Entities
         public string Photo { get; set; }
         public string PhotoPublicId { get; set; }
         public AppUser User { get; set; }
+        public ICollection<UserPostLikes> LikedBy { get; set; }
     }
 }

@@ -12,7 +12,8 @@ import { PostService } from 'src/app/_services/post.service';
   styleUrls: ['./create-post.component.scss']
 })
 export class CreatePostComponent implements OnInit, AfterViewInit {
-  post: Post = { postTitle: "", postContent: "", postrName: "", postrPhoto:"", id: 0 };
+  post: Post = { postTitle: "", postContent: "", postrName: "", postrPhoto:"", id: 0 }
+  // post:PaPost;
   imageUploadFlag = false;
 
   // for image file

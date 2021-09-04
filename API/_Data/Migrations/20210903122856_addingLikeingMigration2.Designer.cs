@@ -3,14 +3,16 @@ using System;
 using API._Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API._Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210903122856_addingLikeingMigration2")]
+    partial class addingLikeingMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,16 +89,13 @@ namespace API._Data.Migrations
 
             modelBuilder.Entity("API._Entities.UserPostLikes", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("PostId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("PostrName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("UserId", "PostId");
+                    b.HasKey("AppUserId", "PostId");
 
                     b.HasIndex("PostId");
 
@@ -114,15 +113,15 @@ namespace API._Data.Migrations
 
             modelBuilder.Entity("API._Entities.UserPostLikes", b =>
                 {
-                    b.HasOne("API._Entities.Post", "Post")
-                        .WithMany("LikedBy")
-                        .HasForeignKey("PostId")
+                    b.HasOne("API._Entities.AppUser", "User")
+                        .WithMany("LikesPost")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API._Entities.AppUser", "User")
-                        .WithMany("LikesPost")
-                        .HasForeignKey("UserId")
+                    b.HasOne("API._Entities.Post", "Post")
+                        .WithMany("LikedBy")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

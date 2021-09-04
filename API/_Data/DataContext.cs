@@ -15,6 +15,7 @@ namespace API._Data
         {
 
 
+
             // modelBuilder.Entity<Posts>().HasMany(p => p.Tags)
             // .WithMany(t => t.Posts).UsingEntity<PostsTags>(
             //     j => j.HasOne(q => q.Tag)
@@ -28,55 +29,33 @@ namespace API._Data
 
             // );
 
-            modelBuilder.Entity<PostsTags>().HasKey(x => new {x.PostsId, x.TagId});
-
-            modelBuilder.Entity<PostsTags>().HasOne(pt => pt.Posts)
-            .WithMany(r => r.PostsTags)
-            .HasForeignKey(pt => pt.PostsId);
-
-            modelBuilder.Entity<PostsTags>().HasOne(pt => pt.Tag)
-            .WithMany(t => t.PostsTags)
-            .HasForeignKey(pt => pt.TagId);
 
 
+
+            modelBuilder.Entity<UserPostLikes>()
+                .HasKey(x => new { x.UserId, x.PostId });
+
+            modelBuilder.Entity<UserPostLikes>()
+                .HasOne(x => x.Post)
+                .WithMany(x => x.LikedBy)
+                .HasForeignKey(x => x.PostId);
+
+            modelBuilder.Entity<UserPostLikes>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.LikesPost)
+                .HasForeignKey(x => x.UserId);
 
         }
 
         public DbSet<AppUser> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
-
-        public DbSet<Posts> Postss { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-    }
-
-
-
-
-    public class Posts
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public List<Tag> Tags { get; set; }
-        public ICollection<PostsTags> PostsTags { get; set; }
-    }
-
-    public class Tag
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public List<Posts> Posts { get; set; }
-        public ICollection<PostsTags> PostsTags { get; set; }
+        public DbSet<UserPostLikes> UsersPostLikes { get; set; }
 
 
     }
 
-    public class PostsTags
-    {
-        public int PostsId { get; set; }
-        public Posts Posts { get; set; }
-        public int TagId { get; set; }
-        public Tag Tag { get; set; }
-    }
+
+
 }
 
 

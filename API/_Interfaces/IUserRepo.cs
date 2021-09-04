@@ -8,5 +8,9 @@ namespace API._Interfaces
     {
         Task<IEnumerable<AppUser>> GetUsersAsync();
         Task<AppUser> GetUserAsync(string userName);
+
+        Task AddUserPostLike(UserPostLikes userPostLikes);
+
+        Task<bool> SaveChangesAsync();
     }
 }

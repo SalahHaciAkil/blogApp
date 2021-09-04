@@ -1,15 +1,10 @@
 import { Data } from "@angular/router";
 
-
-// ============ NOW YOU FINISH THE API AND CHANGES THE POST photo type into string ==============
-// ============ NOW YOU FINISH THE API AND CHANGES THE POST photo type into string ==============
-// ============ NOW YOU FINISH THE API AND CHANGES THE POST photo type into string ==============
-// ============ NOW YOU FINISH THE API AND CHANGES THE POST photo type into string ==============
-// ============ NOW YOU FINISH THE API AND CHANGES THE POST photo type into string ==============
-// ============ NOW YOU FINISH THE API AND CHANGES THE POST photo type into string ==============
-// ============ NOW YOU FINISH THE API AND CHANGES THE POST photo type into string ==============
-
-
+export interface LikedBy {
+    userId: number;
+    postrName: string;
+    postId: number
+}
 
 export interface Post {
     id: number;
@@ -19,4 +14,7 @@ export interface Post {
     postrPhoto: string;
     createdTime?: Data;
     photo?: string;
+    likedBy?: Array<LikedBy>;
 }
+
+

@@ -85,6 +85,14 @@ export class PostService {
     )
   }
 
+  // [HttpPost("add-like/{postId}")]
+  // https://localhost:5001/api/Users/add-like/10
+
+
+  likePost(postId:number){
+    return this.http.post(`${this.baseUrl}Users/add-like/${postId}`,{});
+  }
+
 
   setCurrentPostSource(posts: Post[]) {
     this.postsThreadSource.next(posts);

@@ -20,6 +20,13 @@ namespace API._Data
             this.context = context;
         }
 
+        public async Task AddUserPostLike(UserPostLikes userPostLikes)
+        {
+            await this.context.UsersPostLikes.AddAsync(userPostLikes);
+
+
+        }
+
         public async Task<AppUser> GetUserAsync(string userName)
         {
             return await this.context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
@@ -30,6 +37,12 @@ namespace API._Data
             var users = await this.context.Users.Include(x => x.Posts)
             .ToListAsync();
             return users;
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            if (await this.context.SaveChangesAsync() > 0) return true;
+            return false;
         }
     }
 }

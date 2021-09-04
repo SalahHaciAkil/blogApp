@@ -3,7 +3,12 @@
     <img [src]="post.photo?post.photo: '../../../../assets/images/no-img-post.png'" alt="rover" />
   </div>
   <div class="crd-body">
-    <span class="tag tag-teal">Technology</span>
+    <div class="crd-body_head d-flex justify-content-between w-100">
+      <span class="tag tag-teal">Technology</span>
+      <i (click)="likePost(post.id)" [class]="class" aria-hidden="true"></i>
+    </div>
+
+
     <h4>
       {{post.postTitle}}
     </h4>
