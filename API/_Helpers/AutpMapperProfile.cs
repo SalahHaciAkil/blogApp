@@ -11,6 +11,7 @@ namespace API._Helpers
             CreateMap<AppUser, MemberDto>();
             CreateMap<Post, PostDto>();
             CreateMap<UserPostLikes, UserPostLikesDto>();
+            CreateMap<UserPostComments, UserPostCommentsDto>();
         }
     }
 }

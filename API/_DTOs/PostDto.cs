@@ -14,7 +14,8 @@ namespace API._DTOs
         public DateTime CreatedTime { get; set; } = DateTime.Now;
         public string Photo { get; set; }
         public string PhotoPublicId { get; set; }
-        public ICollection<UserPostLikes> LikedBy { get; set; }
+        public ICollection<UserPostLikesDto> LikedBy { get; set; }
+        public ICollection<UserPostCommentsDto> MyProperty { get; set; }
 
     }
 }

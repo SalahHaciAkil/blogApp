@@ -12,5 +12,6 @@ namespace API._DTOs
         public string Photo { get; set; }
         public string PhotoPublicId { get; set; }
         public ICollection<PostDto> Posts { get; set; }
+        public ICollection<UserPostCommentsDto> Comments { get; set; }
     }
 }
