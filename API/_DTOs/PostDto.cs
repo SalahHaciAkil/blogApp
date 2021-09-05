@@ -11,10 +11,11 @@ namespace API._DTOs
         public string PostContent { get; set; }
         public string PostrName { get; set; }
         public string PostrPhoto { get; set; }
-        public DateTime CreatedTime { get; set; } = DateTime.Now;
+        public DateTime CreatedTime { get; set; }
         public string Photo { get; set; }
         public string PhotoPublicId { get; set; }
-        public ICollection<UserPostLikes> LikedBy { get; set; }
+        public ICollection<UserPostLikesDto> LikedBy { get; set; }
+        public ICollection<UserPostCommentDto> Comments { get; set; }
 
     }
 }

@@ -15,5 +15,7 @@ namespace API._Interfaces
         Task<PostDto> GetPostDtoAsync(int postId);
         Task<bool> SaveChangesAsync();
         void AddPostAsync(Post post);
+
+        Task<UserPostCommentDto> AddCommentAsync(UserPostComment userPostComment);
     }
 }

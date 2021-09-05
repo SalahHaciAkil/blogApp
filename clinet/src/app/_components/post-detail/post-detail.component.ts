@@ -1,7 +1,8 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { CreateComment } from 'src/app/_interfaces/createComment';
 import { Pagination, PaginationResult } from 'src/app/_interfaces/pagination';
-import { Post } from 'src/app/_interfaces/Post';
+import { Comment, Post } from 'src/app/_interfaces/Post';
 import { PostService } from 'src/app/_services/post.service';
 
 @Component({
@@ -9,18 +10,20 @@ import { PostService } from 'src/app/_services/post.service';
   templateUrl: './post-detail.component.html',
   styleUrls: ['./post-detail.component.scss']
 })
-export class PostDetailComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class PostDetailComponent implements OnInit, AfterViewChecked {
   post: Post;
+  createComment: CreateComment = { postId: 0, comment: "" }
   userPosts: Post[] = [];
+  userComments: Comment[] = [];
 
   clickedPostId: number;
   postId: number;
   postrName: string;
 
   //pagination
-  pageNumber:number = 0; // it's update to 1 in the function ++this.pageNUmber
-  pageSize:number = 5;
-  pagination:Pagination;
+  pageNumber: number = 0; // it's update to 1 in the function ++this.pageNUmber
+  pageSize: number = 5;
+  pagination: Pagination;
 
   @ViewChild("postContent") postContentRef: ElementRef;
 
@@ -30,9 +33,6 @@ export class PostDetailComponent implements OnInit, AfterViewInit, AfterViewChec
   }
   ngAfterViewChecked(): void {
     this.postContentRef.nativeElement.innerHTML = this.post?.postContent;
-
-  }
-  ngAfterViewInit(): void {
 
   }
 
@@ -45,19 +45,24 @@ export class PostDetailComponent implements OnInit, AfterViewInit, AfterViewChec
     });
 
     this.getUserPost(this.postId);
-    this.getUserPosts(this.postrName);
+    this.getUserPosts();
 
 
 
 
   }
 
+  addComment() {
+    this.createComment.postId = this.postId;
+    
+    this.psotService.addComment(this.createComment).subscribe((comment:Comment)=>{
+      this.post.comments.push(comment);
+    })
+  }
 
 
 
-
-  private getUserPosts(postrName: string) {
-    debugger;
+  private getUserPosts() {
     this.psotService.getUserPosts(this.postrName, ++this.pageNumber, this.pageSize).subscribe((paginationResult: PaginationResult<Post[]>) => {
       let result = paginationResult.result.filter(x => {
         return x.id != this.postId;
@@ -66,9 +71,12 @@ export class PostDetailComponent implements OnInit, AfterViewInit, AfterViewChec
       this.pagination = paginationResult.pagination;
     })
   }
+
   private getUserPost(postId: number) {
     this.psotService.getPost(postId).subscribe((post: Post) => {
       this.post = post
+      this.userComments = post.comments;
+      debugger;
     });
   }
 

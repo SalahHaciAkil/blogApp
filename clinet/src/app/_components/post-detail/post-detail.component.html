@@ -33,6 +33,41 @@
                     </p>
                 </div>
 
+                <h2 class="mt-5 text-primary">Commnets: </h2>
+                <div class="comments mt-1 bg-light">
+                    <div *ngFor="let comment of userComments" class="comments_content  mb-4">
+                        <div class="cm1 d-flex">
+                            <div class="imageBox me-3">
+                                <img class="img-fluid" style="height: 100%;" [src]="comment.userPhoto" alt="photo">
+                            </div>
+                            <div class="commeter-info">
+                                <h2 id="name">{{comment.userName}}</h2>
+                                <p class="laed m-0" id="date">{{comment.commentTime | date}}</p>
+                                <p class="comment lead">
+                                    {{comment.comment}}
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="line"></div>
+                    </div>
+
+
+                    <form (ngSubmit)="addComment()" #form="ngForm">
+
+                        <div class="write-comment">
+                            <textarea [(ngModel)]="createComment.comment" class="form-control" name="comment" id=""
+                                cols="30" rows="10"></textarea>
+                        </div>
+
+                        <button type="submit" style="cursor: pointer;" class="pulse custom-btn mt-3">Publish</button>
+
+
+                    </form>
+
+                </div>
+
 
 
             </div>
