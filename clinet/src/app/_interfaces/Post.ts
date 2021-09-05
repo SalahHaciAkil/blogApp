@@ -6,6 +6,17 @@ export interface LikedBy {
     postId: number
 }
 
+export interface Comment {
+    id: number;
+    comment: string;
+    commentTime: Date;
+    userId: number;
+    userName: string;
+    userPhoto: string;
+    postId: number;
+
+}
+
 export interface Post {
     id: number;
     postTitle: string;
@@ -15,6 +26,7 @@ export interface Post {
     createdTime?: Data;
     photo?: string;
     likedBy?: Array<LikedBy>;
+    comments?: Array<Comment>;
 }
 
 

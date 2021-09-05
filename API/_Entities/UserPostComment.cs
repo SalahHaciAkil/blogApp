@@ -2,7 +2,7 @@ using System;
 
 namespace API._Entities
 {
-    public class UserPostComments
+    public class UserPostComment
     {
         public int Id { get; set; }
         public string Comment { get; set; }

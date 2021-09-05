@@ -35,7 +35,6 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts()
         {
-            var isAuth = User.Identity.IsAuthenticated;
 
             var posts = await this.postsRepo.GetPostsDtoAsync();
             return Ok(posts);
@@ -93,6 +92,33 @@ namespace API.Controllers
             if (posts == null) return BadRequest("Unvalid userName");
             Response.AddPaginationHeader(posts.CurrentPage, posts.PageSize, posts.TotalCount, posts.TotalPages);
             return Ok(posts);
+        }
+
+
+        [HttpPost("add-comment")]
+        public async Task<ActionResult<UserPostCommentDto>> AddComment(CreateCommentDto createCommentDto)
+        {
+            var postId = createCommentDto.PostId;
+            var comment = createCommentDto.Comment;
+            var userName = User.GetUserName();
+            var user = await this.userRepo.GetUserAsync(userName);
+            var post = await this.postsRepo.GetPostAsync(postId);
+
+            if (user == null || post == null) return BadRequest("User or post doesnot exisit");
+
+            var userPostComment = new UserPostComment
+            {
+                User = user,
+                UserName = user.UserName,
+                UserPhoto = user.Photo,
+                Post = post,
+                Comment = comment,
+            };
+
+            var userPostCommentDto = await this.postsRepo.AddCommentAsync(userPostComment);
+            if (await this.postsRepo.SaveChangesAsync()) return Ok(userPostCommentDto);
+            return BadRequest("Error while creating the comment");
+
         }
 
 

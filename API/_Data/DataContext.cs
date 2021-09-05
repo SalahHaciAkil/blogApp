@@ -45,11 +45,24 @@ namespace API._Data
                 .WithMany(x => x.LikesPost)
                 .HasForeignKey(x => x.UserId);
 
+
+
+            modelBuilder.Entity<UserPostComment>()
+                .HasOne(x => x.Post)
+                .WithMany(x => x.Comments)
+                .HasForeignKey(x => x.PostId);
+
+            modelBuilder.Entity<UserPostComment>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Comments)
+                .HasForeignKey(x => x.UserId);
+
         }
 
         public DbSet<AppUser> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<UserPostLikes> UsersPostLikes { get; set; }
+        public DbSet<UserPostComment> UsersPostComments { get; set; }
 
 
     }

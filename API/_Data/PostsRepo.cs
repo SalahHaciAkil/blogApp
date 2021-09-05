@@ -27,6 +27,7 @@ namespace API._Data
         {
             var posts = await this.context.Posts
                 .Include(x => x.LikedBy)
+                .Include(x => x.Comments)
                 .ProjectTo<PostDto>(this.autoMapepr.ConfigurationProvider)
                 .ToListAsync();
 
@@ -44,19 +45,22 @@ namespace API._Data
 
 
         public async Task<Post> GetPostAsync(int postId)
-        {
-            var post = await this.context.Posts
-                .Include(x => x.LikedBy)
-                .FirstOrDefaultAsync(x => x.Id == postId);
+        {                           
+            var post = await this.context.Posts                                                                           
+                .Include(x => x.LikedBy)                                                                
+                .Include(x => x.Comments)                                                              
+                .FirstOrDefaultAsync(x => x.Id == postId);  
 
-            return post;
+            return post;                            
 
         }
 
         public async Task<PostDto> GetPostDtoAsync(int postId)
         {
             var post = await this.context.Posts
-                .Include(x => x.LikedBy).ProjectTo<PostDto>(this.autoMapepr.ConfigurationProvider)
+                .Include(x => x.LikedBy)
+                .Include(x => x.Comments)
+                .ProjectTo<PostDto>(this.autoMapepr.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == postId);
 
             return post;
@@ -71,12 +75,16 @@ namespace API._Data
 
 
 
-
-
         public async Task<bool> SaveChangesAsync()
         {
             if (await this.context.SaveChangesAsync() > 0) return true;
             return false;
+        }
+
+        public async Task<UserPostCommentDto> AddCommentAsync(UserPostComment userPostComment)
+        {
+            await this.context.UsersPostComments.AddAsync(userPostComment);
+            return this.autoMapepr.Map<UserPostCommentDto>(userPostComment);
         }
     }
 }

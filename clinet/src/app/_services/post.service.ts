@@ -5,6 +5,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { getPaginationHeaders, getPaginationResult } from '../_helpers/PaginationRequest';
+import { CreateComment } from '../_interfaces/createComment';
 import { PaginationResult } from '../_interfaces/pagination';
 import { Post } from '../_interfaces/Post';
 
@@ -12,6 +13,7 @@ import { Post } from '../_interfaces/Post';
   providedIn: 'root'
 })
 export class PostService {
+
 
   postsCaches = new Map();
 
@@ -89,8 +91,13 @@ export class PostService {
   // https://localhost:5001/api/Users/add-like/10
 
 
-  likePost(postId:number){
-    return this.http.post(`${this.baseUrl}Users/add-like/${postId}`,{});
+  likePost(postId: number) {
+    return this.http.post(`${this.baseUrl}Users/add-like/${postId}`, {});
+  }
+  //https://localhost:5001/api/Posts/add-comment
+
+  addComment(createComment: CreateComment) {
+    return this.http.post(`${this.baseUrl}posts/add-comment`, createComment);
   }
 
 
