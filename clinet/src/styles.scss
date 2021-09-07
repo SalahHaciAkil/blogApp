@@ -1,9 +1,14 @@
 
 
 @import './custom_style/custom';
+html{
+    scroll-behavior: smooth;
 
+}
 body{
     font-family: 'Poppins', sans-serif;
+    height: 100%; 
+    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 *{
@@ -18,8 +23,6 @@ section{
     padding-top: 50px;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 mat-dialog-container{
     background: white !important;
 

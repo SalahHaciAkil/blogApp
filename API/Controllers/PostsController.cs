@@ -5,6 +5,7 @@ using API._Data;
 using API._DTOs;
 using API._Entities;
 using API._Extensions;
+using API._Helpers;
 using API._Interfaces;
 using API.Helpers;
 using AutoMapper;
@@ -33,10 +34,10 @@ namespace API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts()
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts([FromQuery] PostParams postParams)
         {
-
-            var posts = await this.postsRepo.GetPostsDtoAsync();
+            var posts = await this.postsRepo.GetPostsDtoAsync(postParams);
+            Response.AddPaginationHeader(posts.CurrentPage, posts.PageSize, posts.TotalCount, posts.TotalPages);
             return Ok(posts);
         }
 

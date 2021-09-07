@@ -15,7 +15,8 @@ import { Post } from '../_interfaces/Post';
 export class PostService {
 
 
-  postsCaches = new Map();
+  UserPostsChaches = new Map();
+  postsChaches = new Map();
 
   baseUrl = environment.apiUrl;
   private postsThreadSource = new BehaviorSubject<Post[]>([]);
@@ -39,7 +40,7 @@ export class PostService {
     return this.http.post<Post>(this.baseUrl + "posts", post).pipe(
       map(data => {
         const post = data;
-        debugger;
+        
         if (post) {
           this.posts.unshift(post);
           this.setCurrentPostSource(this.posts);
@@ -51,16 +52,16 @@ export class PostService {
 
   getUserPosts(postrName: string, pageNumber: number, pageSize: number) {
     let keyMap = `${postrName}_${pageNumber}_${pageSize}`;
-    if (this.postsCaches.has(keyMap)) {
-      return of(this.postsCaches.get(keyMap))
+    if (this.UserPostsChaches.has(keyMap)) {
+      return of(this.UserPostsChaches.get(keyMap))
     }
 
     let httpPatams = getPaginationHeaders(pageNumber, pageSize);
     const paginationResult = getPaginationResult<Post[]>(this.http, `${this.baseUrl}posts/${postrName}`, httpPatams);
-    debugger;
+    
     return paginationResult.pipe(
       map(paginationResult => {
-        this.postsCaches.set(keyMap, paginationResult);
+        this.UserPostsChaches.set(keyMap, paginationResult);
         return paginationResult;
       })
     );
@@ -68,23 +69,43 @@ export class PostService {
   }
 
 
-  getPosts() {
+  getPosts(pageNumber: number, pageSize: number) {
 
+    let postsMapKey = this.getPostsMapKey(pageNumber, pageSize)
+    if (this.postsChaches.has(postsMapKey)) {
+      return of(this.postsChaches.get(postsMapKey));
+    }
 
-    if (this.posts.length != 0) return of(this.posts);
-
-    return this.http.get<Post[]>(this.baseUrl + "posts").pipe(
-      map((data: Post[]) => {
-        const posts = data;
-        debugger;
-        if (posts) {
-          this.posts = posts
-          this.setCurrentPostSource(posts);
-        }
-
-        return data;
+    let httpParams = getPaginationHeaders(pageNumber, pageSize);
+    const paginationResult = getPaginationResult(this.http, `${this.baseUrl}posts`, httpParams);
+    return paginationResult.pipe(
+      map((paginationResult: PaginationResult<Post[]>) => {
+        this.posts = [...this.posts, ...paginationResult.result];
+        this.postsChaches.set(this.getPostsMapKey(pageNumber, pageSize), paginationResult)
+        return paginationResult;
       })
     )
+
+
+
+    // if (this.posts.length != 0) return of(this.posts);
+
+    // return this.http.get<PaginationResult<Post[]>>(this.baseUrl + "posts").pipe(
+    //   map((paginationResult: PaginationResult<Post[]>) => {
+    //     const posts = data;
+    //     
+    //     if (posts) {
+    //       this.posts = posts
+    //       this.setCurrentPostSource(posts);
+    //     }
+
+    //     return data;
+    //   })
+    // )
+  }
+  getPostsMapKey(pageNumber: number, pageSize: number): string {
+    let key = `${pageNumber}_${pageSize}`;
+    return key;
   }
 
   // [HttpPost("add-like/{postId}")]

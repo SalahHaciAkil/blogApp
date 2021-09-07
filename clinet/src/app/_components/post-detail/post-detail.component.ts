@@ -1,6 +1,7 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { CreateComment } from 'src/app/_interfaces/createComment';
+// import { CreateComment } from 'src/app/_interfaces/createComment';
 import { Pagination, PaginationResult } from 'src/app/_interfaces/pagination';
 import { Comment, Post } from 'src/app/_interfaces/Post';
 import { PostService } from 'src/app/_services/post.service';
@@ -52,11 +53,12 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
 
   }
 
-  addComment() {
+  addComment(form) {
     this.createComment.postId = this.postId;
-    
-    this.psotService.addComment(this.createComment).subscribe((comment:Comment)=>{
+
+    this.psotService.addComment(this.createComment).subscribe((comment: Comment) => {
       this.post.comments.push(comment);
+      form.reset();
     })
   }
 
@@ -76,12 +78,15 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
     this.psotService.getPost(postId).subscribe((post: Post) => {
       this.post = post
       this.userComments = post.comments;
-      debugger;
     });
   }
 
   onPostClicked(postrName: string, postId: number) {
     this.router.navigateByUrl(`/post-detail/${postrName}/${postId}`);
+  }
+
+  scroll(el: HTMLElement) {
+    el.scrollIntoView();
   }
 
 }

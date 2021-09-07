@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API._DTOs;
 using API._Entities;
+using API._Helpers;
 using API._Interfaces;
 using API.Helpers;
 using AutoMapper;
@@ -23,18 +24,26 @@ namespace API._Data
             this.autoMapepr = autoMapepr;
         }
 
-        public async Task<IEnumerable<PostDto>> GetPostsDtoAsync()
+        public async Task<PagedList<PostDto>> GetPostsDtoAsync(PostParams postParams)
         {
-            var posts = await this.context.Posts
+            var postsQuery = this.context.Posts
+                .OrderByDescending(x => x.CreatedTime)
                 .Include(x => x.LikedBy)
                 .Include(x => x.Comments)
-                .ProjectTo<PostDto>(this.autoMapepr.ConfigurationProvider)
-                .ToListAsync();
+                .AsNoTracking();
+
+            var posts = await PagedList<PostDto>.CreateAsync(
+                postsQuery.ProjectTo<PostDto>(this.autoMapepr.ConfigurationProvider), postParams.PageNumber, postParams.PageSize);
+
 
             return posts;
+            // .ProjectTo<PostDto>(this.autoMapepr.ConfigurationProvider)
+            // .ToListAsync();
+
+            // return posts;
         }
 
-        public async Task<PagedList<PostDto>> GetUserPostsDtoAsync(string userName, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<PagedList<PostDto>> GetUserPostsDtoAsync(string userName, int pageNumber, int pageSize)
         {
             var query = this.context.Posts.Where(p => p.PostrName == userName).OrderByDescending(x => x.CreatedTime).AsNoTracking();
             if (query == null) return null;
@@ -45,13 +54,13 @@ namespace API._Data
 
 
         public async Task<Post> GetPostAsync(int postId)
-        {                           
-            var post = await this.context.Posts                                                                           
-                .Include(x => x.LikedBy)                                                                
-                .Include(x => x.Comments)                                                              
-                .FirstOrDefaultAsync(x => x.Id == postId);  
+        {
+            var post = await this.context.Posts
+                .Include(x => x.LikedBy)
+                .Include(x => x.Comments)
+                .FirstOrDefaultAsync(x => x.Id == postId);
 
-            return post;                            
+            return post;
 
         }
 

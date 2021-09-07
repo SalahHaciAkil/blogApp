@@ -7,8 +7,6 @@ export function getPaginationHeaders(pageNumber:number, pageSize:number){
 
     httpParams = httpParams.append('pageNumber', pageNumber);
     httpParams = httpParams.append('pageSize', pageSize);
-    debugger;
-
     return httpParams;
 }
 
@@ -22,7 +20,6 @@ export function getPaginationResult<T>(http:HttpClient, url:string, httpParams:H
             if( paginationHeader != null){
                 paginatedResult.pagination = JSON.parse(paginationHeader);
             }
-            debugger;
             return paginatedResult;
         })
     )

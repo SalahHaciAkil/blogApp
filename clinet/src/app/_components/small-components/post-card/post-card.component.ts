@@ -26,7 +26,6 @@ export class PostCardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.getCurrentUser();
 
   }

@@ -6,6 +6,14 @@
                     <div class="post-title">
                         <h1 class="fw-light display-4">{{post?.postTitle}}</h1>
                     </div>
+
+                    <div class="scroll-comment bg-primary">
+                        <button class="fs-2 fa fa-comments-o btn text-light" aria-hidden="true"
+                            (click)="scroll(comments)">
+                        </button>
+                    </div>
+
+
                     <div class="postr-info d-flex pt-3">
                         <div class="imgBx me-2">
                             <img *ngIf="post?.photo" class="img-fluid bg-primary" [src]="post?.postrPhoto"
@@ -40,31 +48,31 @@
                             <div class="imageBox me-3">
                                 <img class="img-fluid" style="height: 100%;" [src]="comment.userPhoto" alt="photo">
                             </div>
-                            <div class="commeter-info">
-                                <h2 id="name">{{comment.userName}}</h2>
+                            <div  class="commeter-info">
+                                <h2 id="name">{{comment.userName}}{{i}}</h2>
                                 <p class="laed m-0" id="date">{{comment.commentTime | date}}</p>
                                 <p class="comment lead">
                                     {{comment.comment}}
                                 </p>
                             </div>
 
+
                         </div>
 
                         <div class="line"></div>
                     </div>
-
-
-                    <form (ngSubmit)="addComment()" #form="ngForm">
+                    <form  #comments (ngSubmit)="addComment(form)" #form="ngForm">
 
                         <div class="write-comment">
                             <textarea [(ngModel)]="createComment.comment" class="form-control" name="comment" id=""
-                                cols="30" rows="10"></textarea>
+                                cols="30" rows="10" placeholder="Write your comment here..."></textarea>
                         </div>
 
                         <button type="submit" style="cursor: pointer;" class="pulse custom-btn mt-3">Publish</button>
 
 
                     </form>
+
 
                 </div>
 
