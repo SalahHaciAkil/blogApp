@@ -17,7 +17,7 @@ export class BusyInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.spinner.play();
     return next.handle(request).pipe(
-      delay(500),
+      delay(1000),
       finalize(() => {
         this.spinner.hide();
       })

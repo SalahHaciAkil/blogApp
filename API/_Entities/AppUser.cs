@@ -20,6 +20,8 @@ namespace API._Entities
         public ICollection<Post> Posts { get; set; }
         public ICollection<UserPostLikes> LikesPost { get; set; }
         public ICollection<UserPostComment> Comments { get; set; }
+        // public ICollection<UserActivities> SourceActivites { get; set; }
+        // public ICollection<UserActivities> DestinationActivites { get; set; }
 
     }
 }

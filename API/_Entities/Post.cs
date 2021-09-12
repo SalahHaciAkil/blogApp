@@ -14,6 +14,7 @@ namespace API._Entities
         public string Photo { get; set; }
         public string PhotoPublicId { get; set; }
         public AppUser User { get; set; }
+        public int UserId { get; set; }
         public ICollection<UserPostLikes> LikedBy { get; set; }
         public ICollection<UserPostComment> Comments { get; set; }
 

@@ -57,12 +57,28 @@ namespace API._Data
                 .WithMany(x => x.Comments)
                 .HasForeignKey(x => x.UserId);
 
+
+            // modelBuilder.Entity<UserActivities>()
+            // .HasOne(x => x.FromUser)
+            // .WithMany(x => x.SourceActivites)
+            // .HasForeignKey(x => x.FromUserId)
+            // .OnDelete(DeleteBehavior.Cascade);
+
+
+
+            // modelBuilder.Entity<UserActivities>()
+            // .HasOne(x => x.ToUser)
+            // .WithMany(x => x.DestinationActivites)
+            // .HasForeignKey(x => x.ToUserId)
+            // .OnDelete(DeleteBehavior.Cascade);
+
         }
 
         public DbSet<AppUser> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<UserPostLikes> UsersPostLikes { get; set; }
         public DbSet<UserPostComment> UsersPostComments { get; set; }
+        // public DbSet<UserActivities> UsersActivities { get; set; }
 
 
     }

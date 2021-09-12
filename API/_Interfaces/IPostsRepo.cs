@@ -12,11 +12,20 @@ namespace API._Interfaces
     {
         Task<PagedList<PostDto>> GetPostsDtoAsync(PostParams postParams);
         Task<PagedList<PostDto>> GetUserPostsDtoAsync(string userName, int pageNumber, int PageSize);
+
+
         Task<Post> GetPostAsync(int postId);
         Task<PostDto> GetPostDtoAsync(int postId);
         Task<bool> SaveChangesAsync();
         void AddPostAsync(Post post);
 
-        Task<UserPostCommentDto> AddCommentAsync(UserPostComment userPostComment);
+        Task AddCommentAsync(UserPostComment userPostComment);
+
+        Task<UserPostComment> GetCommentAsync(int commentId);
+        void DeleteComment(UserPostComment userPostComment);
+        Task<IEnumerable<UserPostLikes>> GetLikeActivitiesAsync(string userName);
+        Task<IEnumerable<UserPostComment>> GetCommentActivitiesAsync(string userName);
+        // Task AddActivityAsync(UserActivities userActivities);
+
     }
 }

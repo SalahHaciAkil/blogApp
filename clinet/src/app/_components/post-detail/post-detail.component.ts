@@ -4,7 +4,10 @@ import { CreateComment } from 'src/app/_interfaces/createComment';
 // import { CreateComment } from 'src/app/_interfaces/createComment';
 import { Pagination, PaginationResult } from 'src/app/_interfaces/pagination';
 import { Comment, Post } from 'src/app/_interfaces/Post';
+import { User } from 'src/app/_interfaces/User';
+import { AccountService } from 'src/app/_services/account.service';
 import { PostService } from 'src/app/_services/post.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-post-detail',
@@ -26,10 +29,13 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
   pageSize: number = 5;
   pagination: Pagination;
 
+  //CurrentUser
+  user: User;
+
   @ViewChild("postContent") postContentRef: ElementRef;
 
   constructor(private psotService: PostService, private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router, private accountService: AccountService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => { return false };
   }
   ngAfterViewChecked(): void {
@@ -47,10 +53,16 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
 
     this.getUserPost(this.postId);
     this.getUserPosts();
+    this.getCurrentUser();
 
 
 
 
+  }
+  getCurrentUser() {
+    this.accountService.currentUser$.subscribe(user => {
+      this.user = user;
+    })
   }
 
   addComment(form) {
@@ -89,4 +101,24 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
     el.scrollIntoView();
   }
 
+
+
+  deleteComment(commentId:number) {
+    Swal.fire({
+      title: `Are you sure you want to delete the your comment?`,
+      showDenyButton: true,
+      confirmButtonText: `Yes`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.psotService.deleteComment(commentId).subscribe(() => {
+          this.userComments.splice(this.userComments.findIndex(m => m.id === commentId), 1);
+          Swal.fire('Deleted!', '', 'success')
+        })
+      } else if (result.isDenied) {
+      }
+    })
+
+  }
 }

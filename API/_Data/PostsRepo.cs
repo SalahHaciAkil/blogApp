@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API._DTOs;
 using API._Entities;
+using API._Extensions;
 using API._Helpers;
 using API._Interfaces;
 using API.Helpers;
@@ -90,10 +91,50 @@ namespace API._Data
             return false;
         }
 
-        public async Task<UserPostCommentDto> AddCommentAsync(UserPostComment userPostComment)
+        public async Task AddCommentAsync(UserPostComment userPostComment)
         {
             await this.context.UsersPostComments.AddAsync(userPostComment);
-            return this.autoMapepr.Map<UserPostCommentDto>(userPostComment);
+            // return this.autoMapepr.Map<UserPostCommentDto>(userPostComment);
         }
+
+        public async Task<IEnumerable<UserPostLikes>> GetLikeActivitiesAsync(string userName)
+        {
+            var userPostLikes = await this.context.UsersPostLikes
+            .Where(x => x.PostrName == userName && x.Read == false)
+            .MarkPostLikeRead()
+            .ToListAsync();
+
+            return userPostLikes;
+        }
+
+        public async Task<IEnumerable<UserPostComment>> GetCommentActivitiesAsync(string userName)
+        {
+            var userPostComments = await this.context.UsersPostComments
+            .Where(x => x.PostrName == userName && x.Read == false)
+            .MarkPostCommentRead()
+            .ToListAsync();
+
+
+            return userPostComments;
+        }
+
+        public void DeleteComment(UserPostComment userPostComment)
+        {
+            this.context.UsersPostComments.Remove(userPostComment);
+        }
+
+        public async Task<UserPostComment> GetCommentAsync(int commentId)
+        {
+           var comment = await this.context.UsersPostComments.FindAsync(commentId);
+           return comment;
+        }
+
+
+
+        // public async Task AddActivityAsync(UserActivities userActivities)
+        // {
+        //     await this.context.UsersActivities.AddAsync(userActivities);
+        // }
+
     }
 }

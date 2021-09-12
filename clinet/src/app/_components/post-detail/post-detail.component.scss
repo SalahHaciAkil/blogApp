@@ -13,8 +13,8 @@ section{
         position: fixed;
         bottom: 0.6rem;
         right: 1rem;
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         overflow: hidden;
         text-align: center;
@@ -66,7 +66,6 @@ section{
 
 
     .end-sec{
-
         
         border-inline-start: 1px solid rgba(0, 0, 0, 0.103);
         border-top: 1px solid $primary;
@@ -107,6 +106,22 @@ section{
 .comments{
     box-shadow: 1px -2px 1px 1px rgba(0, 0, 0, 0.075);
     row-gap: 20px;
+
+
+    .comment_content{
+        position: relative;
+        .edit-remove{
+            position: absolute;
+            top: 5px;
+            right: 10px;
+
+            i{
+                cursor: pointer;
+            }
+        }
+    
+    }
+
 
 
     .line{

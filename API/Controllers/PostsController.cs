@@ -13,6 +13,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace API.Controllers
 {
@@ -65,9 +66,8 @@ namespace API.Controllers
                 User = user,
             };
             this.postsRepo.AddPostAsync(post);
-            var postResult = this.autpMapper.Map<PostDto>(post);
             if (await this.postsRepo.SaveChangesAsync())
-                return Ok(postResult);
+                return Ok(this.autpMapper.Map<PostDto>(post));
             return BadRequest("Error while creating the post");
 
         }
@@ -96,6 +96,56 @@ namespace API.Controllers
         }
 
 
+
+
+
+        [HttpPost("add-like/{postId}")]
+
+        public async Task<ActionResult> AddLike(int postId)
+        {
+
+
+            var userName = User.GetUserName();
+
+            var user = await this.userRepo.GetUserAsync(userName);
+
+            var post = await this.postsRepo.GetPostAsync(postId);
+
+            if (post.UserId == user.Id) return BadRequest("You can't like your post");
+
+            if (user == null || post == null) return BadRequest("User or Post doesnot exisit");
+
+            var userPostLikes = new UserPostLikes
+            {
+                User = user,
+                Post = post,
+                PostrName = post.PostrName,
+                PostrId = post.UserId
+            };
+
+
+            await this.userRepo.AddUserPostLike(userPostLikes);
+            if (await this.userRepo.SaveChangesAsync())
+            {
+                return Ok();
+            }
+            return BadRequest("Couldn't save the changes");
+
+        }
+
+        [HttpGet("like-activity")]
+        public async Task<ActionResult<IEnumerable<UserPostLikesDto>>> GetLikeActivities()
+        {
+            var userName = User.GetUserName();
+            var userPostLikes = await this.postsRepo.GetLikeActivitiesAsync(userName);
+            if (await this.postsRepo.SaveChangesAsync())
+            {
+                return Ok(this.autpMapper.Map<UserPostLikesDto[]>(userPostLikes));
+            }
+
+            return NoContent();
+        }
+
         [HttpPost("add-comment")]
         public async Task<ActionResult<UserPostCommentDto>> AddComment(CreateCommentDto createCommentDto)
         {
@@ -114,11 +164,56 @@ namespace API.Controllers
                 UserPhoto = user.Photo,
                 Post = post,
                 Comment = comment,
+                PostrName = post.PostrName,
+                PostrId = post.UserId,
             };
-
-            var userPostCommentDto = await this.postsRepo.AddCommentAsync(userPostComment);
-            if (await this.postsRepo.SaveChangesAsync()) return Ok(userPostCommentDto);
+            await this.postsRepo.AddCommentAsync(userPostComment);
+            if (await this.postsRepo.SaveChangesAsync())
+            {
+                return Ok(this.autpMapper.Map<UserPostCommentDto>(userPostComment));
+            }
             return BadRequest("Error while creating the comment");
+
+        }
+
+
+
+
+        [HttpGet("comment-activities")]
+        public async Task<ActionResult<IEnumerable<UserPostLikesDto>>> GetCommentActivities()
+        {
+            var userName = User.GetUserName();
+            var userPostComment = await this.postsRepo.GetCommentActivitiesAsync(userName);
+            if (await this.postsRepo.SaveChangesAsync())
+            {
+                return Ok(this.autpMapper.Map<UserPostCommentDto[]>(userPostComment));
+            }
+
+            return NoContent();
+        }
+
+
+        [HttpDelete("{commentId}")]
+        public async Task<ActionResult> DeleteComment(int commentId)
+        {
+            var userId = User.GetUserId();
+            var comment = await this.postsRepo.GetCommentAsync(commentId);
+            if (comment is null) return BadRequest("Comment doesNot exisit");
+            if (comment.UserId != userId) return BadRequest("You cannot delete other users comments");
+
+
+            this.postsRepo.DeleteComment(comment);
+            if (await this.postsRepo.SaveChangesAsync())
+            {
+                return Ok();
+            }
+
+            return BadRequest("Unexpected Error occured");
+
+
+
+
+
 
         }
 

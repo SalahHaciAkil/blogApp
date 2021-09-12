@@ -5,7 +5,6 @@
 
 .navbar{
     @include gradient;
-    padding: 20px;
     &-brand{
         font-family: fantasy;
         font-size: 2rem;
@@ -40,3 +39,16 @@
 
 }
 
+.notification_icon{
+    position: relative;
+    cursor: pointer;
+
+    .circle{
+        position: absolute;
+        top: -8px;
+        left: 11px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+}

@@ -46,43 +46,6 @@ namespace API.Controllers
         }
 
 
-        [HttpPost("add-like/{postId}")]
-
-        public async Task<ActionResult> AddLike(int postId)
-        {
-
-
-            var userName = User.GetUserName();
-
-            var user = await this.userRepo.GetUserAsync(userName);
-            var post = await this.postsRepo.GetPostAsync(postId);
-
-            if (user == null || post == null) return BadRequest("User or Post doesnot exisit");
-
-            var userPostLikes = new UserPostLikes
-            {
-                User = user,
-                Post = post,
-                PostrName = userName,
-            };
-
-
-            await this.userRepo.AddUserPostLike(userPostLikes);
-            if (await this.userRepo.SaveChangesAsync())
-            {
-                return Ok();
-            }
-            return BadRequest("Couldn't save the changes");
-
-
-
-
-
-        }
-
-
-
-
-
+        
     }
 }

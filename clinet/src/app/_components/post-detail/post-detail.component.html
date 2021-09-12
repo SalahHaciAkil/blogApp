@@ -7,7 +7,7 @@
                         <h1 class="fw-light display-4">{{post?.postTitle}}</h1>
                     </div>
 
-                    <div class="scroll-comment bg-primary">
+                    <div class="scroll-comment bg-primary d-flex justify-content-center align-items-center">
                         <button class="fs-2 fa fa-comments-o btn text-light" aria-hidden="true"
                             (click)="scroll(comments)">
                         </button>
@@ -43,12 +43,17 @@
 
                 <h2 class="mt-5 text-primary">Commnets: </h2>
                 <div class="comments mt-1 bg-light">
-                    <div *ngFor="let comment of userComments" class="comments_content  mb-4">
+                    <div *ngFor="let comment of userComments" class="comment_content  mb-4">
+                        <div *ngIf="user.id == comment.userId" class="edit-remove">
+                            <i class="fa fa-edit fs-5 me-1 text-primary" aria-hidden="true"></i>
+                            <i (click)="deleteComment(comment.id)" class="fa fa-trash fs-5 text-danger"
+                                aria-hidden="true"></i>
+                        </div>
                         <div class="cm1 d-flex">
                             <div class="imageBox me-3">
                                 <img class="img-fluid" style="height: 100%;" [src]="comment.userPhoto" alt="photo">
                             </div>
-                            <div  class="commeter-info">
+                            <div class="commeter-info">
                                 <h2 id="name">{{comment.userName}}{{i}}</h2>
                                 <p class="laed m-0" id="date">{{comment.commentTime | date}}</p>
                                 <p class="comment lead">
@@ -61,7 +66,7 @@
 
                         <div class="line"></div>
                     </div>
-                    <form  #comments (ngSubmit)="addComment(form)" #form="ngForm">
+                    <form #comments (ngSubmit)="addComment(form)" #form="ngForm">
 
                         <div class="write-comment">
                             <textarea [(ngModel)]="createComment.comment" class="form-control" name="comment" id=""
@@ -101,22 +106,3 @@
         </div>
     </div>
 </section>
-
-
-<!-- <div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
-    <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
-
-    <a class="fs-5 text-primary">wanna asd asd asd sa dsa das d asd asd change the world ?</a>
-
-</div>
-<div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
-    <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
-
-    <a class="fs-5 text-primary">how to speak</a>
-</div>
-<div style="cursor: pointer;" class="col-6 col-md-12 col-lg-6">
-    <img class="img-fluid" src="../../../assets/images/blog-2.jpg" alt="">
-
-    <a class="fs-5 text-primary">wanna change the world ?</a>
-
-</div> -->

@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { QuillModule } from 'ngx-quill';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 
 
 import { MatButtonModule } from '@angular/material/button'
@@ -52,6 +54,7 @@ import { PostDetailComponent } from './_components/post-detail/post-detail.compo
     QuillModule,
     NgxSpinnerModule,
     AngularMaterialModule,
+    SweetAlert2Module,
     SharedModule,
 
   ],

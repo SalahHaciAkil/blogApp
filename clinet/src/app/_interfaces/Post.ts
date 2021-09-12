@@ -3,6 +3,7 @@ import { Data } from "@angular/router";
 export interface LikedBy {
     userId: number;
     postrName: string;
+    postrId:string;
     postId: number
 }
 
@@ -14,6 +15,8 @@ export interface Comment {
     userName: string;
     userPhoto: string;
     postId: number;
+    postrId:number;
+    postrName:string;
 
 }
 

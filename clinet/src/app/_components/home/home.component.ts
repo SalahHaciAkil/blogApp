@@ -32,6 +32,11 @@ export class HomeComponent implements OnInit {
     this.postService.getPosts(++this.pageNumber, this.pageSize).subscribe((paginationResult: PaginationResult<Post[]>) => {
       this.posts = [...this.posts, ...paginationResult.result];
       this.pagination = paginationResult.pagination;
+
+      for (const post of this.posts) {
+        console.log(post.id);
+
+      }
     })
   }
 

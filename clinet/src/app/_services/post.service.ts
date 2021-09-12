@@ -15,6 +15,7 @@ import { Post } from '../_interfaces/Post';
 export class PostService {
 
 
+
   UserPostsChaches = new Map();
   postsChaches = new Map();
 
@@ -40,11 +41,12 @@ export class PostService {
     return this.http.post<Post>(this.baseUrl + "posts", post).pipe(
       map(data => {
         const post = data;
-        
         if (post) {
           this.posts.unshift(post);
           this.setCurrentPostSource(this.posts);
         }
+
+        debugger;
         return data;
       })
     );
@@ -58,7 +60,7 @@ export class PostService {
 
     let httpPatams = getPaginationHeaders(pageNumber, pageSize);
     const paginationResult = getPaginationResult<Post[]>(this.http, `${this.baseUrl}posts/${postrName}`, httpPatams);
-    
+
     return paginationResult.pipe(
       map(paginationResult => {
         this.UserPostsChaches.set(keyMap, paginationResult);
@@ -81,6 +83,7 @@ export class PostService {
     return paginationResult.pipe(
       map((paginationResult: PaginationResult<Post[]>) => {
         this.posts = [...this.posts, ...paginationResult.result];
+        this.setCurrentPostSource(this.posts);
         this.postsChaches.set(this.getPostsMapKey(pageNumber, pageSize), paginationResult)
         return paginationResult;
       })
@@ -113,12 +116,16 @@ export class PostService {
 
 
   likePost(postId: number) {
-    return this.http.post(`${this.baseUrl}Users/add-like/${postId}`, {});
+    return this.http.post(`${this.baseUrl}posts/add-like/${postId}`, {});
   }
   //https://localhost:5001/api/Posts/add-comment
 
   addComment(createComment: CreateComment) {
     return this.http.post(`${this.baseUrl}posts/add-comment`, createComment);
+  }
+//https://localhost:5001/api/Posts/5
+  deleteComment(commentId: number) {
+    return this.http.delete(`${this.baseUrl}posts/${commentId}`);
   }
 
 
