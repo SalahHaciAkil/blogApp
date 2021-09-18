@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { config } from "../../node_modules/@fortawesome/fontawesome-free/"
 import { AccountService } from './_services/account.service';
 
@@ -12,7 +13,6 @@ export class AppComponent implements OnInit {
 
 
   constructor(private accountService: AccountService) {
-
   }
   ngOnInit(): void {
     this.setCurrentUser()

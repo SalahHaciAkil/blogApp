@@ -57,7 +57,7 @@ export class PostCardComponent implements OnInit, AfterViewInit {
       this.class = "fa fa-heart";
       this.toast.success(`You liked ${this.post.postrName} post`);
     }, error => {
-      this.toast.error(error)
+      this.toast.error(error.error)
     })
   }
 

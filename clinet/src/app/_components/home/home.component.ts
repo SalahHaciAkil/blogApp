@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { Pagination, PaginationResult } from 'src/app/_interfaces/pagination';
-import { Post } from 'src/app/_interfaces/Post';
+import { Like, Post } from 'src/app/_interfaces/Post';
 import { PostService } from 'src/app/_services/post.service';
 
 @Component({
@@ -20,9 +22,15 @@ export class HomeComponent implements OnInit {
 
   posts: Array<Post> = [];
   pagination: Pagination;
-  // paginationResult:PaginationResult<Post[]> = new PaginationResult<Post[]>() ;
 
-  constructor(private http: HttpClient, public postService: PostService) { }
+  //Activities
+  likes: Array<Like> = [];
+  comments: Array<Comment> = [];
+
+
+  constructor(private http: HttpClient, public postService: PostService) {
+
+  }
 
   ngOnInit(): void {
     this.loadPosts();
@@ -32,11 +40,6 @@ export class HomeComponent implements OnInit {
     this.postService.getPosts(++this.pageNumber, this.pageSize).subscribe((paginationResult: PaginationResult<Post[]>) => {
       this.posts = [...this.posts, ...paginationResult.result];
       this.pagination = paginationResult.pagination;
-
-      for (const post of this.posts) {
-        console.log(post.id);
-
-      }
     })
   }
 

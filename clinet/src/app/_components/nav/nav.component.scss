@@ -3,6 +3,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
 
+.line{
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.295)
+}
+
 .navbar{
     @include gradient;
     &-brand{
@@ -43,6 +49,27 @@
     position: relative;
     cursor: pointer;
 
+    .menu{
+    width: 20rem;
+    transition: .3s;
+    /* width: 100%; */
+    position: absolute;
+    top: 4.4rem;
+    right: -0.5rem;
+    background-color: #6b00a2f7;
+    border-radius: 1rem;
+    transform: rotateY(
+90deg);
+    visibility: hidden;
+
+    .like-info{
+        flex: 1;
+        .notification-date{
+            color: rgb(167, 167, 167);   
+        }
+    }
+    }
+
     .circle{
         position: absolute;
         top: -8px;
@@ -52,3 +79,23 @@
         border-radius: 50%;
     }
 }
+
+.another-nav{
+    .nav-item{
+        background-color: #46007b;
+        border-radius: 2rem;
+        padding: 0.4rem;
+        transition: background-color .3s;
+
+        
+
+        &:hover{
+
+            @include gradient;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+  }

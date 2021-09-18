@@ -67,7 +67,6 @@ export class PostService {
         return paginationResult;
       })
     );
-    // return this.http.get(`${this.baseUrl}/${postrName}`, { observe: 'response', params: httpPatams });
   }
 
 
@@ -89,22 +88,6 @@ export class PostService {
       })
     )
 
-
-
-    // if (this.posts.length != 0) return of(this.posts);
-
-    // return this.http.get<PaginationResult<Post[]>>(this.baseUrl + "posts").pipe(
-    //   map((paginationResult: PaginationResult<Post[]>) => {
-    //     const posts = data;
-    //     
-    //     if (posts) {
-    //       this.posts = posts
-    //       this.setCurrentPostSource(posts);
-    //     }
-
-    //     return data;
-    //   })
-    // )
   }
   getPostsMapKey(pageNumber: number, pageSize: number): string {
     let key = `${pageNumber}_${pageSize}`;
@@ -123,11 +106,23 @@ export class PostService {
   addComment(createComment: CreateComment) {
     return this.http.post(`${this.baseUrl}posts/add-comment`, createComment);
   }
-//https://localhost:5001/api/Posts/5
+  //https://localhost:5001/api/Posts/5
   deleteComment(commentId: number) {
     return this.http.delete(`${this.baseUrl}posts/${commentId}`);
   }
 
+
+  //https://localhost:5001/api/Posts/like-activity
+
+  loadLikeUserActivities() {
+    return this.http.get(`${this.baseUrl}posts/like-activity`);
+  }
+
+  //https://localhost:5001/api/Posts/comment-activities
+
+  loadCommentUserActivities() {
+    return this.http.get(`${this.baseUrl}posts/comment-activities`);
+  }
 
   setCurrentPostSource(posts: Post[]) {
     this.postsThreadSource.next(posts);

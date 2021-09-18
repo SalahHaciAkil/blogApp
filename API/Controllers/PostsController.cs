@@ -120,7 +120,9 @@ namespace API.Controllers
                 User = user,
                 Post = post,
                 PostrName = post.PostrName,
-                PostrId = post.UserId
+                PostrId = post.UserId,
+                UserPhoto = user.Photo,
+                UserName = userName
             };
 
 

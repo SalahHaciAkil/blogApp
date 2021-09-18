@@ -17,9 +17,6 @@
                 <li class="nav-item">
                     <a routerLink="/createPost" class="nav-link" href="#">Create</a>
                 </li>
-                <li *ngIf="(accountService.currentUser$|async) === null" class="nav-item">
-                    <a class="nav-link" routerLink="/login" href="#">Login</a>
-                </li>
                 <li *ngIf="accountService.currentUser$ | async" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -31,30 +28,67 @@
                     </ul>
                 </li>
             </ul>
-            <div class="another-nav">
-                <ul class="navbar-nav" *ngIf="(accountService.currentUser$ | async)===null; else loginState">
-                    <li class="nav-item">
-                        <a routerLink="/home" class="nav-link active" aria-current="page" href="#">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a routerLink="/createPost" class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
-                <ng-template #loginState>
-                    <div class="d-md-flex justify-content-center align-items-center text-light">
-                        <div class="imgBx me-2">
-                            <img class="img-fluid" [src]="user.photo" alt="user">
-                        </div>
-                        <div class="notification_icon ">
-                            <i class="fs-2 fa fa-bell-o" aria-hidden="true"></i>
-                            <div class="circle text-light bg-danger text-center">5</div>
+
+        </div>
+        <div class="another-nav">
+            <ul class="navbar-nav" *ngIf="(accountService.currentUser$ | async)===null; else loginState">
+                <li class="nav-item">
+                    <a routerLink="/login" class="nav-link active" aria-current="page" href="#">Login</a>
+                </li>
+
+            </ul>
+            <ng-template #loginState>
+                <div class="d-flex justify-content-center align-items-center text-light">
+                    <div class="imgBx me-2">
+                        <img class="img-fluid" [src]="user.photo" alt="user">
+                    </div>
+                    <div class="notification_icon">
+                        <i (click)='displayMenuNotification()' class="fs-2 fa fa-bell-o" aria-hidden="true"></i>
+                        <div *ngIf='activityCount >= 1' class="circle text-light bg-danger text-center">
+                            {{activityCount}}</div>
+                        <div #menu class="menu p-3">
+                            <div *ngFor="let like of likes" class="mb-4">
+                                <div class="like d-flex">
+                                    <div class="imgBx rounded-circle" style="width: 4rem; height: 4rem;">
+                                        <img class="img-fluid rounded-circle" [src]="like.userPhoto" alt="userPhoto">
+                                    </div>
+                                    <div class="like-info ms-2">
+                                        <p>
+                                            {{like.userName}} like your post
+                                        </p>
+                                        <p class="notification-date">{{like.likedTime | date}}</p>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+
+                            </div>
+                            <div routerLink='/post-detail/{{comment.postrName}}/{{comment.postId}}' *ngFor="let comment of comments" class="mb-4">
+                                <div class="like d-flex">
+                                    <div class="imgBx rounded-circle" style="width: 4rem; height: 4rem;">
+                                        <img class="img-fluid rounded-circle" [src]="comment.userPhoto" alt="userPhoto">
+                                    </div>
+                                    <div class="like-info ms-2">
+                                        <p>
+                                            {{comment.userName}} commented on your post
+                                        </p>
+                                        <p class="notification-date">{{comment.commentTime | date}}</p>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+
+                            </div>
+
+
+
+
                         </div>
                     </div>
+                </div>
 
 
 
-                </ng-template>
-            </div>
+            </ng-template>
         </div>
     </div>
+
 </nav>
