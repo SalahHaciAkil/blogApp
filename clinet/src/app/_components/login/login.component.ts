@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
     if (window.innerWidth <= 633) { this.wid = "100%" }
     else this.wid = "50%";
     console.log(window.innerWidth, this.wid, window.outerWidth);
-    debugger;
     const dialogRef = this.dialog.open(RegisterComponent, { width: this.wid });
     return;
 
@@ -35,7 +34,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    debugger;
     this.accountService.login({'userName':this.userName, 'password':this.password}).subscribe((user: User) => {
       this.route.navigateByUrl("/home");
     }, error => {

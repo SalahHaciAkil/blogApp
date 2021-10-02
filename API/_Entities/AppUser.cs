@@ -2,17 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace API._Entities
 {
-    public class AppUser
+    public class AppUser : IdentityUser<int>
     {
-        [Key]
-        public int Id { get; set; }
-        public string UserName { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
-        public string Email { get; set; }
+
         public string KnownAs { get; set; }
 
         public string Photo { get; set; }
@@ -20,6 +16,7 @@ namespace API._Entities
         public ICollection<Post> Posts { get; set; }
         public ICollection<UserPostLikes> LikesPost { get; set; }
         public ICollection<UserPostComment> Comments { get; set; }
+        public ICollection<AppUserRole> UserRole { get; set; }
         // public ICollection<UserActivities> SourceActivites { get; set; }
         // public ICollection<UserActivities> DestinationActivites { get; set; }
 

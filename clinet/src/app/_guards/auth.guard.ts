@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { AccountService } from '../_services/account.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private accountService: AccountService, private toastrService: ToastrService) {
+  constructor(private accountService: AccountService, private toast: ToastrService, private router:Router) {
 
   }
 
@@ -20,7 +20,9 @@ export class AuthGuard implements CanActivate {
     return this.accountService.currentUser$.pipe(
       map((user: User) => {
         if (user) return true;
-        this.toastrService.error("You are not logged in, please log in and try");
+        this.toast.info("You need to login to create a post").onTap.subscribe(()=>{
+          this.router.navigateByUrl("/login");
+        })
         return false;
       })
     )

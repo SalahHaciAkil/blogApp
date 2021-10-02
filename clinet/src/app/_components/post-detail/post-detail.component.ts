@@ -1,5 +1,6 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { CreateComment } from 'src/app/_interfaces/createComment';
 // import { CreateComment } from 'src/app/_interfaces/createComment';
 import { Pagination, PaginationResult } from 'src/app/_interfaces/pagination';
@@ -35,7 +36,7 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
   @ViewChild("postContent") postContentRef: ElementRef;
 
   constructor(private psotService: PostService, private route: ActivatedRoute,
-    private router: Router, private accountService: AccountService) {
+    private router: Router, private accountService: AccountService, private toast: ToastrService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => { return false };
   }
   ngAfterViewChecked(): void {
@@ -67,11 +68,17 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
 
   addComment(form) {
     this.createComment.postId = this.postId;
+    if (this.user) {
+      this.psotService.addComment(this.createComment).subscribe((comment: Comment) => {
+        this.post.comments.push(comment);
+        form.reset();
+      })
+    } else {
+      this.toast.info("You need to login to comment").onTap.subscribe(()=>{
+        this.router.navigateByUrl("/login");
+      })
+    }
 
-    this.psotService.addComment(this.createComment).subscribe((comment: Comment) => {
-      this.post.comments.push(comment);
-      form.reset();
-    })
   }
 
 
@@ -103,7 +110,7 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
 
 
 
-  deleteComment(commentId:number) {
+  deleteComment(commentId: number) {
     Swal.fire({
       title: `Are you sure you want to delete the your comment?`,
       showDenyButton: true,

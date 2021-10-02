@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { HtmlAstPath } from '@angular/compiler';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { Pagination, PaginationResult } from 'src/app/_interfaces/pagination';
@@ -26,11 +27,9 @@ export class HomeComponent implements OnInit {
   //Activities
   likes: Array<Like> = [];
   comments: Array<Comment> = [];
-
-
   constructor(private http: HttpClient, public postService: PostService) {
-
   }
+
 
   ngOnInit(): void {
     this.loadPosts();

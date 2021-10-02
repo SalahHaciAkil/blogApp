@@ -16,6 +16,7 @@ namespace API._Interfaces
 
         Task<Post> GetPostAsync(int postId);
         Task<PostDto> GetPostDtoAsync(int postId);
+        Task<IEnumerable<Post>> GetPosts();
         Task<bool> SaveChangesAsync();
         void AddPostAsync(Post post);
 

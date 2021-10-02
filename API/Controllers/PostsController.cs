@@ -42,6 +42,7 @@ namespace API.Controllers
             return Ok(posts);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<PostDto>> AddPost([FromForm] CreatePostDto createPostDto)
         {
@@ -98,6 +99,7 @@ namespace API.Controllers
 
 
 
+        [Authorize]
 
         [HttpPost("add-like/{postId}")]
 
@@ -134,6 +136,7 @@ namespace API.Controllers
             return BadRequest("Couldn't save the changes");
 
         }
+        [Authorize]
 
         [HttpGet("like-activity")]
         public async Task<ActionResult<IEnumerable<UserPostLikesDto>>> GetLikeActivities()
@@ -147,6 +150,7 @@ namespace API.Controllers
 
             return NoContent();
         }
+        [Authorize]
 
         [HttpPost("add-comment")]
         public async Task<ActionResult<UserPostCommentDto>> AddComment(CreateCommentDto createCommentDto)
@@ -180,6 +184,7 @@ namespace API.Controllers
 
 
 
+        [Authorize]
 
         [HttpGet("comment-activities")]
         public async Task<ActionResult<IEnumerable<UserPostLikesDto>>> GetCommentActivities()
@@ -194,6 +199,7 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [Authorize]
 
         [HttpDelete("{commentId}")]
         public async Task<ActionResult> DeleteComment(int commentId)
@@ -211,10 +217,6 @@ namespace API.Controllers
             }
 
             return BadRequest("Unexpected Error occured");
-
-
-
-
 
 
         }

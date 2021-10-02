@@ -12,7 +12,7 @@ import { PostService } from 'src/app/_services/post.service';
   styleUrls: ['./create-post.component.scss']
 })
 export class CreatePostComponent implements OnInit, AfterViewInit {
-  post: Post = { postTitle: "", postContent: "", postrName: "", postrPhoto:"", id: 0 }
+  post: Post = { postTitle: "", postContent: "", postrName: "", postrPhoto: "", id: 0 }
   // post:PaPost;
   imageUploadFlag = false;
 
@@ -44,7 +44,7 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
 
       ['clean'],                                         // remove formatting button
 
-      ['link', 'image', 'video']                         // link and image, video
+      ['link']                         // link and image, video
     ]
   };
 
@@ -74,12 +74,10 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
 
     this.formData.append('postTitle', this.post.postTitle);
     this.formData.append('postContent', this.post.postContent);
-
-
     this.postService.addPost(this.formData).subscribe((data) => {
-      debugger;
-
       this.toastrService.success("Your post have been added successgully");
+    }, error => {
+      this.toastrService.info("You can't create a post if you are not registered");
     })
   }
 

@@ -28,7 +28,7 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this.getCurrentUser();
     this.setUser();
-    this.loadActivities();
+
 
   }
   getCurrentUser() {
@@ -39,7 +39,10 @@ export class NavComponent implements OnInit {
 
   setUser() {
     this.accountService.currentUser$.subscribe(user => {
-      this.user = user
+      if (user != null) {
+        this.user = user
+        this.loadActivities();
+      }
     })
   }
 

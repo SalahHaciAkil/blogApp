@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using API._Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API._Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>,
+     AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -14,23 +17,27 @@ namespace API._Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-
-
-            // modelBuilder.Entity<Posts>().HasMany(p => p.Tags)
-            // .WithMany(t => t.Posts).UsingEntity<PostsTags>(
-            //     j => j.HasOne(q => q.Tag)
-            //     .WithMany(t => t.PostsTags)
-            //     .HasForeignKey(po => po.TagId),
-            //     j => j.HasOne(q => q.Posts)
-            //     .WithMany(po => po.PostsTags)
-            //     .HasForeignKey(x => x.PostsId),
-
-            //     j => j.HasKey( x => new {x.PostsId, x.TagId})
-
-            // );
+            base.OnModelCreating(modelBuilder);
 
 
 
+            modelBuilder.Entity<AppUser>()
+                                .HasMany(u => u.UserRole)
+                                .WithOne(u => u.User)
+                                .HasForeignKey(u => u.UserId)
+                                .IsRequired();
+
+            modelBuilder.Entity<AppRole>()
+                                .HasMany(u => u.UserRole)
+                                .WithOne(u => u.Role)
+                                .HasForeignKey(u => u.RoleId)
+                                .IsRequired();
+            
+            modelBuilder.Entity<Post>()
+                    .HasOne(x => x.User)
+                    .WithMany(x => x.Posts)
+                    .HasForeignKey(x => x.UserId)
+                    .IsRequired();
 
             modelBuilder.Entity<UserPostLikes>()
                 .HasKey(x => new { x.UserId, x.PostId });
@@ -58,23 +65,11 @@ namespace API._Data
                 .HasForeignKey(x => x.UserId);
 
 
-            // modelBuilder.Entity<UserActivities>()
-            // .HasOne(x => x.FromUser)
-            // .WithMany(x => x.SourceActivites)
-            // .HasForeignKey(x => x.FromUserId)
-            // .OnDelete(DeleteBehavior.Cascade);
 
-
-
-            // modelBuilder.Entity<UserActivities>()
-            // .HasOne(x => x.ToUser)
-            // .WithMany(x => x.DestinationActivites)
-            // .HasForeignKey(x => x.ToUserId)
-            // .OnDelete(DeleteBehavior.Cascade);
 
         }
 
-        public DbSet<AppUser> Users { get; set; }
+        // public DbSet<AppUser> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<UserPostLikes> UsersPostLikes { get; set; }
         public DbSet<UserPostComment> UsersPostComments { get; set; }

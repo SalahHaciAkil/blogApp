@@ -129,6 +129,12 @@ namespace API._Data
            return comment;
         }
 
+        public async Task<IEnumerable<Post>> GetPosts()
+        {
+            var posts =  await this.context.Posts.ToListAsync();
+            return posts;
+        }
+
 
 
         // public async Task AddActivityAsync(UserActivities userActivities)

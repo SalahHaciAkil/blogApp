@@ -21,3 +21,22 @@
 svg {
     @include gradient;
 }
+
+
+.imgBx{
+    animation: upDown 5s ease 0s infinite;
+    
+}
+
+@keyframes upDown {
+    0%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(50px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+    
+}

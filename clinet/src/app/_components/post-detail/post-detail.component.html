@@ -44,7 +44,7 @@
                 <h2 class="mt-5 text-primary">Commnets: </h2>
                 <div class="comments mt-1 bg-light">
                     <div *ngFor="let comment of userComments" class="comment_content  mb-4">
-                        <div *ngIf="user.id == comment.userId" class="edit-remove">
+                        <div  *ngIf="user && user.id == comment.userId" class="edit-remove">
                             <i class="fa fa-edit fs-5 me-1 text-primary" aria-hidden="true"></i>
                             <i (click)="deleteComment(comment.id)" class="fa fa-trash fs-5 text-danger"
                                 aria-hidden="true"></i>

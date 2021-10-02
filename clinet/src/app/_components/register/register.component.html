@@ -1,6 +1,19 @@
 <div class="container">
     <h1 (click)="print()">Let's SignUp</h1>
     <form [formGroup]="registerForm" class="row" (ngSubmit)="register()">
+
+        <div class="col-12">
+            <label>
+                <div class="imgBx">
+                    <img class="img-fluid" [src]="imgURL" alt="user">
+                </div>
+                <input style="display: none;" #file (change)="onFileChange(file.files)" type="file" class="form-control" id="">
+            </label>
+
+        </div>
+
+
+
         <div class="col-md-6 col-12 mb-2">
             <app-text-input [formControl]="registerForm.controls['userName']" [type]="'text'" [label]="'userName'">
             </app-text-input>
@@ -23,9 +36,7 @@
             </app-text-input>
         </div>
 
-        <div class="col-12">
-            <input #file (change)="onFileChange(file.files)" type="file" class="form-control" id="">
-        </div>
+
 
         <div class="col-md-6  col-12">
             <button [disabled]="!registerForm.valid" type="submit"

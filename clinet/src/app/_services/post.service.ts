@@ -37,7 +37,6 @@ export class PostService {
 
 
   addPost(post) {
-
     return this.http.post<Post>(this.baseUrl + "posts", post).pipe(
       map(data => {
         const post = data;

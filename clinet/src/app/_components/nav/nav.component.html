@@ -48,7 +48,7 @@
                             {{activityCount}}</div>
                         <div #menu class="menu p-3">
                             <div *ngFor="let like of likes" class="mb-4">
-                                <div class="like d-flex">
+                                <div class="like d-flex" routerLink='/post-detail/{{like.postrName}}/{{like.postId}}'>
                                     <div class="imgBx rounded-circle" style="width: 4rem; height: 4rem;">
                                         <img class="img-fluid rounded-circle" [src]="like.userPhoto" alt="userPhoto">
                                     </div>
@@ -62,7 +62,8 @@
                                 <div class="line"></div>
 
                             </div>
-                            <div routerLink='/post-detail/{{comment.postrName}}/{{comment.postId}}' *ngFor="let comment of comments" class="mb-4">
+                            <div routerLink='/post-detail/{{comment.postrName}}/{{comment.postId}}'
+                                *ngFor="let comment of comments" class="mb-4">
                                 <div class="like d-flex">
                                     <div class="imgBx rounded-circle" style="width: 4rem; height: 4rem;">
                                         <img class="img-fluid rounded-circle" [src]="comment.userPhoto" alt="userPhoto">

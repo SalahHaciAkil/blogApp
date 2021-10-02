@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   formData = new FormData();
 
   registerForm: FormGroup
+  imgURL: any = "../../../assets/images/add-image.png";
   constructor(private fb: FormBuilder, public accountService: AccountService,
     private route: Router, public dialogRef: MatDialogRef<RegisterComponent>) { }
 
@@ -55,9 +56,32 @@ export class RegisterComponent implements OnInit {
     this.registerForm.patchValue({
       photo: fileToUpload
     });
-
+    let reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imgURL = reader.result;
+    }
 
   }
+
+  // preview(files) {
+  //   if (files.length === 0)
+  //     return;
+
+
+  //   let mimeType = files[0].type;
+  //   if (mimeType.match(/image\/*/) == null) {
+  //     this.message = "Only images are supported.";
+  //     return;
+  //   }
+
+  //   //append the image file
+  //   let fileToUpload = <File>files[0];
+  //   this.formData.append('photo', fileToUpload, fileToUpload.name);
+
+
+
+  // }
 
   register() {
     this.addToForm();
