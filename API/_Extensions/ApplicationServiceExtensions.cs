@@ -17,9 +17,11 @@ namespace API._Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+            services.Configure<SMTP>(config.GetSection("SMTP"));
             services.AddScoped<ITokenService, TokenService>();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IPostsRepo, PostsRepo>();
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddSwaggerGen(c =>

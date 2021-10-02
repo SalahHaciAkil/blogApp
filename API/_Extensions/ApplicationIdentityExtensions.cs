@@ -15,10 +15,12 @@ namespace API._Extensions
         public static IServiceCollection AddApplicationIdentityServices(this IServiceCollection services, IConfiguration config)
         {
 
+
             services.AddIdentityCore<AppUser>(opt =>
             {
                 opt.Password.RequireNonAlphanumeric = false;
-            })
+                opt.SignIn.RequireConfirmedEmail = true;
+            }).AddDefaultTokenProviders()
             .AddRoles<AppRole>()
             .AddRoleManager<RoleManager<AppRole>>()
             .AddSignInManager<SignInManager<AppUser>>()
@@ -37,7 +39,8 @@ namespace API._Extensions
                             };
                         });
 
-            services.AddAuthorization(opt =>{
+            services.AddAuthorization(opt =>
+            {
                 opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
             });
 
