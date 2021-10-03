@@ -17,20 +17,18 @@ namespace API.Controllers
     {
         private readonly ITokenService tokenService;
         private readonly IPhotoService photoService;
-        private readonly IPostsRepo postsRepo;
         private readonly IConfiguration config;
         private readonly IEmailSender emailSender;
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManger;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManger, ITokenService tokenService,
-        IPhotoService photoService, IPostsRepo postsRepo, IConfiguration config, IEmailSender emailSender)
+        IPhotoService photoService, IConfiguration config, IEmailSender emailSender)
         {
             this.userManager = userManager;
             this.signInManger = signInManger;
             this.tokenService = tokenService;
             this.photoService = photoService;
-            this.postsRepo = postsRepo;
             this.config = config;
             this.emailSender = emailSender;
         }
@@ -90,6 +88,7 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
+            Console.WriteLine("Middle");
             var user = await this.userManager.Users
             .FirstOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
             if (user is null)

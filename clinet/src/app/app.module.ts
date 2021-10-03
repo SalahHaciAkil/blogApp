@@ -30,7 +30,7 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BusyInterceptor } from './_interceptors/busy.interceptor';
 import { PostDetailComponent } from './_components/post-detail/post-detail.component';
-import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { ConfirmEmailComponent } from './_components/confirm-email/confirm-email.component';
 
 @NgModule({
   declarations: [

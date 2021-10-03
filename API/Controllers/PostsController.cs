@@ -19,17 +19,16 @@ namespace API.Controllers
 {
     public class PostsController : BaseApiController
     {
-        private readonly IPostsRepo postsRepo;
-        private readonly IUserRepo userRepo;
-        private readonly IMapper autpMapper;
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper autoMapper;
         private readonly IPhotoService photoService;
 
-        public PostsController(IPostsRepo postsRepo, IUserRepo userRepo, IMapper autpMapper,
+        public PostsController(IUnitOfWork unitOfWork, IMapper autoMapper,
         IPhotoService photoService)
         {
-            this.postsRepo = postsRepo;
-            this.userRepo = userRepo;
-            this.autpMapper = autpMapper;
+
+            this.unitOfWork = unitOfWork;
+            this.autoMapper = autoMapper;
             this.photoService = photoService;
         }
 
@@ -37,7 +36,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts([FromQuery] PostParams postParams)
         {
-            var posts = await this.postsRepo.GetPostsDtoAsync(postParams);
+            var posts = await this.unitOfWork.PostRepo.GetPostsDtoAsync(postParams);
             Response.AddPaginationHeader(posts.CurrentPage, posts.PageSize, posts.TotalCount, posts.TotalPages);
             return Ok(posts);
         }
@@ -47,7 +46,7 @@ namespace API.Controllers
         public async Task<ActionResult<PostDto>> AddPost([FromForm] CreatePostDto createPostDto)
         {
             var userName = User.GetUserName();
-            var user = await this.userRepo.GetUserAsync(userName);
+            var user = await this.unitOfWork.UserRepo.GetUserAsync(userName);
 
             if (user is null) return NotFound("User doesnot exisit");
 
@@ -66,9 +65,9 @@ namespace API.Controllers
                 PostrPhoto = user.Photo,
                 User = user,
             };
-            this.postsRepo.AddPostAsync(post);
-            if (await this.postsRepo.SaveChangesAsync())
-                return Ok(this.autpMapper.Map<PostDto>(post));
+            this.unitOfWork.PostRepo.AddPostAsync(post);
+            if (await this.unitOfWork.PostRepo.SaveChangesAsync())
+                return Ok(this.autoMapper.Map<PostDto>(post));
             return BadRequest("Error while creating the post");
 
         }
@@ -77,7 +76,7 @@ namespace API.Controllers
         [HttpGet("post-detail/{postId}")]
         public async Task<ActionResult<PostDto>> GetPost(int postId)
         {
-            var post = await this.postsRepo.GetPostDtoAsync(postId);
+            var post = await this.unitOfWork.PostRepo.GetPostDtoAsync(postId);
             if (post == null) return BadRequest("Post doesnot exisit");
 
             return Ok(post);
@@ -90,7 +89,7 @@ namespace API.Controllers
         public async Task<ActionResult<PagedList<PostDto>>> GetUserPosts(string userName, int pageNumber, int pageSize)
         {
 
-            var posts = await this.postsRepo.GetUserPostsDtoAsync(userName, pageNumber, pageSize);
+            var posts = await this.unitOfWork.PostRepo.GetUserPostsDtoAsync(userName, pageNumber, pageSize);
             if (posts == null) return BadRequest("Unvalid userName");
             Response.AddPaginationHeader(posts.CurrentPage, posts.PageSize, posts.TotalCount, posts.TotalPages);
             return Ok(posts);
@@ -109,9 +108,9 @@ namespace API.Controllers
 
             var userName = User.GetUserName();
 
-            var user = await this.userRepo.GetUserAsync(userName);
+            var user = await this.unitOfWork.UserRepo.GetUserAsync(userName);
 
-            var post = await this.postsRepo.GetPostAsync(postId);
+            var post = await this.unitOfWork.PostRepo.GetPostAsync(postId);
 
             if (post.UserId == user.Id) return BadRequest("You can't like your post");
 
@@ -128,8 +127,8 @@ namespace API.Controllers
             };
 
 
-            await this.userRepo.AddUserPostLike(userPostLikes);
-            if (await this.userRepo.SaveChangesAsync())
+            await this.unitOfWork.UserRepo.AddUserPostLike(userPostLikes);
+            if (await this.unitOfWork.Complete())
             {
                 return Ok();
             }
@@ -142,10 +141,10 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<UserPostLikesDto>>> GetLikeActivities()
         {
             var userName = User.GetUserName();
-            var userPostLikes = await this.postsRepo.GetLikeActivitiesAsync(userName);
-            if (await this.postsRepo.SaveChangesAsync())
+            var userPostLikes = await this.unitOfWork.PostRepo.GetLikeActivitiesAsync(userName);
+            if (await this.unitOfWork.PostRepo.SaveChangesAsync())
             {
-                return Ok(this.autpMapper.Map<UserPostLikesDto[]>(userPostLikes));
+                return Ok(this.autoMapper.Map<UserPostLikesDto[]>(userPostLikes));
             }
 
             return NoContent();
@@ -158,8 +157,8 @@ namespace API.Controllers
             var postId = createCommentDto.PostId;
             var comment = createCommentDto.Comment;
             var userName = User.GetUserName();
-            var user = await this.userRepo.GetUserAsync(userName);
-            var post = await this.postsRepo.GetPostAsync(postId);
+            var user = await this.unitOfWork.UserRepo.GetUserAsync(userName);
+            var post = await this.unitOfWork.PostRepo.GetPostAsync(postId);
 
             if (user == null || post == null) return BadRequest("User or post doesnot exisit");
 
@@ -173,10 +172,10 @@ namespace API.Controllers
                 PostrName = post.PostrName,
                 PostrId = post.UserId,
             };
-            await this.postsRepo.AddCommentAsync(userPostComment);
-            if (await this.postsRepo.SaveChangesAsync())
+            await this.unitOfWork.PostRepo.AddCommentAsync(userPostComment);
+            if (await this.unitOfWork.PostRepo.SaveChangesAsync())
             {
-                return Ok(this.autpMapper.Map<UserPostCommentDto>(userPostComment));
+                return Ok(this.autoMapper.Map<UserPostCommentDto>(userPostComment));
             }
             return BadRequest("Error while creating the comment");
 
@@ -190,10 +189,10 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<UserPostLikesDto>>> GetCommentActivities()
         {
             var userName = User.GetUserName();
-            var userPostComment = await this.postsRepo.GetCommentActivitiesAsync(userName);
-            if (await this.postsRepo.SaveChangesAsync())
+            var userPostComment = await this.unitOfWork.PostRepo.GetCommentActivitiesAsync(userName);
+            if (await this.unitOfWork.PostRepo.SaveChangesAsync())
             {
-                return Ok(this.autpMapper.Map<UserPostCommentDto[]>(userPostComment));
+                return Ok(this.autoMapper.Map<UserPostCommentDto[]>(userPostComment));
             }
 
             return NoContent();
@@ -205,13 +204,13 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteComment(int commentId)
         {
             var userId = User.GetUserId();
-            var comment = await this.postsRepo.GetCommentAsync(commentId);
+            var comment = await this.unitOfWork.PostRepo.GetCommentAsync(commentId);
             if (comment is null) return BadRequest("Comment doesNot exisit");
             if (comment.UserId != userId) return BadRequest("You cannot delete other users comments");
 
 
-            this.postsRepo.DeleteComment(comment);
-            if (await this.postsRepo.SaveChangesAsync())
+            this.unitOfWork.PostRepo.DeleteComment(comment);
+            if (await this.unitOfWork.PostRepo.SaveChangesAsync())
             {
                 return Ok();
             }

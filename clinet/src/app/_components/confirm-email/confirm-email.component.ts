@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmEmailModel } from '../_interfaces/confirmEmailModel';
-import { AccountService } from '../_services/account.service';
+import { AccountService } from 'src/app/_services/account.service';
+import { ConfirmEmailModel } from '../../_interfaces/confirmEmailModel';
 
 @Component({
   selector: 'app-confirm-email',

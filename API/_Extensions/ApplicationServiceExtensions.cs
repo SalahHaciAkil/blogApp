@@ -19,11 +19,11 @@ namespace API._Extensions
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.Configure<SMTP>(config.GetSection("SMTP"));
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<LogUserActivity>();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEmailSender, EmailSender>();
-            services.AddScoped<IPostsRepo, PostsRepo>();
-            services.AddScoped<IUserRepo, UserRepo>();
             services.AddSwaggerGen(c =>
            {
                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });

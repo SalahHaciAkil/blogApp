@@ -39,10 +39,10 @@ namespace API._Data
             return users;
         }
 
-        public async Task<bool> SaveChangesAsync()
-        {
-            if (await this.context.SaveChangesAsync() > 0) return true;
-            return false;
-        }
+        // public async Task<bool> SaveChangesAsync()
+        // {
+        //     if (await this.context.SaveChangesAsync() > 0) return true;
+        //     return false;
+        // }
     }
 }

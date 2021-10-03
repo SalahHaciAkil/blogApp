@@ -15,14 +15,13 @@ namespace API.Controllers
 {
     public class UsersController : BaseApiController
     {
-        private readonly IUserRepo userRepo;
-        private readonly IPostsRepo postsRepo;
-        private readonly IMapper autoMapper;
 
-        public UsersController(IUserRepo userRepo, IPostsRepo postsRepo, IMapper autoMapper)
+        private readonly IMapper autoMapper;
+        private readonly IUnitOfWork unitOfWork;
+
+        public UsersController(IUnitOfWork unitOfWork, IMapper autoMapper)
         {
-            this.userRepo = userRepo;
-            this.postsRepo = postsRepo;
+            this.unitOfWork = unitOfWork;
             this.autoMapper = autoMapper;
         }
 
@@ -30,7 +29,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {
-            var users = await this.userRepo.GetUsersAsync();
+            var users = await this.unitOfWork.UserRepo.GetUsersAsync();
             return Ok(this.autoMapper.Map<MemberDto[]>(users));
         }
 
@@ -40,12 +39,12 @@ namespace API.Controllers
 
         public async Task<ActionResult<MemberDto>> GetUser(string userName)
         {
-            var user = await this.userRepo.GetUserAsync(userName);
+            var user = await this.unitOfWork.UserRepo.GetUserAsync(userName);
             if (user is null) { return NotFound("user is not exisit"); }
             return Ok(this.autoMapper.Map<MemberDto>(user));
         }
 
 
-        
+
     }
 }

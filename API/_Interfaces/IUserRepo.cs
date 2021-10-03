@@ -11,6 +11,6 @@ namespace API._Interfaces
 
         Task AddUserPostLike(UserPostLikes userPostLikes);
 
-        Task<bool> SaveChangesAsync();
+        // Task<bool> SaveChangesAsync();
     }
 }
