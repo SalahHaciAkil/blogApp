@@ -85,8 +85,8 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.addToForm();
-    this.accountService.register(this.formData).subscribe(user => {
-      this.route.navigateByUrl("/home");
+    this.accountService.register(this.formData).subscribe(() => {
+      this.route.navigateByUrl("/confirm-email");
       this.dialogRef.close();
 
     }, error => {

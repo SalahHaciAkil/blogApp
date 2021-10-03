@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { CreatePostComponent } from './_components/create-post/create-post.component';
 import { HomeComponent } from './_components/home/home.component';
 import { LoginComponent } from './_components/login/login.component';
@@ -11,6 +12,8 @@ const routes: Routes = [
   { path: 'createPost', component: CreatePostComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'post-detail/:userName/:id', component: PostDetailComponent },
+  { path: 'confirm-email', component: ConfirmEmailComponent},
+
   { path: '**', component: HomeComponent, pathMatch: "full" }
 ];
 

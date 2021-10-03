@@ -16,16 +16,17 @@ export class AccountService {
 
 
   register(model: any) {
-    return this.http.post(this.baseUrl + "account/" + "register", model).pipe(
-      map((respones: User) => {
-        const user = respones
-        if (user) {
-          this.setCurrentUser(user)
-        }
+    return this.http.post(this.baseUrl + "account/" + "register", model);
+    // .pipe(
+    //   map((respones: User) => {
+    //     const user = respones
+    //     if (user) {
+    //       this.setCurrentUser(user)
+    //     }
 
-        return user;
-      })
-    )
+    //     return user;
+    //   })
+    // )
   }
   login(model: any) {
     return this.http.post(this.baseUrl + "account/" + "login", model).pipe(
@@ -38,6 +39,12 @@ export class AccountService {
         return user;
       })
     )
+  }
+
+
+  confirmEmail(model: any) {
+    debugger;
+    return this.http.post(this.baseUrl + "account/confirmemail", model);
   }
 
   setCurrentUser(user: User) {

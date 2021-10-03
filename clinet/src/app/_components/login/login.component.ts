@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/_interfaces/User';
 import { AccountService } from 'src/app/_services/account.service';
 import { RegisterComponent } from '../register/register.component';
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   password:string;
   wid: string = "50%"
   constructor(public dialog: MatDialog, private accountService: AccountService,
-    private route: Router) { }
+    private route: Router, private toast:ToastrService) { }
 
   openDialog() {
     if (window.innerWidth <= 633) { this.wid = "100%" }
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.accountService.login({'userName':this.userName, 'password':this.password}).subscribe((user: User) => {
       this.route.navigateByUrl("/home");
     }, error => {
-      console.log(error);
+      this.toast.error(error.error);
 
     })
   }

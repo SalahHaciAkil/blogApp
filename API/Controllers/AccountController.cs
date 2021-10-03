@@ -86,16 +86,6 @@ namespace API.Controllers
 
             return Ok();
 
-            // var userDto = new UserDto
-            // {
-            //     Id = user.Id,
-            //     UserName = user.UserName,
-            //     Token = await this.tokenService.CreateToken(user),
-            //     Photo = user.Photo
-            // };
-
-            // return Ok(userDto);
-
         }
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
@@ -148,11 +138,11 @@ namespace API.Controllers
             var uriBuilder = new UriBuilder(this.config["ReturnPaths:ConfirmEmail"]);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["token"] = token;
-            query["userid"] = userFromDb.Id.ToString();
+            query["userId"] = userFromDb.Id.ToString();
             uriBuilder.Query = query.ToString();
             var urlString = uriBuilder.ToString();
             var senderEmail = this.config["ReturnPaths:SenderEmail"];
-            await this.emailSender.SendEmailAsync(senderEmail, userFromDb.Email, "Confirm your email address", urlString);
+            await this.emailSender.SendEmailAsync(senderEmail, userFromDb.Email, "Click the link below to activate your account", urlString);
 
         }
     }
