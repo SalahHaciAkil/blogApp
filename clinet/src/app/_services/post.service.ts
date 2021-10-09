@@ -129,4 +129,12 @@ export class PostService {
   unSetCurrentPostSource(posts: Post[]) {
     this.postsThreadSource.next(null);
   }
+
+  editComment(commentId: number, newComment: string) {
+    let httpParams: HttpParams = new HttpParams();
+    httpParams = httpParams.append('commentId', commentId);
+    httpParams = httpParams.append('newComment', newComment);
+
+    return this.http.put(`${this.baseUrl}posts/edit-comment`, httpParams);
+  }
 }

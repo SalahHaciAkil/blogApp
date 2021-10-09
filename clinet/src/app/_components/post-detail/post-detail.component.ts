@@ -21,6 +21,11 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
   userPosts: Post[] = [];
   userComments: Comment[] = [];
 
+  //===================== edit variables =====================
+  editCommentId: number = -1;
+  commentPreviousValue: string = ""
+  //===================== edit variables =====================
+
   clickedPostId: number;
   postId: number;
   postrName: string;
@@ -74,14 +79,21 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
         form.reset();
       })
     } else {
-      this.toast.info("You need to login to comment").onTap.subscribe(()=>{
+      this.toast.info("You need to login to comment").onTap.subscribe(() => {
         this.router.navigateByUrl("/login");
       })
     }
 
   }
 
+  editComment(commentId) {
+    let comment = this.userComments.find((comment) => comment.id == commentId);
+    this.psotService.editComment(commentId, comment.comment).subscribe(() => {
+      console.log("True>>>>>>>");
+    })
 
+
+  }
 
   private getUserPosts() {
     this.psotService.getUserPosts(this.postrName, ++this.pageNumber, this.pageSize).subscribe((paginationResult: PaginationResult<Post[]>) => {
@@ -99,17 +111,6 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
       this.userComments = post.comments;
     });
   }
-
-  onPostClicked(postrName: string, postId: number) {
-    this.router.navigateByUrl(`/post-detail/${postrName}/${postId}`);
-  }
-
-  scroll(el: HTMLElement) {
-    el.scrollIntoView();
-  }
-
-
-
   deleteComment(commentId: number) {
     Swal.fire({
       title: `Are you sure you want to delete the your comment?`,
@@ -128,4 +129,23 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
     })
 
   }
+  onPostClicked(postrName: string, postId: number) {
+    this.router.navigateByUrl(`/post-detail/${postrName}/${postId}`);
+  }
+
+  scroll(el: HTMLElement) {
+    el.scrollIntoView();
+  }
+
+  onEditCommentPressed(commentId) {
+    let comment = this.userComments.find((comment) => comment.id == commentId);
+    this.commentPreviousValue = comment.comment;
+    this.editCommentId = commentId;
+  }
+
+
+  // toggleEditFlag(commentId) {
+  //   this.editCommentId = commentId;
+
+  // }
 }

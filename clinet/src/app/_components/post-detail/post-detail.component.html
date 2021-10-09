@@ -44,8 +44,9 @@
                 <h2 class="mt-5 text-primary">Commnets: </h2>
                 <div class="comments mt-1 bg-light">
                     <div *ngFor="let comment of userComments" class="comment_content  mb-4">
-                        <div  *ngIf="user && user.id == comment.userId" class="edit-remove">
-                            <i class="fa fa-edit fs-5 me-1 text-primary" aria-hidden="true"></i>
+                        <div *ngIf="user && user.id == comment.userId" class="edit-remove">
+                            <i (click)="onEditCommentPressed(comment.id)" class="fa fa-edit fs-5 me-1 text-primary"
+                                aria-hidden="true"></i>
                             <i (click)="deleteComment(comment.id)" class="fa fa-trash fs-5 text-danger"
                                 aria-hidden="true"></i>
                         </div>
@@ -56,10 +57,21 @@
                             <div class="commeter-info">
                                 <h2 id="name">{{comment.userName}}{{i}}</h2>
                                 <p class="laed m-0" id="date">{{comment.commentTime | date}}</p>
-                                <p class="comment lead">
+                                <p *ngIf="!(editCommentId == comment.id)" class="comment lead">
                                     {{comment.comment}}
                                 </p>
+                                <div *ngIf="editCommentId == comment.id" class="edit-comment">
+                                    <input type="text" [(ngModel)]="comment.comment" class="form-control">
+                                    <div class="edit-btns mt-1">
+                                        <button (click)="editComment(comment.id)"
+                                            class="btn btn-primary btn-small me-1">Save</button>
+                                        <button (click)="editCommentId = -1; comment.comment = commentPreviousValue"
+                                            class="btn btn-primary btn-small">Cancel</button>
+                                    </div>
+
+                                </div>
                             </div>
+
 
 
                         </div>

@@ -110,7 +110,7 @@ namespace API._Data
         public async Task<IEnumerable<UserPostComment>> GetCommentActivitiesAsync(string userName)
         {
             var userPostComments = await this.context.UsersPostComments
-            .Where(x => x.PostrName == userName && x.Read == false)
+            .Where(x => x.PostrName == userName && x.PostrName != x.UserName && x.Read == false)
             .MarkPostCommentRead()
             .ToListAsync();
 

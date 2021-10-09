@@ -221,7 +221,14 @@ namespace API.Controllers
         }
 
 
+        [HttpPut("edit-comment")]
+        public ActionResult EditComment([FromQuery] int commentId, string newComment)
+        {
 
+            return Ok();
+
+
+        }
 
 
 
