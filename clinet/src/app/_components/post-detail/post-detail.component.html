@@ -108,7 +108,8 @@
 
                         <a class="fs-5 text-primary">{{post.postTitle}}</a>
                     </div>
-                    <button (click)="getUserPosts(postrName)" *ngIf="pageNumber <= pagination.totalPages"
+                    <button (click)="getUserPosts(postrName)"
+                        *ngIf="userPosts.length != 0 && pageNumber <= pagination.totalPages"
                         class="btn btn-outline-primary mt-2">more posts</button>
 
 

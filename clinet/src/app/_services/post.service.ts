@@ -130,11 +130,9 @@ export class PostService {
     this.postsThreadSource.next(null);
   }
 
+  //https://localhost:5001/api/Posts/edit-comment?commentId=6&newComment=something
   editComment(commentId: number, newComment: string) {
-    let httpParams: HttpParams = new HttpParams();
-    httpParams = httpParams.append('commentId', commentId);
-    httpParams = httpParams.append('newComment', newComment);
+    return this.http.put(`${this.baseUrl}posts/edit-comment?commentId=${commentId}&newComment=${newComment}`, {});
 
-    return this.http.put(`${this.baseUrl}posts/edit-comment`, httpParams);
   }
 }

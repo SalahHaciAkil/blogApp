@@ -122,7 +122,6 @@ namespace API._Data
         {
             this.context.UsersPostComments.Remove(userPostComment);
         }
-
         public async Task<UserPostComment> GetCommentAsync(int commentId)
         {
            var comment = await this.context.UsersPostComments.FindAsync(commentId);

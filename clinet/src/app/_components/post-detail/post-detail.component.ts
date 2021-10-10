@@ -88,10 +88,16 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
 
   editComment(commentId) {
     let comment = this.userComments.find((comment) => comment.id == commentId);
-    this.psotService.editComment(commentId, comment.comment).subscribe(() => {
-      console.log("True>>>>>>>");
-    })
 
+    //if both comments are equal, don't send request to the endpoint
+    if (comment.comment.localeCompare(this.commentPreviousValue) == 0) {
+      this.editCommentId = -1;
+      return;
+    }
+
+    this.psotService.editComment(commentId, comment.comment).subscribe(() => {
+      this.editCommentId = -1;
+    })
 
   }
 

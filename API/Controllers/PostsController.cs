@@ -220,13 +220,17 @@ namespace API.Controllers
 
         }
 
-
+        [Authorize]
         [HttpPut("edit-comment")]
-        public ActionResult EditComment([FromQuery] int commentId, string newComment)
+        public async Task<ActionResult> EditComment([FromQuery] int commentId, string newComment)
         {
+            var comment = await this.unitOfWork.PostRepo.GetCommentAsync(commentId);
+            if (comment is null) return BadRequest("comment is not found");
+            comment.Comment = newComment;
 
-            return Ok();
+            if (await unitOfWork.Complete()) return NoContent();
 
+            return BadRequest("An ecpected error occured");
 
         }
 
