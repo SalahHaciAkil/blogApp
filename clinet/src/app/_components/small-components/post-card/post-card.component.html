@@ -4,10 +4,21 @@
   </div>
   <div class="crd-body">
     <div class="crd-body_head d-flex justify-content-between w-100">
-      <span class="tag tag-teal">Technology</span>
-      <i *ngIf="user && user.userName != post.postrName" (click)="likePost(post.id)" [class]="class" aria-hidden="true"></i>
-    </div>
+      <span class="tag tag-teal">{{post.postCategory ? post.postCategory : "Not-specified"}}</span>
+      <div class="icons">
+        <i *ngIf="user && user.userName != post.postrName" (click)="likePost(post.id)" [class]="likeClass"
+          aria-hidden="true"></i>
+        <i *ngIf="user && user.userName == post.postrName" (click)="do(post.id)" class="fa fa-trash text-danger me-2"
+          aria-hidden="true"></i>
+        <i routerLink="/createPost/{{post.id}}" *ngIf="user && user.userName == post.postrName"
+          class="fa fa-pencil text-dark" aria-hidden="true"></i>
 
+      </div>
+
+
+
+
+    </div>
 
     <h4>
       {{post.postTitle}}

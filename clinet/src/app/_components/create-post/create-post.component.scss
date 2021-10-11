@@ -21,6 +21,9 @@ svg{
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
     color: $primary;
 }
+::ng-deep .mat-form-field-outline .mat-form-field-outline {
+    color: $primary;
+}
 
 /* focused color */
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
@@ -29,8 +32,11 @@ svg{
 
 /* floating label color */
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label { 
-    color: green; 
+    color: $primary; 
 }
+::ng-deep .mat-input-element {
+    color: rgb(0, 0, 0);
+  }
 
 
 button{
@@ -96,9 +102,19 @@ input[type="file"]{
 
 h1 { font-weight: 400; }
 
-code { 
-  color: #e4cb58;
-  font: inherit;
-}
 
-//==============
+::ng-deep {
+
+    // .mat-form-field-appearance-outline .mat-form-field-outline {
+    //    color: rgb(255, 0, 0);
+    // }
+    .mat-form-field-type-mat-select .mat-form-field-label, .mat-select-value {
+        color: rgb(0, 0, 0);
+    }
+
+    .mat-form-field {
+       .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: rgb(0, 0, 0);
+       }
+    }
+ }

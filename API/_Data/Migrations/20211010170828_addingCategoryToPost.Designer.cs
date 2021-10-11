@@ -3,14 +3,16 @@ using System;
 using API._Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API._Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211010170828_addingCategoryToPost")]
+    partial class addingCategoryToPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,6 +140,9 @@ namespace API._Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Category")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("TEXT");
 
@@ -145,9 +150,6 @@ namespace API._Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhotoPublicId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PostCategory")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PostContent")

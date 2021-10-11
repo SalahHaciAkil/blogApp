@@ -4,6 +4,7 @@ import { Post } from 'src/app/_interfaces/Post';
 import { User } from 'src/app/_interfaces/User';
 import { AccountService } from 'src/app/_services/account.service';
 import { PostService } from 'src/app/_services/post.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-post-card',
@@ -13,7 +14,8 @@ import { PostService } from 'src/app/_services/post.service';
 export class PostCardComponent implements OnInit, AfterViewInit {
   @Input() post: Post;
   @ViewChild("lead") lead: ElementRef;
-  class: string = "fa fa-heart-o"
+  likeClass: string = "fa fa-heart-o"
+  trashClass: string = "fa fa-trash"
   user: User;
 
 
@@ -28,6 +30,26 @@ export class PostCardComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getCurrentUser();
 
+  }
+
+
+  do(postId) {
+    Swal.fire({
+      title: `Are you sure you want to delete your post with id of ${postId}?`,
+      showDenyButton: true,
+      confirmButtonText: `Yes`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.postSerivce.deletePost(postId).subscribe(() => {
+          this.toast.success("you have delete the post successfully");
+
+        })
+
+      } else if (result.isDenied) {
+      }
+    })
   }
 
   getCurrentUser() {
@@ -48,13 +70,13 @@ export class PostCardComponent implements OnInit, AfterViewInit {
     }
 
 
-    this.class = arr.includes(this.user.id) ? "fa fa-heart" : "fa fa-heart-o";
+    this.likeClass = arr.includes(this.user.id) ? "fa fa-heart" : "fa fa-heart-o";
   }
 
 
   likePost(postId: number) {
     this.postSerivce.likePost(postId).subscribe(() => {
-      this.class = "fa fa-heart";
+      this.likeClass = "fa fa-heart";
       this.toast.success(`You liked ${this.post.postrName} post`);
     }, error => {
       this.toast.error(error.error)

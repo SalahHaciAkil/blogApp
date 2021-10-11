@@ -11,6 +11,9 @@ namespace API._DTOs
         [Required]
         public string PostContent { get; set; }
 
+        [Required]
+        public string PostCategory { get; set; }
+
         public IFormFile Photo { get; set; }
     }
 }

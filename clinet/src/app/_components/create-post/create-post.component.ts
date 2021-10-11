@@ -1,5 +1,7 @@
 /// <reference types="@types/ckeditor" />
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { CKEditorComponent } from 'ng2-ckeditor';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { ToastrService } from 'ngx-toastr';
@@ -12,8 +14,10 @@ import { PostService } from 'src/app/_services/post.service';
   styleUrls: ['./create-post.component.scss']
 })
 export class CreatePostComponent implements OnInit, AfterViewInit {
-  post: Post = { postTitle: "", postContent: "", postrName: "", postrPhoto: "", id: 0 }
-  // post:PaPost;
+  //Editing post variables
+  postId: number = -1;
+  post: Partial<Post> = { postTitle: "", postContent: "", postCategory: "" };
+  imageChanged: string = "unchanged"
   imageUploadFlag = false;
 
   // for image file
@@ -22,8 +26,7 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
   imgURL: any;
   public message: string;
 
-  //  postContent:string;
-  //   @ViewChild("paragra") q: ElementRef;
+
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -50,36 +53,52 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
 
 
 
-  constructor(private postService: PostService, private toastrService: ToastrService) {
-    // this.post.postContent=""
-    // this.post.postTitle=""
-    // this.post.postContent = `<p>Write...</p>`;
+  constructor(
+    private postService: PostService,
+    private toastrService: ToastrService,
+    private route: ActivatedRoute
+  ) {
+
   }
   ngAfterViewInit(): void {
-    // this.q.nativeElement.innerHTML = this.post.postContent;
   }
 
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.postId = +params.get("postId");
+      if (this.postId != 0) {
+        this.postService.getPost(this.postId).subscribe((post: Post) => {
+          this.post = post;
+          this.assignImageUrl()
+        })
+      }
 
+    });
   }
+
   changedEditor(event: EditorChangeContent | EditorChangeSelection) {
   }
-  // onChange(event) {
-  //   console.log(event);
-
-  // }
 
 
   publish() {
+    this.formData.set('postTitle', this.post.postTitle);
+    this.formData.set('postContent', this.post.postContent);
+    this.formData.set('postCategory', this.post.postCategory);
 
-    this.formData.append('postTitle', this.post.postTitle);
-    this.formData.append('postContent', this.post.postContent);
+    this.toastrService.success(String(this.formData.get("postCategory")));
+
     this.postService.addPost(this.formData).subscribe((data) => {
       this.toastrService.success("Your post have been added successgully");
     }, error => {
       this.toastrService.info("You can't create a post if you are not registered");
     })
   }
+
+  edit() {
+    console.log(this.imageChanged, this.post);
+
+  }
+
 
 
   preview(files) {
@@ -95,7 +114,7 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
 
     //append the image file
     let fileToUpload = <File>files[0];
-    this.formData.append('photo', fileToUpload, fileToUpload.name);
+    this.formData.set('photo', fileToUpload, fileToUpload.name);
 
     let reader = new FileReader();
     this.imagePath = files;
@@ -105,6 +124,14 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
     }
 
     this.imageUploadFlag = true;
+    this.imageChanged = "changed" // in case of editing the post
+  }
+
+
+  private assignImageUrl() {
+    this.imgURL = this.post.photo;
+    this.imageUploadFlag = true;
+
   }
 
 }

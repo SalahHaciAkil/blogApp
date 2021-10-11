@@ -30,6 +30,7 @@ export interface Post {
     postContent: string;
     postrName: string;
     postrPhoto: string;
+    postCategory:string;
     createdTime?: Data;
     photo?: string;
     likedBy?: Array<Like>;

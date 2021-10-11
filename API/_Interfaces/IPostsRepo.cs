@@ -19,7 +19,7 @@ namespace API._Interfaces
         Task<IEnumerable<Post>> GetPosts();
         Task<bool> SaveChangesAsync();
         void AddPostAsync(Post post);
-
+        void DeletePost(Post post);
         Task AddCommentAsync(UserPostComment userPostComment);
 
         Task<UserPostComment> GetCommentAsync(int commentId);

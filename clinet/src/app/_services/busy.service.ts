@@ -19,8 +19,8 @@ export class BusyService {
       this.spinnerService.show(undefined, {
         type: "ball-clip-rotate-pulse",
         size: "large",
-        color: "#9926f0",
-        bdColor: "rgba(0,0,0, .9)"
+        color: "#000000",
+        bdColor: "rgba(0,0,0, 0.2)"
       });
     }
 

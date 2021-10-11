@@ -16,6 +16,7 @@ export class PostService {
 
 
 
+
   UserPostsChaches = new Map();
   postsChaches = new Map();
 
@@ -49,6 +50,15 @@ export class PostService {
         return data;
       })
     );
+  }
+
+  deletePost(postId) {
+    return this.http.delete(`${this.baseUrl}posts/delete-post/${postId}`).pipe(
+      map(() => {
+        this.posts = this.posts.filter(x => x.id != postId);
+        this.setCurrentPostSource(this.posts);
+      })
+    )
   }
 
   getUserPosts(postrName: string, pageNumber: number, pageSize: number) {
@@ -107,7 +117,7 @@ export class PostService {
   }
   //https://localhost:5001/api/Posts/5
   deleteComment(commentId: number) {
-    return this.http.delete(`${this.baseUrl}posts/${commentId}`);
+    return this.http.delete(`${this.baseUrl}posts/delete-comment/${commentId}`);
   }
 
 
@@ -135,4 +145,8 @@ export class PostService {
     return this.http.put(`${this.baseUrl}posts/edit-comment?commentId=${commentId}&newComment=${newComment}`, {});
 
   }
+
+  // https://localhost:5001/api/Posts/delete-post/7
+
+
 }

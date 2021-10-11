@@ -134,6 +134,11 @@ namespace API._Data
             return posts;
         }
 
+        public void DeletePost(Post post)
+        {
+            this.context.Posts.Remove(post);
+        }
+
 
 
         // public async Task AddActivityAsync(UserActivities userActivities)

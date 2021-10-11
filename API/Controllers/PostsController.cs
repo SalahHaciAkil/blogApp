@@ -51,7 +51,7 @@ namespace API.Controllers
             if (user is null) return NotFound("User doesnot exisit");
 
             var uploadResult = await this.photoService.AddCloudPhotoAsync(createPostDto.Photo);
-            if (uploadResult != null && uploadResult.Error != null) return BadRequest("Image couldnot be uploaded");
+            if (uploadResult != null && uploadResult.Error != null) return BadRequest(uploadResult.Error.Message);
 
 
 
@@ -59,6 +59,7 @@ namespace API.Controllers
             {
                 PostTitle = createPostDto.PostTitle,
                 PostContent = createPostDto.PostContent,
+                PostCategory = createPostDto.PostCategory,
                 Photo = uploadResult.Url.AbsoluteUri,
                 PhotoPublicId = uploadResult.PublicId,
                 PostrName = userName,
@@ -82,6 +83,25 @@ namespace API.Controllers
             return Ok(post);
 
 
+
+        }
+
+        [Authorize]
+        [HttpDelete("delete-post/{postId}")]
+        public async Task<ActionResult> DeletePost(int postId)
+        {
+            var userId = User.GetUserId();
+            var post = await this.unitOfWork.PostRepo.GetPostAsync(postId);
+            
+            //delte the post photo from cloudinary
+            var result = await this.photoService.DeletePhotoAsync(post.PhotoPublicId);
+            if (result.Error != null) return BadRequest(result.Error.Message);
+
+            if (post.UserId != userId) return BadRequest("You can't delete others posts");
+            this.unitOfWork.PostRepo.DeletePost(post);
+
+            if (await this.unitOfWork.Complete()) return Ok();
+            return BadRequest("An expected error happens");
 
         }
 
@@ -200,7 +220,7 @@ namespace API.Controllers
 
         [Authorize]
 
-        [HttpDelete("{commentId}")]
+        [HttpDelete("delete-comment/{commentId}")]
         public async Task<ActionResult> DeleteComment(int commentId)
         {
             var userId = User.GetUserId();
