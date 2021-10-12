@@ -23,13 +23,15 @@ export class HomeComponent implements OnInit {
 
   user: any;
 
-  posts: Array<Post> = [];
+  // posts: Array<Post> = [];
   pagination: Pagination;
 
   //Activities
   likes: Array<Like> = [];
   comments: Array<Comment> = [];
-  constructor(private http: HttpClient, public postService: PostService,private busyService:BusyService) {
+  constructor(private http: HttpClient,
+    public postService: PostService, private router: Router) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => { return false }
   }
 
 
@@ -39,8 +41,9 @@ export class HomeComponent implements OnInit {
 
 
   loadPosts() {
+
     this.postService.getPosts(++this.pageNumber, this.pageSize).subscribe((paginationResult: PaginationResult<Post[]>) => {
-      this.posts = [...this.posts, ...paginationResult.result];
+      // this.posts = [...this.posts, ...paginationResult.result];
       this.pagination = paginationResult.pagination;
     })
   }

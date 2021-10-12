@@ -26,6 +26,7 @@ namespace API._Interfaces
         void DeleteComment(UserPostComment userPostComment);
         Task<IEnumerable<UserPostLikes>> GetLikeActivitiesAsync(string userName);
         Task<IEnumerable<UserPostComment>> GetCommentActivitiesAsync(string userName);
+        // void EditPost(Post post);
         // Task AddActivityAsync(UserActivities userActivities);
 
     }

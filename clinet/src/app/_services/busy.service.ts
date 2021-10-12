@@ -17,10 +17,10 @@ export class BusyService {
     this.requests++;
     if (this.requests == 1) {
       this.spinnerService.show(undefined, {
-        type: "ball-clip-rotate-pulse",
+        type: "ball-atom",
         size: "large",
         color: "#000000",
-        bdColor: "rgba(0,0,0, 0.2)"
+        bdColor: "rgba(0,0,0, 0.0)"
       });
     }
 

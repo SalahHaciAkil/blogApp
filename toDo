@@ -1,5 +1,2 @@
-1- add deleting-post functionality, and the ability to the user to edit the post.
-
-   
-3-at the end add reset password feature
-4-handle errors (don't allow the user to send reques if he didn't fill the fields. Use FormBuilder)
+1-at the end add reset password feature
+2-handle errors (don't allow the user to send reques if he didn't fill the fields. Use FormBuilder)

@@ -25,6 +25,10 @@ export class PostService {
   postsThread$ = this.postsThreadSource.asObservable();
   posts: Post[] = [];
 
+  private userPostsThreadSource = new BehaviorSubject<Post[]>([]);
+  userPostsThread$ = this.userPostsThreadSource.asObservable();
+  userPosts: Post[] = [];
+
   constructor(private http: HttpClient) { }
 
 
@@ -38,10 +42,14 @@ export class PostService {
 
 
   addPost(post) {
+    console.log(post);
+
     return this.http.post<Post>(this.baseUrl + "posts", post).pipe(
       map(data => {
         const post = data;
         if (post) {
+          let firstItemCach = this.UserPostsChaches.get(`${post.postrName}_1_10`) as PaginationResult<Post[]>;
+          firstItemCach.result.push(post);
           this.posts.unshift(post);
           this.setCurrentPostSource(this.posts);
         }
@@ -52,11 +60,17 @@ export class PostService {
     );
   }
 
+
+  // https://localhost:5001/api/Posts/delete-post/7
+
   deletePost(postId) {
     return this.http.delete(`${this.baseUrl}posts/delete-post/${postId}`).pipe(
       map(() => {
         this.posts = this.posts.filter(x => x.id != postId);
+        this.userPosts = this.userPosts.filter(x => x.id != postId);
+        // this.deletePostFromUserPostChaces(postId);
         this.setCurrentPostSource(this.posts);
+        this.setCurrentUserPostSource(this.userPosts);
       })
     )
   }
@@ -72,11 +86,26 @@ export class PostService {
 
     return paginationResult.pipe(
       map(paginationResult => {
+        this.userPosts = [...this.userPosts, ...paginationResult.result];
+        this.setCurrentUserPostSource(this.userPosts);
         this.UserPostsChaches.set(keyMap, paginationResult);
         return paginationResult;
       })
     );
   }
+
+  // deletePostFromUserPostChaces(postId) {
+  //   let userPosts: Post[] = [];
+  //   this.UserPostsChaches.forEach((x: PaginationResult<Post[]>) => {
+  //     let post = x.result.find(x => x.id == postId);
+  //     if (post) {
+  //       x.result = x.result.filter(x => x.id != postId);
+  //     }
+
+
+  //   });
+
+  // }
 
 
   getPosts(pageNumber: number, pageSize: number) {
@@ -85,7 +114,7 @@ export class PostService {
     if (this.postsChaches.has(postsMapKey)) {
       return of(this.postsChaches.get(postsMapKey));
     }
-
+    debugger;
     let httpParams = getPaginationHeaders(pageNumber, pageSize);
     const paginationResult = getPaginationResult(this.http, `${this.baseUrl}posts`, httpParams);
     return paginationResult.pipe(
@@ -136,6 +165,10 @@ export class PostService {
   setCurrentPostSource(posts: Post[]) {
     this.postsThreadSource.next(posts);
   }
+
+  setCurrentUserPostSource(posts: Post[]) {
+    this.userPostsThreadSource.next(posts);
+  }
   unSetCurrentPostSource(posts: Post[]) {
     this.postsThreadSource.next(null);
   }
@@ -145,8 +178,19 @@ export class PostService {
     return this.http.put(`${this.baseUrl}posts/edit-comment?commentId=${commentId}&newComment=${newComment}`, {});
 
   }
+  //https://localhost:5001/api/Posts/edit-post
 
-  // https://localhost:5001/api/Posts/delete-post/7
-
+  editPost(formData: FormData) {
+    return this.http.put(`${this.baseUrl}posts/edit-post`, formData).pipe(
+      map((photo: Object) => {
+        debugger;
+        let post = this.posts.find(x => x.id == Number(formData.get("id")))
+        post.photo = photo["photo"];
+        return photo;
+      })
+    );
+  }
 
 }
+
+

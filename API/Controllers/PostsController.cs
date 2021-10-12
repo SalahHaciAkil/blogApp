@@ -92,7 +92,7 @@ namespace API.Controllers
         {
             var userId = User.GetUserId();
             var post = await this.unitOfWork.PostRepo.GetPostAsync(postId);
-            
+
             //delte the post photo from cloudinary
             var result = await this.photoService.DeletePhotoAsync(post.PhotoPublicId);
             if (result.Error != null) return BadRequest(result.Error.Message);
@@ -254,7 +254,40 @@ namespace API.Controllers
 
         }
 
+        [Authorize]
+        [HttpPut("edit-post")]
+        public async Task<ActionResult<string>> EditPost([FromForm] EditPostDto editPostDto)
+        {
+            var userId = User.GetUserId();
+            var post = await this.unitOfWork.PostRepo.GetPostAsync(int.Parse(editPostDto.Id));
+            if (post is null) return BadRequest("post is not found");
 
+            if (post.UserId != userId) return BadRequest("You can't edit others post");
 
+            if (editPostDto.Photo is not null)
+            {
+                var deleteResult = await this.photoService.DeletePhotoAsync(post.PhotoPublicId);
+                if (deleteResult.Error is not null) return BadRequest(deleteResult.Error.Message);
+
+                var uploadResult = await this.photoService.AddCloudPhotoAsync(editPostDto.Photo);
+                if (uploadResult.Error is not null) return BadRequest(deleteResult.Error.Message);
+
+                post.Photo = uploadResult.Url.AbsoluteUri;
+                post.PhotoPublicId = uploadResult.PublicId;
+            }
+
+            assignNewPostValues(post, editPostDto);
+
+            if (await this.unitOfWork.Complete()) return Ok(new {post.Photo});
+            return BadRequest("An expected error occured");
+
+        }
+
+        private void assignNewPostValues(Post post, EditPostDto editPostDto)
+        {
+            post.PostTitle = editPostDto.PostTitle;
+            post.PostContent = editPostDto.PostContent;
+            post.PostCategory = editPostDto.PostCategory;
+        }
     }
 }

@@ -31,6 +31,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { BusyInterceptor } from './_interceptors/busy.interceptor';
 import { PostDetailComponent } from './_components/post-detail/post-detail.component';
 import { ConfirmEmailComponent } from './_components/confirm-email/confirm-email.component';
+import { UserPostsComponent } from './_components/user-posts/user-posts.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ConfirmEmailComponent } from './_components/confirm-email/confirm-email
     RegisterComponent,
     AppTextInputComponent,
     PostDetailComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    UserPostsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,22 @@
+<section *ngIf="(postService.userPostsThread$ | async).length <= 0" style="width: 100%; height: 100%;">
+    <div class="container w-100 h-100">
+        <div class="no-posts w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+            <h3 class="fs-1">You have no posts</h3>
+            <button routerLink="/createPost/0" class="btn btn-primary btn-lg">create post</button>
+        </div>
+    </div>
+</section>
+
+<section *ngIf="(postService.userPostsThread$ | async).length > 0">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-6 col-lg-4 col-12" *ngFor="let post of (postService.userPostsThread$ | async)">
+                <app-post-card [post]="post"></app-post-card>
+            </div>
+
+
+
+        </div>
+    </div>
+</section>

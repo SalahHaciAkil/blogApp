@@ -1,7 +1,7 @@
 /// <reference types="@types/ckeditor" />
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CKEditorComponent } from 'ng2-ckeditor';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { ToastrService } from 'ngx-toastr';
@@ -17,11 +17,12 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
   //Editing post variables
   postId: number = -1;
   post: Partial<Post> = { postTitle: "", postContent: "", postCategory: "" };
-  imageChanged: string = "unchanged"
+  postCopy: Post;
   imageUploadFlag = false;
 
   // for image file
-  formData = new FormData();
+  publishFormData = new FormData();
+  editFormData = new FormData();
   public imagePath;
   imgURL: any;
   public message: string;
@@ -56,9 +57,10 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
   constructor(
     private postService: PostService,
     private toastrService: ToastrService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
-
+    this.router.routeReuseStrategy.shouldReuseRoute = () => { return false };
   }
   ngAfterViewInit(): void {
   }
@@ -69,6 +71,7 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
       if (this.postId != 0) {
         this.postService.getPost(this.postId).subscribe((post: Post) => {
           this.post = post;
+          this.postCopy = Object.assign({}, this.post as Post);
           this.assignImageUrl()
         })
       }
@@ -81,21 +84,35 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
 
 
   publish() {
-    this.formData.set('postTitle', this.post.postTitle);
-    this.formData.set('postContent', this.post.postContent);
-    this.formData.set('postCategory', this.post.postCategory);
-
-    this.toastrService.success(String(this.formData.get("postCategory")));
-
-    this.postService.addPost(this.formData).subscribe((data) => {
+    this.setData(this.publishFormData)
+    this.postService.addPost(this.publishFormData).subscribe((data) => {
       this.toastrService.success("Your post have been added successgully");
     }, error => {
       this.toastrService.info("You can't create a post if you are not registered");
     })
   }
 
+  setData(formData) {
+    formData.set('postTitle', this.post.postTitle);
+    formData.set('postContent', this.post.postContent);
+    formData.set('postCategory', this.post.postCategory);
+  }
+
   edit() {
-    console.log(this.imageChanged, this.post);
+    this.setData(this.editFormData)
+    this.editFormData.set("id", this.post.id.toString());
+
+    this.postService.editPost(this.editFormData).subscribe((photo: string) => {
+      console.log(photo);
+      this.toastrService.success("post edited successfully", "Succeess");
+
+    }, error => {
+      this.post = this.postCopy;
+      console.log("we are in error type");
+
+      console.log(error);
+
+    })
 
   }
 
@@ -114,7 +131,11 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
 
     //append the image file
     let fileToUpload = <File>files[0];
-    this.formData.set('photo', fileToUpload, fileToUpload.name);
+    if (this.postId == 0)
+      this.publishFormData.set('photo', fileToUpload, fileToUpload.name);
+    else
+      this.editFormData.set('photo', fileToUpload, fileToUpload.name);
+
 
     let reader = new FileReader();
     this.imagePath = files;
@@ -124,7 +145,6 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
     }
 
     this.imageUploadFlag = true;
-    this.imageChanged = "changed" // in case of editing the post
   }
 
 
