@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Web;
 using API.Helpers;
+using API._Helpers;
 
 namespace API.Controllers
 {
@@ -55,7 +56,7 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register([FromForm] RegisterDto registerDto)
         {
-            if (await UserExisit(registerDto.UserName)) return BadRequest("user-name is exisit, please try another name");
+            if (await UserExisit(registerDto.UserName, registerDto.Email)) return BadRequest("user name/email is exisit, please try another name/email");
             var user = new AppUser
             {
                 UserName = registerDto.UserName.ToLower(),
@@ -75,9 +76,9 @@ namespace API.Controllers
             }
 
             var result = await this.userManager.CreateAsync(user, registerDto.Password);
-            if (!result.Succeeded) return BadRequest("failed to create new user");
+            if (!result.Succeeded) return BadRequest(result.Errors);
 
-            await this.EmailAsync(user.UserName);
+            await this.sendEmailActivationLink(user.UserName);
 
             var roleResult = await this.userManager.AddToRoleAsync(user, "Member");
             if (!roleResult.Succeeded) return BadRequest(roleResult.Errors);
@@ -85,6 +86,24 @@ namespace API.Controllers
             return Ok();
 
         }
+
+
+
+        [HttpPost("confirmemail")]
+        public async Task<ActionResult> ConfirmEmail(ConfirmEmailViewModel model)
+        {
+
+            var user = await this.userManager.FindByIdAsync(model.UserId);
+
+            var result = await this.userManager.ConfirmEmailAsync(user, model.Token);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
@@ -109,14 +128,27 @@ namespace API.Controllers
 
         }
 
-        [HttpPost("confirmemail")]
-        public async Task<ActionResult> ConfirmEmail(ConfirmEmailViewModel model)
+
+
+        private async Task<bool> UserExisit(string userName, string email)
         {
+            return await this.userManager.Users.AnyAsync(x => x.UserName == userName.ToLower() || x.Email == email);
+        }
 
+        [HttpPut("manage-password/{userEmail}")]
+        public async Task<ActionResult> ManagePassword(string userEmail)
+        {
+            var user = await this.userManager.FindByEmailAsync(userEmail);
+            if (user is null) return BadRequest("No such user with " + userEmail + "email");
+            sendPasswordResetLinkToEmail(user);
+            return NoContent();
+        }
+
+        [HttpPut("reset-password")]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
             var user = await this.userManager.FindByIdAsync(model.UserId);
-
-            var result = await this.userManager.ConfirmEmailAsync(user, model.Token);
-
+            var result = await this.userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
             if (result.Succeeded)
             {
                 return Ok();
@@ -124,13 +156,21 @@ namespace API.Controllers
             return BadRequest();
         }
 
-        private async Task<bool> UserExisit(string userName)
+        private async void sendPasswordResetLinkToEmail(AppUser user)
         {
-            return await this.userManager.Users.AnyAsync(x => x.UserName == userName.ToLower());
+            var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
+            var uriBuilder = new UriBuilder(this.config["ReturnPaths:ResetPassword"]);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["token"] = token;
+            query["userId"] = user.Id.ToString();
+            uriBuilder.Query = query.ToString();
+            var urlString = uriBuilder.ToString();
+            var senderEmail = this.config["ReturnPaths:SenderEmail"];
+            await this.emailSender.SendEmailAsync(senderEmail, user.Email, "Click the link below to reset your password", urlString);
+
         }
 
-
-        private async Task EmailAsync(string userName)
+        private async Task sendEmailActivationLink(string userName)
         {
             var userFromDb = await this.userManager.FindByNameAsync(userName);
             var token = await this.userManager.GenerateEmailConfirmationTokenAsync(userFromDb);

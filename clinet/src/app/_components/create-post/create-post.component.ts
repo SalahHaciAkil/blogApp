@@ -84,11 +84,16 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
 
 
   publish() {
+
     this.setData(this.publishFormData)
     this.postService.addPost(this.publishFormData).subscribe((data) => {
+      debugger;
       this.toastrService.success("Your post have been added successgully");
+      this.router.navigateByUrl("/home");
     }, error => {
-      this.toastrService.info("You can't create a post if you are not registered");
+      console.log("error", error.error);
+
+      // this.toastrService.info("You can't create a post if you are not registered");
     })
   }
 
@@ -108,10 +113,6 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
 
     }, error => {
       this.post = this.postCopy;
-      console.log("we are in error type");
-
-      console.log(error);
-
     })
 
   }

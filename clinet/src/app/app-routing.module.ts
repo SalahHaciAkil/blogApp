@@ -5,6 +5,7 @@ import { CreatePostComponent } from './_components/create-post/create-post.compo
 import { HomeComponent } from './_components/home/home.component';
 import { LoginComponent } from './_components/login/login.component';
 import { PostDetailComponent } from './_components/post-detail/post-detail.component';
+import { ResetPasswordComponent } from './_components/reset-password/reset-password.component';
 import { UserPostsComponent } from './_components/user-posts/user-posts.component';
 import { AuthGuard } from './_guards/auth.guard';
 
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'userPosts', component: UserPostsComponent },
   { path: 'post-detail/:userName/:id', component: PostDetailComponent },
   { path: 'confirm-email', component: ConfirmEmailComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
 
   { path: '**', component: HomeComponent, pathMatch: "full" }
 ];

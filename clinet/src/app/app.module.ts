@@ -32,6 +32,8 @@ import { BusyInterceptor } from './_interceptors/busy.interceptor';
 import { PostDetailComponent } from './_components/post-detail/post-detail.component';
 import { ConfirmEmailComponent } from './_components/confirm-email/confirm-email.component';
 import { UserPostsComponent } from './_components/user-posts/user-posts.component';
+import { ErrorsInterceptor } from './_interceptors/error.interceptor';
+import { ResetPasswordComponent } from './_components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { UserPostsComponent } from './_components/user-posts/user-posts.componen
     AppTextInputComponent,
     PostDetailComponent,
     ConfirmEmailComponent,
-    UserPostsComponent
+    UserPostsComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,8 @@ import { UserPostsComponent } from './_components/user-posts/user-posts.componen
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: BusyInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: BusyInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

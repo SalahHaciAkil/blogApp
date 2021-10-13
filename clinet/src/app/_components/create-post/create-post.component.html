@@ -23,11 +23,11 @@
         <div class="col-12 d-flex flex-sm-row flex-column">
             <mat-form-field class="me-2" style="width: 100%;" appearance="outline">
                 <mat-label style="color: black;">Post title</mat-label>
-                <input name="postTitle" [(ngModel)]="post.postTitle" matInput placeholder="...">
+                <input name="postTitle" [(ngModel)]="post.postTitle" matInput placeholder="..." required>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Select category</mat-label>
-                <mat-select [(ngModel)]="post.postCategory" name="postCategory">
+                <mat-select [(ngModel)]="post.postCategory" name="postCategory" required>
                     <mat-option>None</mat-option>
                     <mat-option value="technology">Technology</mat-option>
                     <mat-option value="life">Life</mat-option>
@@ -37,12 +37,13 @@
         </div>
         <div class="col-12 editor">
             <quill-editor name="postEditor" [modules]="editorModules" (onEditorChanged)="changedEditor($event)"
-                [(ngModel)]="post.postContent">
+                [(ngModel)]="post.postContent" required>
             </quill-editor>
         </div>
 
         <div class="col-12">
-            <button *ngIf="postId == 0" (click)="publish()" class="pulse custom-btn mt-5 mt-md-1 w-100">Publish</button>
+            <button [disabled]="!form.valid" [ngClass]="{'pulse custom-btn': form.valid}" *ngIf="postId == 0"
+                (click)="publish()" class="mt-5 mt-md-1 w-100">Publish</button>
             <button *ngIf="postId != 0" (click)="edit()" class="pulse custom-btn mt-5 mt-md-1 w-100">Edit</button>
         </div>
 

@@ -1,2 +1,4 @@
 1-at the end add reset password feature
-2-handle errors (don't allow the user to send reques if he didn't fill the fields. Use FormBuilder)
+2- Add deactivate functionality to createPost component to disallow the user to edit if he
+    didn't change anything
+3- clean up postService

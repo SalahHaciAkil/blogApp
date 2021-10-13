@@ -12,11 +12,11 @@ import { RegisterComponent } from '../register/register.component';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  userName:string;
-  password:string;
+  userName: string;
+  password: string;
   wid: string = "50%"
   constructor(public dialog: MatDialog, private accountService: AccountService,
-    private route: Router, private toast:ToastrService) { }
+    private route: Router, private toast: ToastrService) { }
 
   openDialog() {
     if (window.innerWidth <= 633) { this.wid = "100%" }
@@ -35,11 +35,9 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.accountService.login({'userName':this.userName, 'password':this.password}).subscribe((user: User) => {
+    this.accountService.login({ 'userName': this.userName, 'password': this.password }).subscribe((user: User) => {
       this.route.navigateByUrl("/home");
     }, error => {
-      this.toast.error(error.error);
-
     })
   }
 

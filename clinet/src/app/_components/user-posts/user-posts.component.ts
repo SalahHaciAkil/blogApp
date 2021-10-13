@@ -12,11 +12,13 @@ import { PostService } from 'src/app/_services/post.service';
 })
 export class UserPostsComponent implements OnInit {
 
+  //============= pageSize nad pageNumber MUST be the same values
+  // at UserPostComponent AND PostDetaileComponent =============
   pageNumber: number = 0;
-  pageSize: number = 10;
+  pageSize: number = 5;
   user: User;
 
-  pagination:Pagination;
+  pagination: Pagination;
   // userPosts: Post[] = [];
 
 
@@ -30,12 +32,12 @@ export class UserPostsComponent implements OnInit {
 
 
   }
-  getUserPosts(userName:string) {
+  getUserPosts(userName: string) {
     this.postService.getUserPosts(userName, ++this.pageNumber, this.pageSize)
-    .subscribe((paginationResult:PaginationResult<Post[]>)=>{
-      this.pagination = paginationResult.pagination;
-      // this.userPosts = paginationResult.result;
-    })
+      .subscribe((paginationResult: PaginationResult<Post[]>) => {
+        this.pagination = paginationResult.pagination;
+        // this.userPosts = paginationResult.result;
+      })
   }
 
 }

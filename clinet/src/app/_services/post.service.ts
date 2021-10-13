@@ -8,6 +8,8 @@ import { getPaginationHeaders, getPaginationResult } from '../_helpers/Paginatio
 import { CreateComment } from '../_interfaces/createComment';
 import { PaginationResult } from '../_interfaces/pagination';
 import { Post } from '../_interfaces/Post';
+import { User } from '../_interfaces/User';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +31,26 @@ export class PostService {
   userPostsThread$ = this.userPostsThreadSource.asObservable();
   userPosts: Post[] = [];
 
-  constructor(private http: HttpClient) { }
+  currentUser: User;
+
+  constructor(private http: HttpClient, private accoutService: AccountService) {
+
+    this.accoutService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    })
+
+  }
 
 
   getPost(postId: number) {
-    let post = this.posts.find(p => p.id == postId);
-    if (post != undefined) return of(post);
+    //search from all posts
+    let postA = this.posts.find(p => p.id == postId);
+    if (postA != undefined) return of(postA);
+
+
+    //search from all current user posts
+    let postB = this.userPosts.find(p => p.id == postId);
+    if (postB != undefined) return of(postB);
 
     return this.http.get(`${this.baseUrl}posts/post-detail/${postId}`);
 
@@ -42,16 +58,16 @@ export class PostService {
 
 
   addPost(post) {
-    console.log(post);
-
     return this.http.post<Post>(this.baseUrl + "posts", post).pipe(
       map(data => {
+        debugger;
         const post = data;
         if (post) {
-          let firstItemCach = this.UserPostsChaches.get(`${post.postrName}_1_10`) as PaginationResult<Post[]>;
-          firstItemCach.result.push(post);
           this.posts.unshift(post);
           this.setCurrentPostSource(this.posts);
+
+          this.userPosts.unshift(post);
+          this.setCurrentUserPostSource(this.userPosts);
         }
 
         debugger;
@@ -86,7 +102,9 @@ export class PostService {
 
     return paginationResult.pipe(
       map(paginationResult => {
-        this.userPosts = [...this.userPosts, ...paginationResult.result];
+        if (this.currentUser.userName == postrName) {
+          this.userPosts = [...this.userPosts, ...paginationResult.result];
+        }
         this.setCurrentUserPostSource(this.userPosts);
         this.UserPostsChaches.set(keyMap, paginationResult);
         return paginationResult;
