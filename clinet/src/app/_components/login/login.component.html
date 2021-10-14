@@ -10,11 +10,13 @@
 
                     <form (ngSubmit)="login()" #form="ngForm" class="login-form">
                         <div class="form-group mb-2">
-                            <input name="userName" [(ngModel)]="userName" type="text" class="form-control rounded-left" placeholder="Username" required>
+                            <input name="userName" [(ngModel)]="userName" type="text" class="form-control rounded-left"
+                                placeholder="Username" required>
                         </div>
 
                         <div class="form-group d-flex mb-4">
-                            <input name="password" type="password" [(ngModel)]="password" class="form-control rounded-left" placeholder="Password" required>
+                            <input name="password" type="password" [(ngModel)]="password"
+                                class="form-control rounded-left" placeholder="Password" required>
                         </div>
 
                         <div class="form-group d-md-flex">
@@ -25,8 +27,8 @@
                                 </label>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <a  class="btn btn-outline-primary me-1">Forgot Password</a>
-                                <a  (click)="openDialog()" class="btn btn-outline-primary">Register</a>
+                                <a routerLink="/reset-password" class="btn btn-outline-primary me-1">Forgot Password</a>
+                                <a (click)="openDialog()" class="btn btn-outline-primary">Register</a>
 
                             </div>
 

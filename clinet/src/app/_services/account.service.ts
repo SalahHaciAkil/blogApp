@@ -9,6 +9,7 @@ import { User } from '../_interfaces/User';
 })
 export class AccountService {
 
+
   baseUrl: string = environment.apiUrl;
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
@@ -55,5 +56,19 @@ export class AccountService {
   logout() {
     this.currentUserSource.next(null);
     localStorage.removeItem('user');
+  }
+
+
+  //https://localhost:5001/api/Account/reset-password
+  resetPassword(model) {
+    debugger;
+    return this.http.put(`${this.baseUrl}account/reset-password`, model);
+
+  }
+
+  //https://localhost:5001/api/Account/manage-password/qwd
+  sendLinkToEmail(email: string) {
+    debugger;
+    return this.http.put(`${this.baseUrl}account/manage-password/${email}`, {});
   }
 }

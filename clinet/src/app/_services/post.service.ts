@@ -16,9 +16,6 @@ import { AccountService } from './account.service';
 })
 export class PostService {
 
-
-
-
   UserPostsChaches = new Map();
   postsChaches = new Map();
 
@@ -66,8 +63,11 @@ export class PostService {
           this.posts.unshift(post);
           this.setCurrentPostSource(this.posts);
 
-          this.userPosts.unshift(post);
-          this.setCurrentUserPostSource(this.userPosts);
+          if (this.UserPostsChaches.size > 0) {
+            this.userPosts.unshift(post);
+            this.setCurrentUserPostSource(this.userPosts);
+          }
+
         }
 
         debugger;
@@ -208,6 +208,10 @@ export class PostService {
       })
     );
   }
+
+
+
+
 
 }
 

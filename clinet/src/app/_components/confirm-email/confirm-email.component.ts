@@ -29,7 +29,7 @@ export class ConfirmEmailComponent implements OnInit {
       this.state = "Your account has been successfully acivated";
       setTimeout(() => {
         this.router.navigateByUrl("/login");
-      }, 2000)
+      }, 1500)
     }, error => {
       this.toast.error("Error while confirming your account");
     })

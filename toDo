@@ -2,3 +2,5 @@
 2- Add deactivate functionality to createPost component to disallow the user to edit if he
     didn't change anything
 3- clean up postService
+4- check all validations in register and reset-password components
+5- retake a look at the password dto

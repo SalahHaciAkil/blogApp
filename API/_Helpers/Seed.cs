@@ -26,14 +26,14 @@ namespace API._Helpers
                 await roleManager.CreateAsync(role);
             }
 
-            var admin = new AppUser
-            {
-                UserName = "admin",
-                Email = "salahaljable@gmail.com"
-            };
+            // var admin = new AppUser
+            // {
+            //     UserName = "admin",
+            //     Email = "salahaljable@gmail.com"
+            // };
 
-            await userManager.CreateAsync(admin, "E3we2e3we2");
-            await userManager.AddToRolesAsync(admin, new[] { "Admin", "Member" });
+            // await userManager.CreateAsync(admin, "E3we2e3we2");
+            // await userManager.AddToRolesAsync(admin, new[] { "Admin", "Member" });
 
 
         }

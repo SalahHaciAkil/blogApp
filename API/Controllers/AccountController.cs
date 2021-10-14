@@ -4,7 +4,6 @@ using API._DTOs;
 using API._Entities;
 using API._Interfaces;
 using Microsoft.Extensions.Configuration;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,10 +21,12 @@ namespace API.Controllers
         private readonly IEmailSender emailSender;
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManger;
+        private readonly IUnitOfWork unitOfWork;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManger, ITokenService tokenService,
-        IPhotoService photoService, IConfiguration config, IEmailSender emailSender)
+        IPhotoService photoService, IConfiguration config, IEmailSender emailSender, IUnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
             this.userManager = userManager;
             this.signInManger = signInManger;
             this.tokenService = tokenService;
@@ -94,6 +95,7 @@ namespace API.Controllers
         {
 
             var user = await this.userManager.FindByIdAsync(model.UserId);
+            if(user.EmailConfirmed)return Ok();
 
             var result = await this.userManager.ConfirmEmailAsync(user, model.Token);
 
@@ -107,7 +109,6 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            Console.WriteLine("Middle");
             var user = await this.userManager.Users
             .FirstOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
             if (user is null)
@@ -148,12 +149,17 @@ namespace API.Controllers
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             var user = await this.userManager.FindByIdAsync(model.UserId);
+            if(!user.EmailConfirmed){
+                user.EmailConfirmed = true;
+                await this.unitOfWork.Complete();
+            }
+
             var result = await this.userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
             if (result.Succeeded)
             {
-                return Ok();
+            return Ok();
             }
-            return BadRequest();
+            return BadRequest(user);
         }
 
         private async void sendPasswordResetLinkToEmail(AppUser user)
