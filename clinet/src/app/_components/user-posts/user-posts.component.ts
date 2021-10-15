@@ -27,12 +27,14 @@ export class UserPostsComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.currentUser$.subscribe(user => {
       this.user = user;
-      this.getUserPosts(this.user.userName);
+      this.getUserPosts(this.user?.userName);
     })
 
 
   }
   getUserPosts(userName: string) {
+    console.log(userName);
+
     this.postService.getUserPosts(userName, ++this.pageNumber, this.pageSize)
       .subscribe((paginationResult: PaginationResult<Post[]>) => {
         this.pagination = paginationResult.pagination;

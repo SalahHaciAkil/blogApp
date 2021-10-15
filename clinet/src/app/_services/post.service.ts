@@ -92,6 +92,8 @@ export class PostService {
   }
 
   getUserPosts(postrName: string, pageNumber: number, pageSize: number) {
+    if(!postrName)return of({});
+
     let keyMap = `${postrName}_${pageNumber}_${pageSize}`;
     if (this.UserPostsChaches.has(keyMap)) {
       return of(this.UserPostsChaches.get(keyMap))
@@ -102,7 +104,7 @@ export class PostService {
 
     return paginationResult.pipe(
       map(paginationResult => {
-        if (this.currentUser.userName == postrName) {
+        if (this.currentUser?.userName == postrName) {
           this.userPosts = [...this.userPosts, ...paginationResult.result];
         }
         this.setCurrentUserPostSource(this.userPosts);

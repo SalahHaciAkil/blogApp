@@ -31,6 +31,9 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
   postrName: string;
 
   //pagination
+
+  //============= pageSize nad pageNumber MUST be the same values
+  // at UserPostComponent AND PostDetaileComponent =============
   pageNumber: number = 0; // it's update to 1 in the function ++this.pageNUmber
   pageSize: number = 5;
   pagination: Pagination;

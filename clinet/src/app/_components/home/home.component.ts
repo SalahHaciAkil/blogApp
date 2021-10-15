@@ -3,7 +3,7 @@ import { HtmlAstPath } from '@angular/compiler';
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, windowTime } from 'rxjs/operators';
 import { Pagination, PaginationResult } from 'src/app/_interfaces/pagination';
 import { Like, Post } from 'src/app/_interfaces/Post';
 import { BusyService } from 'src/app/_services/busy.service';

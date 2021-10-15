@@ -103,17 +103,19 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
     formData.set('postCategory', this.post.postCategory);
   }
 
-  edit() {
+  edit(form) {
+    console.log(form);
+    
     this.setData(this.editFormData)
     this.editFormData.set("id", this.post.id.toString());
 
-    this.postService.editPost(this.editFormData).subscribe((photo: string) => {
-      console.log(photo);
-      this.toastrService.success("post edited successfully", "Succeess");
+    // this.postService.editPost(this.editFormData).subscribe((photo: string) => {
+    //   console.log(photo);
+    //   this.toastrService.success("post edited successfully", "Succeess");
 
-    }, error => {
-      this.post = this.postCopy;
-    })
+    // }, error => {
+    //   this.post = this.postCopy;
+    // })
 
   }
 

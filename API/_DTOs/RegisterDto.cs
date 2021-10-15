@@ -10,7 +10,7 @@ namespace API._DTOs
         [Required] public string Email { get; set; }
 
         [Required]
-        [StringLength(12, MinimumLength = 4)]
+        [StringLength(50,MinimumLength = 4)]
         public string Password { get; set; }
 
         public IFormFile Photo { get; set; }

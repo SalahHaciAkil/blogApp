@@ -40,7 +40,7 @@ export class ResetPasswordComponent implements OnInit {
 
   initRegisterFrom() {
     this.registerForm = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(12)]],
+      newPassword: ['', [Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/), Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required, this.matchValue("newPassword")]],
       email: ['', [Validators.required, Validators.email]],
     })
