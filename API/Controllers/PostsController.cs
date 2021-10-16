@@ -119,12 +119,15 @@ namespace API.Controllers
 
 
         [Authorize]
-
         [HttpPost("add-like/{postId}")]
 
         public async Task<ActionResult> AddLike(int postId)
         {
 
+            var userId = User.GetUserId();
+            var like = await this.unitOfWork.PostRepo.GetLikeActivitiyAsync(postId, userId);
+
+            if(like is not null)return BadRequest("You can't like the post twice");
 
             var userName = User.GetUserName();
 

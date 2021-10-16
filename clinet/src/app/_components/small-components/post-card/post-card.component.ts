@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Post } from 'src/app/_interfaces/Post';
+import { Like, Post } from 'src/app/_interfaces/Post';
 import { User } from 'src/app/_interfaces/User';
 import { AccountService } from 'src/app/_services/account.service';
 import { PostService } from 'src/app/_services/post.service';
@@ -21,7 +22,9 @@ export class PostCardComponent implements OnInit, AfterViewInit {
 
 
   constructor(public accountService: AccountService, private postSerivce: PostService,
-    private toast: ToastrService) { }
+    private toast: ToastrService, private router: Router) {
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => { return false }
+  }
   ngAfterViewInit(): void {
     this.lead.nativeElement.innerHTML = this.post.postContent?.substr(0, 30);
 
@@ -33,7 +36,7 @@ export class PostCardComponent implements OnInit, AfterViewInit {
   }
 
 
-  do(postId) {
+  deletePost(postId) {
     Swal.fire({
       title: `Are you sure you want to delete your post with id of ${postId}?`,
       showDenyButton: true,
@@ -68,8 +71,6 @@ export class PostCardComponent implements OnInit, AfterViewInit {
     for (const post of this.post.likedBy) {
       arr.push(post.userId);
     }
-
-
     this.likeClass = arr.includes(this.user.id) ? "fa fa-heart" : "fa fa-heart-o";
   }
 
@@ -77,9 +78,9 @@ export class PostCardComponent implements OnInit, AfterViewInit {
   likePost(postId: number) {
     this.postSerivce.likePost(postId).subscribe(() => {
       this.likeClass = "fa fa-heart";
+      let like: Like = { userId: this.user.id };
+      this.post.likedBy.push(like)
       this.toast.success(`You liked ${this.post.postrName} post`);
-    }, error => {
-      this.toast.error(error.error)
     })
   }
 

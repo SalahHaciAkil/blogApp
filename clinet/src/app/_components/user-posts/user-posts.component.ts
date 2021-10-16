@@ -13,7 +13,7 @@ import { PostService } from 'src/app/_services/post.service';
 export class UserPostsComponent implements OnInit {
 
   //============= pageSize nad pageNumber MUST be the same values
-  // at UserPostComponent AND PostDetaileComponent =============
+  // at UserPostComponent, PostDetaileComponent and in addPost function in postService =============
   pageNumber: number = 0;
   pageSize: number = 5;
   user: User;
@@ -27,18 +27,17 @@ export class UserPostsComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.currentUser$.subscribe(user => {
       this.user = user;
-      this.getUserPosts(this.user?.userName);
+      if (user) // in case of guest 
+        this.getUserPosts(this.user.userName);
     })
 
 
   }
   getUserPosts(userName: string) {
-    console.log(userName);
 
     this.postService.getUserPosts(userName, ++this.pageNumber, this.pageSize)
       .subscribe((paginationResult: PaginationResult<Post[]>) => {
         this.pagination = paginationResult.pagination;
-        // this.userPosts = paginationResult.result;
       })
   }
 

@@ -107,6 +107,15 @@ namespace API._Data
             return userPostLikes;
         }
 
+        public async Task<UserPostLikes> GetLikeActivitiyAsync(int postId, int userId)
+        {
+            var like = await this.context.UsersPostLikes
+            .Where(x => x.UserId == userId && x.PostId ==postId)
+            .FirstOrDefaultAsync();
+
+            return like;
+        }
+
         public async Task<IEnumerable<UserPostComment>> GetCommentActivitiesAsync(string userName)
         {
             var userPostComments = await this.context.UsersPostComments
@@ -117,6 +126,7 @@ namespace API._Data
 
             return userPostComments;
         }
+
 
         public void DeleteComment(UserPostComment userPostComment)
         {

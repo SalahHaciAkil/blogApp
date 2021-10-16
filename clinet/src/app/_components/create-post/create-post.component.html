@@ -44,8 +44,10 @@
         <div class="col-12">
             <button [disabled]="!form.valid" [ngClass]="{'pulse custom-btn': form.valid}" *ngIf="postId == 0"
                 (click)="publish()" class="mt-5 mt-md-1 w-100">Publish</button>
-            <button *ngIf="postId != 0" [ngClass]="{'pulse custom-btn':  form.dirty}" [disabled]=" !form.dirty"
-                (click)="edit(form)" class="pulse custom-btn mt-5 mt-md-1 w-100">Edit</button>
+            <button *ngIf="postId != 0"
+                [ngClass]="{'pulse custom-btn':  (form.dirty || editFormData.get('photo')!=null)}"
+                [disabled]=" !form.dirty && editFormData.get('photo')==null " (click)="edit(form)"
+                class="pulse custom-btn mt-5 mt-md-1 w-100">Edit</button>
         </div>
 
     </form>

@@ -25,7 +25,7 @@ export class ConfirmEmailComponent implements OnInit {
   confirmEmail() {
     this.accountService.confirmEmail(this.confrimEmailModel).subscribe(() => {
       debugger;
-      this.toast.success("You account has been sunccessfully activated");
+      this.toast.success("You account has been successfully activated");
       this.state = "Your account has been successfully acivated";
       setTimeout(() => {
         this.router.navigateByUrl("/login");

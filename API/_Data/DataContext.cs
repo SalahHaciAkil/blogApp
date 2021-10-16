@@ -20,7 +20,6 @@ namespace API._Data
             base.OnModelCreating(modelBuilder);
 
 
-
             modelBuilder.Entity<AppUser>()
                                 .HasMany(u => u.UserRole)
                                 .WithOne(u => u.User)

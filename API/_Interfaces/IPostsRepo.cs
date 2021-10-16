@@ -25,6 +25,7 @@ namespace API._Interfaces
         Task<UserPostComment> GetCommentAsync(int commentId);
         void DeleteComment(UserPostComment userPostComment);
         Task<IEnumerable<UserPostLikes>> GetLikeActivitiesAsync(string userName);
+        Task<UserPostLikes> GetLikeActivitiyAsync(int PostId, int userId);
         Task<IEnumerable<UserPostComment>> GetCommentActivitiesAsync(string userName);
         // void EditPost(Post post);
         // Task AddActivityAsync(UserActivities userActivities);

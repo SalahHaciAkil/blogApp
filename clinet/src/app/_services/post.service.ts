@@ -65,8 +65,10 @@ export class PostService {
 
           if (this.UserPostsChaches.size > 0) {
             this.userPosts.unshift(post);
+            this.UserPostsChaches.get(`${this.currentUser.userName}_1_5`).result.push(post);
             this.setCurrentUserPostSource(this.userPosts);
           }
+          debugger;
 
         }
 
@@ -92,8 +94,6 @@ export class PostService {
   }
 
   getUserPosts(postrName: string, pageNumber: number, pageSize: number) {
-    if(!postrName)return of({});
-
     let keyMap = `${postrName}_${pageNumber}_${pageSize}`;
     if (this.UserPostsChaches.has(keyMap)) {
       return of(this.UserPostsChaches.get(keyMap))
@@ -113,19 +113,6 @@ export class PostService {
       })
     );
   }
-
-  // deletePostFromUserPostChaces(postId) {
-  //   let userPosts: Post[] = [];
-  //   this.UserPostsChaches.forEach((x: PaginationResult<Post[]>) => {
-  //     let post = x.result.find(x => x.id == postId);
-  //     if (post) {
-  //       x.result = x.result.filter(x => x.id != postId);
-  //     }
-
-
-  //   });
-
-  // }
 
 
   getPosts(pageNumber: number, pageSize: number) {

@@ -2,12 +2,12 @@ import { Data } from "@angular/router";
 
 export interface Like {
     userId: number;
-    postrName: string;
-    postrId: string;
-    postId: number;
-    userPhoto: string;
-    userName: string
-    likedTime: Date;
+    postrName?: string;
+    postrId?: string;
+    postId?: number;
+    userPhoto?: string;
+    userName?: string
+    likedTime?: Date;
 
 }
 

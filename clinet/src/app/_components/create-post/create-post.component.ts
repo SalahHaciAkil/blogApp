@@ -88,7 +88,7 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
     this.setData(this.publishFormData)
     this.postService.addPost(this.publishFormData).subscribe((data) => {
       debugger;
-      this.toastrService.success("Your post have been added successgully");
+      this.toastrService.success("Your post have been added successfully");
       this.router.navigateByUrl("/home");
     }, error => {
       console.log("error", error.error);
@@ -104,18 +104,19 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
   }
 
   edit(form) {
+
     console.log(form);
     
     this.setData(this.editFormData)
     this.editFormData.set("id", this.post.id.toString());
 
-    // this.postService.editPost(this.editFormData).subscribe((photo: string) => {
-    //   console.log(photo);
-    //   this.toastrService.success("post edited successfully", "Succeess");
+    this.postService.editPost(this.editFormData).subscribe((photo: string) => {
+      console.log(photo);
+      this.toastrService.success("post edited successfully", "Succeess");
 
-    // }, error => {
-    //   this.post = this.postCopy;
-    // })
+    }, error => {
+      this.post = this.postCopy;
+    })
 
   }
 

@@ -1,5 +1,3 @@
-3- clean up postService
-4- check all validations in register and reset-password components
-5- retake a look at the password dto
-6-test all application when user is not logged in
 7- redesign the register UI
+9-add the last toches for production(time to UTC)
+10-after the appplication is published, write the code to referesh the token after 7 days
