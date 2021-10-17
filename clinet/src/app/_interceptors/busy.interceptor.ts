@@ -19,7 +19,7 @@ export class BusyInterceptor implements HttpInterceptor {
 
     this.spinner.play();
     return next.handle(request).pipe(
-      delay(1000),
+      // delay(1000),
       finalize(() => {
         console.log("after", request);
         this.spinner.hide();

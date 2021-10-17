@@ -37,14 +37,14 @@ namespace API
         {
 
             services.AddDbContext<DataContext>(options =>
-            {   
+            {
                 options.UseSqlite(this.config.GetConnectionString("DefaultConnection"));
             });
             services.AddControllers();
             services.AddApplicationServices(this.config);
             services.AddApplicationIdentityServices(this.config);
 
-           
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,9 +67,14 @@ namespace API
 
             app.UseAuthorization();
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }

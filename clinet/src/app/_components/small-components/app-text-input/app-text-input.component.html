@@ -17,4 +17,7 @@
     <div *ngIf="ngControl.errors?.pattern" class="invalid-feedback">
         password Must have at least one upper and lower case letter
     </div>
+    <div *ngIf="ngControl.errors?.email" class="invalid-feedback">
+        email must be of form 'example@example.com'
+    </div>
 </div>

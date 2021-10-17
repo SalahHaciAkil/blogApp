@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
 
       password: ['', [Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/), Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required, this.matchValue("password")]],
-      photo: ['', Validators.required]
+      photo: ['']
     })
   }
 

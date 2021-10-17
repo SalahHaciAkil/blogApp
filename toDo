@@ -1,3 +1,2 @@
-7- redesign the register UI
-9-add the last toches for production(time to UTC)
-10-after the appplication is published, write the code to referesh the token after 7 days
+10-(after the appplication is published, write the code to referesh the token after 7 days);
+11- test the application(especially the reset password and email confiramtion)

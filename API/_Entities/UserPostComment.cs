@@ -6,7 +6,7 @@ namespace API._Entities
     {
         public int Id { get; set; }
         public string Comment { get; set; }
-        public DateTime CommentTime { get; set; } = DateTime.Now;
+        public DateTime CommentTime { get; set; } = DateTime.UtcNow;
         public AppUser User { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }

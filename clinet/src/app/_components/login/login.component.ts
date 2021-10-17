@@ -15,14 +15,15 @@ export class LoginComponent implements OnInit {
   userName: string;
   password: string;
   wid: string = "50%"
+  height:string ="auto"
   constructor(public dialog: MatDialog, private accountService: AccountService,
     private route: Router, private toast: ToastrService) { }
 
   openDialog() {
-    if (window.innerWidth <= 633) { this.wid = "100%" }
+    if (window.innerWidth <= 633) { this.wid = "100%";this.height="400px" }
     else this.wid = "50%";
     console.log(window.innerWidth, this.wid, window.outerWidth);
-    const dialogRef = this.dialog.open(RegisterComponent, { width: this.wid });
+    const dialogRef = this.dialog.open(RegisterComponent, { width: this.wid, height:this.height});
     return;
 
     // dialogRef.afterClosed().subscribe(result => {

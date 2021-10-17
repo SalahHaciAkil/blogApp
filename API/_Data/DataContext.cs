@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using API._Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API._Data
 {
@@ -31,7 +35,7 @@ namespace API._Data
                                 .WithOne(u => u.Role)
                                 .HasForeignKey(u => u.RoleId)
                                 .IsRequired();
-            
+
             modelBuilder.Entity<Post>()
                     .HasOne(x => x.User)
                     .WithMany(x => x.Posts)
@@ -64,6 +68,7 @@ namespace API._Data
                 .HasForeignKey(x => x.UserId);
 
 
+            modelBuilder.ApplyUtcDateTimeConverter();
 
 
         }
@@ -75,6 +80,44 @@ namespace API._Data
         // public DbSet<UserActivities> UsersActivities { get; set; }
 
 
+    }
+
+
+
+    public static class UtcDateAnnotation
+    {
+        private const string IsUtcAnnotation = "IsUtc";
+        private static readonly ValueConverter<DateTime, DateTime> UtcConverter =
+            new ValueConverter<DateTime, DateTime>(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+        public static PropertyBuilder<TProperty> IsUtc<TProperty>(this PropertyBuilder<TProperty> builder, bool isUtc = true) =>
+            builder.HasAnnotation(IsUtcAnnotation, isUtc);
+
+        public static bool IsUtc(this IMutableProperty property) =>
+            ((bool?)property.FindAnnotation(IsUtcAnnotation)?.Value) ?? true;
+
+        /// <summary>
+        /// Make sure this is called after configuring all your entities.
+        /// </summary>
+        public static void ApplyUtcDateTimeConverter(this ModelBuilder builder)
+        {
+            foreach (var entityType in builder.Model.GetEntityTypes())
+            {
+                foreach (var property in entityType.GetProperties())
+                {
+                    if (!property.IsUtc())
+                    {
+                        continue;
+                    }
+
+                    if (property.ClrType == typeof(DateTime) ||
+                        property.ClrType == typeof(DateTime?))
+                    {
+                        property.SetValueConverter(UtcConverter);
+                    }
+                }
+            }
+        }
     }
 
 

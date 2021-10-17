@@ -11,7 +11,7 @@ namespace API._Entities
         public string PostrName { get; set; }
         public string PostrPhoto { get; set; }
         public string PostCategory { get; set; }
-        public DateTime CreatedTime { get; set; } = DateTime.Now;
+        public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
         public string Photo { get; set; }
         public string PhotoPublicId { get; set; }
         public AppUser User { get; set; }

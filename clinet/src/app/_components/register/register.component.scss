@@ -12,9 +12,18 @@ mat-dialog-container{
     width: 50%;
 }
 
-p,h3,h1,h2{
-    color: black;
+.let-sign-up{
+    text-transform: capitalize;
+    width: 200px;
+    font-weight: 600;
+    display: inline-block;
+    background-clip: text;
+    background-image: linear-gradient(to right, #9926f0, #d122e3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
+
 
 @media (max-width:500px) {
     mat-dialog-container{

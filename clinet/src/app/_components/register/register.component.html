@@ -1,13 +1,14 @@
 <div class="container">
-    <h1 (click)="print()">Let's SignUp</h1>
+    <h1 (click)="print()" class="let-sign-up"  style="font-family: 'Kaushan Script';">Let's SignUp</h1>
     <form [formGroup]="registerForm" class="row" (ngSubmit)="register()">
 
         <div class="col-12">
             <label>
-                <div class="imgBx">
+                <div class="imgBx" style="cursor: pointer;">
                     <img class="img-fluid" [src]="imgURL" alt="user">
                 </div>
-                <input style="display: none;" #file (change)="onFileChange(file.files)" type="file" class="form-control" id="">
+                <input style="display: none;" #file (change)="onFileChange(file.files)" type="file" class="form-control"
+                    id="">
             </label>
 
         </div>

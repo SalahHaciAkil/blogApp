@@ -17,7 +17,6 @@ import { PostService } from 'src/app/_services/post.service';
 export class HomeComponent implements OnInit {
   navFlag: boolean = false;
   searchFlag: boolean = false;
-
   pageNumber: number = 0;
   pageSize: number = 20;
 

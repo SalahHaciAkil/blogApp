@@ -48,7 +48,7 @@ namespace API.Controllers
             var userName = User.GetUserName();
             var user = await this.unitOfWork.UserRepo.GetUserAsync(userName);
 
-            if (user is null) return NotFound("User doesnot exisit");
+            if (user is null) return NotFound("User is not found");
 
             var uploadResult = await this.photoService.AddCloudPhotoAsync(createPostDto.Photo);
             if (uploadResult != null && uploadResult.Error != null) return BadRequest(uploadResult.Error.Message);
@@ -57,9 +57,9 @@ namespace API.Controllers
 
             var post = new Post
             {
-                PostTitle = createPostDto.PostTitle,
+                PostTitle = createPostDto.PostTitle.Trim(),
                 PostContent = createPostDto.PostContent,
-                PostCategory = createPostDto.PostCategory,
+                PostCategory = createPostDto.PostCategory.Trim(),
                 Photo = uploadResult.Url.AbsoluteUri,
                 PhotoPublicId = uploadResult.PublicId,
                 PostrName = userName,
@@ -127,7 +127,7 @@ namespace API.Controllers
             var userId = User.GetUserId();
             var like = await this.unitOfWork.PostRepo.GetLikeActivitiyAsync(postId, userId);
 
-            if(like is not null)return BadRequest("You can't like the post twice");
+            if (like is not null) return BadRequest("You can't like the post twice");
 
             var userName = User.GetUserName();
 
@@ -172,18 +172,20 @@ namespace API.Controllers
 
             return NoContent();
         }
-        [Authorize]
 
+        [Authorize]
         [HttpPost("add-comment")]
         public async Task<ActionResult<UserPostCommentDto>> AddComment(CreateCommentDto createCommentDto)
         {
-            var postId = createCommentDto.PostId;
-            var comment = createCommentDto.Comment;
             var userName = User.GetUserName();
             var user = await this.unitOfWork.UserRepo.GetUserAsync(userName);
-            var post = await this.unitOfWork.PostRepo.GetPostAsync(postId);
+            if (user is null) return BadRequest("User is not found");
 
-            if (user == null || post == null) return BadRequest("User or post doesnot exisit");
+            var postId = createCommentDto.PostId;
+            var comment = createCommentDto.Comment;
+
+            var post = await this.unitOfWork.PostRepo.GetPostAsync(postId);
+            if (post is null) return BadRequest("Post is not found");
 
             var userPostComment = new UserPostComment
             {
@@ -191,7 +193,7 @@ namespace API.Controllers
                 UserName = user.UserName,
                 UserPhoto = user.Photo,
                 Post = post,
-                Comment = comment,
+                Comment = comment.Trim(),
                 PostrName = post.PostrName,
                 PostrId = post.UserId,
             };
@@ -249,7 +251,7 @@ namespace API.Controllers
         {
             var comment = await this.unitOfWork.PostRepo.GetCommentAsync(commentId);
             if (comment is null) return BadRequest("comment is not found");
-            comment.Comment = newComment;
+            comment.Comment = newComment.Trim();
 
             if (await unitOfWork.Complete()) return NoContent();
 
@@ -281,14 +283,14 @@ namespace API.Controllers
 
             assignNewPostValues(post, editPostDto);
 
-            if (await this.unitOfWork.Complete()) return Ok(new {post.Photo});
+            if (await this.unitOfWork.Complete()) return Ok(new { post.Photo });
             return BadRequest("An expected error occured");
 
         }
 
         private void assignNewPostValues(Post post, EditPostDto editPostDto)
         {
-            post.PostTitle = editPostDto.PostTitle;
+            post.PostTitle = editPostDto.PostTitle.Trim();
             post.PostContent = editPostDto.PostContent;
             post.PostCategory = editPostDto.PostCategory;
         }

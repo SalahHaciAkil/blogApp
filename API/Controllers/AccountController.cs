@@ -52,6 +52,23 @@ namespace API.Controllers
             }
             return Ok();
         }
+        [HttpDelete("posts")]
+        public async Task<ActionResult> DeleteUsersPostPhoto()
+        {
+            var posts = await this.unitOfWork.PostRepo.GetPosts();
+
+            foreach (var post in posts)
+            {
+                if (post.PhotoPublicId != null)
+                {
+                    var deletionResult = await this.photoService.DeletePhotoAsync(post.PhotoPublicId);
+                    if (deletionResult.Error != null) return BadRequest();
+
+
+                }
+            }
+            return Ok();
+        }
 
 
         [HttpPost("register")]
@@ -60,9 +77,9 @@ namespace API.Controllers
             if (await UserExisit(registerDto.UserName, registerDto.Email)) return BadRequest("user name/email is exisit, please try another name/email");
             var user = new AppUser
             {
-                UserName = registerDto.UserName.ToLower(),
-                Email = registerDto.Email,
-                KnownAs = registerDto.KnownAs
+                UserName = registerDto.UserName.ToLower().Trim(),
+                Email = registerDto.Email.Trim(),
+                KnownAs = registerDto.KnownAs.Trim()
 
             };
 
@@ -95,7 +112,7 @@ namespace API.Controllers
         {
 
             var user = await this.userManager.FindByIdAsync(model.UserId);
-            if(user.EmailConfirmed)return Ok();
+            if (user.EmailConfirmed) return Ok();
 
             var result = await this.userManager.ConfirmEmailAsync(user, model.Token);
 
@@ -110,7 +127,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await this.userManager.Users
-            .FirstOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
+            .FirstOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower().Trim());
             if (user is null)
                 return Unauthorized("User is not exisit");
 
@@ -120,7 +137,7 @@ namespace API.Controllers
             var userDto = new UserDto
             {
                 Id = user.Id,
-                UserName = user.UserName,
+                UserName = user.UserName.Trim(),
                 Token = await this.tokenService.CreateToken(user),
                 Photo = user.Photo
             };
@@ -133,14 +150,14 @@ namespace API.Controllers
 
         private async Task<bool> UserExisit(string userName, string email)
         {
-            return await this.userManager.Users.AnyAsync(x => x.UserName == userName.ToLower() || x.Email == email);
+            return await this.userManager.Users.AnyAsync(x => x.UserName == userName.ToLower().Trim() || x.Email == email);
         }
 
         [HttpPut("manage-password/{userEmail}")]
         public async Task<ActionResult> ManagePassword(string userEmail)
         {
-            var user = await this.userManager.FindByEmailAsync(userEmail);
-            if (user is null) return BadRequest("No such user with " + userEmail + "email");
+            var user = await this.userManager.FindByEmailAsync(userEmail.Trim());
+            if (user is null) return BadRequest("No such user with " + userEmail.Trim() + "email");
             sendPasswordResetLinkToEmail(user);
             return NoContent();
         }
@@ -149,15 +166,16 @@ namespace API.Controllers
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             var user = await this.userManager.FindByIdAsync(model.UserId);
-            if(!user.EmailConfirmed){
-                user.EmailConfirmed = true;
-                await this.unitOfWork.Complete();
+            if (!await this.userManager.IsEmailConfirmedAsync(user))
+            {
+                var token = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
+                await this.userManager.ConfirmEmailAsync(user, token);
             }
 
             var result = await this.userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
             if (result.Succeeded)
             {
-            return Ok();
+                return Ok();
             }
             return BadRequest(user);
         }

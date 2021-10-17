@@ -13,7 +13,7 @@ namespace API._Entities
         public Post Post { get; set; }
         public int PostId { get; set; }
         public string UserName { get; set; }
-        public DateTime LikedTime { get; set; } = DateTime.Now;
+        public DateTime LikedTime { get; set; } = DateTime.UtcNow;
         public bool Read { get; set; } = false;
     }
 }
