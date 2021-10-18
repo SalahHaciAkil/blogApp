@@ -34,6 +34,7 @@ import { ConfirmEmailComponent } from './_components/confirm-email/confirm-email
 import { UserPostsComponent } from './_components/user-posts/user-posts.component';
 import { ErrorsInterceptor } from './_interceptors/error.interceptor';
 import { ResetPasswordComponent } from './_components/reset-password/reset-password.component';
+import { ServerErrorComponent } from './_components/server-error/server-error.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ResetPasswordComponent } from './_components/reset-password/reset-passw
     PostDetailComponent,
     ConfirmEmailComponent,
     UserPostsComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ServerErrorComponent
   ],
   imports: [
     BrowserModule,

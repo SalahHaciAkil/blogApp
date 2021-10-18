@@ -6,6 +6,7 @@ import { HomeComponent } from './_components/home/home.component';
 import { LoginComponent } from './_components/login/login.component';
 import { PostDetailComponent } from './_components/post-detail/post-detail.component';
 import { ResetPasswordComponent } from './_components/reset-password/reset-password.component';
+import { ServerErrorComponent } from './_components/server-error/server-error.component';
 import { UserPostsComponent } from './_components/user-posts/user-posts.component';
 import { AuthGuard } from './_guards/auth.guard';
 
@@ -17,6 +18,8 @@ const routes: Routes = [
   { path: 'post-detail/:userName/:id', component: PostDetailComponent },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'server-error', component: ServerErrorComponent },
+
 
   { path: '**', component: HomeComponent, pathMatch: "full" }
 ];

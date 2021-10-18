@@ -54,10 +54,10 @@ export class ErrorsInterceptor implements HttpInterceptor {
               // this.route.navigateByUrl('/not-found')
               break;
 
-            // case 500:
-            //   const navigationExtras: NavigationExtras = { state: { error: error.error } };
-            //   this.route.navigateByUrl('/server-error', navigationExtras);
-            //   break;
+            case 500:
+              const navigationExtras: NavigationExtras = { state: { error: error.error } };
+              this.route.navigateByUrl('/server-error', navigationExtras);
+              break;
 
             default:
               this.toast.error("Unexpected Error")

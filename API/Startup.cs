@@ -36,7 +36,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-           
+
             services.AddControllers();
             services.AddApplicationServices(this.config);
             services.AddApplicationIdentityServices(this.config);
