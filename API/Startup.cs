@@ -36,10 +36,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlite(this.config.GetConnectionString("DefaultConnection"));
-            });
+           
             services.AddControllers();
             services.AddApplicationServices(this.config);
             services.AddApplicationIdentityServices(this.config);
